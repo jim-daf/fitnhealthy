@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="HardcodedText"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+
+    >
+
+
+    <item android:title="Account" >
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_profile_setup"
+                    android:title="Profile"
+                    android:icon="@drawable/ic_person"
+
+                     />
+                <item
+                    android:id="@+id/nav_stats"
+                    android:title="Stats"
+                    android:icon="@drawable/ic_stats"
+
+                    />
+            </group>
+        </menu>
+    </item>
+
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/subtitle"
+            android:title="Navigation">
+            <menu>
+                <item
+                    android:id="@+id/nav_home"
+                    android:title="Home"
+                    android:icon="@drawable/ic_home"
+                    />
+                <item
+                    android:id="@+id/nav_workout"
+                    android:title="Workout"
+                    android:icon="@drawable/ic_workout"
+                    />
+
+                <item
+                    android:id="@+id/nav_diet"
+                    android:title="Generate diet"
+                    android:icon="@drawable/ic_diet"
+
+                    />
+
+                <item
+                    android:id="@+id/nav_quiz"
+                    android:title="Test your knowledge"
+                    android:icon="@drawable/ic_quiz"
+                    />
+
+            </menu>
+        </item>
+    </group>
+    <!--
+    <item android:title="Navigate" >
+        <menu>
+            <group android:checkableBehavior="single">
+
+            </group>
+
+        </menu>
+    </item>-->
+    <item android:title="Settings">
+        <menu>
+            <group android:checkableBehavior="none">
+
+                <item
+                    android:id="@+id/nav_logout"
+                    android:title="Logout"
+                    android:icon="@drawable/ic_logout"
+                    />
+                <item
+                    android:id="@+id/nav_delete_acc"
+                    android:title="Delete account"
+                    android:icon="@drawable/ic_delete_acc"
+                    />
+            </group>
+        </menu>
+
+    </item>
+
+
+
+
+
+</menu>

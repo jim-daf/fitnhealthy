@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "57041576071",
+    "firebase_url": "https://fitnhealthy-37abf-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "fitnhealthy-37abf",
+    "storage_bucket": "fitnhealthy-37abf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57041576071:android:1fdb38c4e4d6e842149822",
+        "android_client_info": {
+          "package_name": "com.example.fitnhealthy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfOixLx93ItKQkdts-3oEUjzr-DDNwi34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="190dp"
+    android:id="@+id/nav_header"
+    android:background="@drawable/nav_header_img"
+
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:gravity="center_vertical"
+
+    android:theme="@style/ThemeOverlay.AppCompat.Light"
+    android:fitsSystemWindows="true"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_weight="1"
+
+        android:background="#6D000000"
+        android:gravity="center"
+
+        >
+        <androidx.cardview.widget.CardView
+            android:id="@+id/circularImageId"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:cardCornerRadius="50dp"
+            android:layout_gravity="start"
+            android:layout_marginTop="2dp"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/nav_header_image"
+                android:src="@drawable/person_profile"
+                android:background="@drawable/circle"
+                tools:ignore="ContentDescription"
+                android:scaleType="centerCrop"
+
+
+                />
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

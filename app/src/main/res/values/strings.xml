@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">fitnhealthy</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up</string>
+    <string name="click_to_sign_in">Already have an account? Log in</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="logout">Logout</string>
+    <string name="home"><u>Home</u></string>
+    <string name="workout">Workout</string>
+    <string name="hello_user">Hello User</string>
+    <string name="your_stats">Your stats</string>
+    <string name="count_your_steps">Count your steps</string>
+    <string name="test_your_knowledge">Test your knowledge</string>
+    <string name="set_up_your_profile">Set up your profile</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="create_account">Create Account</string>
+    <string name="return_to_login">Return to Login</string>
+    <string name="send_reset_link">Send reset link</string>
+    <string name="reset_password">Reset password</string>
+    <string name="update_user_profile_data">Update your profile data</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+    <string name="save_new_profile_data">Save new profile data</string>
+    <string-array name="experience_values">
+        <item>Select difficulty level</item>
+        <item>Beginner</item>
+        <item>Advanced</item>
+        <item>Expert</item>
+    </string-array>
+    <string-array name="frequency_values">
+        <item>How often do you train?</item>
+        <item>1-2 times per week</item>
+        <item>3-4 times per week</item>
+        <item>5+ times per week</item>
+    </string-array>
+    <string-array name="difficulty_values">
+        <item>Beginner</item>
+        <item>Intermediate</item>
+        <item>Expert</item>
+    </string-array>
+</resources>

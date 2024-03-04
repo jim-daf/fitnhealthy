@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#EEFFFFFF"
+    >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            >
+            <LinearLayout
+                android:id="@+id/imageProfile"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:background="@drawable/nav_header_img"
+                android:clickable="true"
+                android:fitsSystemWindows="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:gravity="center_vertical"
+
+                android:orientation="vertical"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#6D000000"
+                    android:gravity="center"
+                    android:orientation="vertical"
+
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+
+                    >
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/circularImageIdProf"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="start"
+                        android:layout_marginTop="2dp"
+                        app:cardCornerRadius="50dp">
+
+                        <ImageView
+                            android:id="@+id/image_prof"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/circle"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/person_profile"
+                            />
+
+
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                app:layout_constraintTop_toBottomOf="@+id/imageProfile">
+
+                <TextView
+                    android:id="@+id/profileEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/aldrich"
+                    android:gravity="center"
+                    android:text="user@gmail.com"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/profileUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/aldrich"
+                    android:gravity="center"
+                    android:text="username"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+                <!--
+                        <Button
+                            android:id="@+id/uploadProfilePic"
+                            android:layout_width="310dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="25dp"
+                            android:background="@drawable/input_background2"
+                            android:fontFamily="@font/aldrich"
+                            android:padding="15dp"
+
+                            android:text="Upload new profile picture" />
+                        <Button
+                            android:id="@+id/removeExistingPic"
+                            android:layout_width="310dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="25dp"
+                            android:background="@drawable/input_background2"
+                            android:fontFamily="@font/aldrich"
+                            android:padding="15dp"
+
+                            android:text="Remove existing profile picture" />-->
+
+                <TextView
+                    android:id="@+id/changeData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:fontFamily="@font/aldrich"
+                    android:gravity="center"
+                    android:text="@string/update_user_profile_data"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+
+                    />
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/newUsername"
+                    android:layout_width="310dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/input_background2"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/aldrich"
+                    android:hint="Type new username"
+                    android:paddingStart="15dp"
+                    android:textSize="16sp"
+                    tools:ignore="VisualLintTextFieldSize" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/newAge"
+                    android:layout_width="310dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/input_background2"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/aldrich"
+                    android:hint="Type your age"
+                    android:inputType="numberSigned"
+                    android:paddingStart="15dp"
+                    android:textSize="16sp"
+                    tools:ignore="VisualLintTextFieldSize" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/newWeight"
+                    android:layout_width="310dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/input_background2"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/aldrich"
+                    android:hint="Type your weight (kg)"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="15dp"
+                    android:textSize="16sp"
+                    tools:ignore="VisualLintTextFieldSize" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/newHeight"
+                    android:layout_width="310dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/input_background2"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/aldrich"
+                    android:hint="Type your height (meters)"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="15dp"
+                    android:textSize="16sp"
+                    tools:ignore="VisualLintTextFieldSize" />
+
+                <Spinner
+                    android:id="@+id/dropdown_experiences"
+                    android:layout_width="310dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="25dp"
+                    android:entries="@array/experience_values"
+                    android:background="@drawable/input_background2"
+                    android:drawablePadding="5dp"
+                    android:paddingStart="10dp"
+                    android:fontFamily="@font/aldrich"
+                    android:textSize="16sp"
+                    />
+                <Spinner
+                    android:id="@+id/frequency_of_training"
+                    android:layout_width="310dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="25dp"
+                    android:entries="@array/frequency_values"
+                    android:background="@drawable/input_background2"
+                    android:paddingStart="10dp"
+                    android:fontFamily="@font/aldrich"
+                    android:textSize="16sp"
+                    />
+
+
+                <Button
+                    android:id="@+id/saveProfData"
+                    android:layout_width="310dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginBottom="35dp"
+                    android:background="@drawable/input_background2"
+                    android:fontFamily="@font/aldrich"
+                    android:padding="15dp"
+                    android:text="Save" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+
+
+
+

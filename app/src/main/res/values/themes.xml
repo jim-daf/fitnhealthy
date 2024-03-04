@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="Theme.Fitnhealthy" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+
+        <item name="windowNoTitle">true</item>
+
+        <item name="android:textColorSecondary">@color/navigationDrawerIconsColor</item>
+
+    </style>
+
+    <style name="ToolbarColorTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="iconTint">@color/black</item>
+
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="postSplashScreenTheme">@style/Theme.Fitnhealthy</item>
+        <item name="splashScreenIconSize">0dp</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_workout</item>
+
+    </style>
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/aldrich</item>
+    </style>
+    <style name="navDrawerTextStyling">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/aldrich</item>
+
+    </style>
+</resources>

@@ -47,7 +47,7 @@ public class Workouts extends AppCompatActivity {
     DatabaseReference databaseReference;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch switchTheme;
-    ScrollView homeLayout, workoutOptionsLayout, workoutsLayout;
+    ScrollView homeLayout, workoutOptionsLayout, workoutsLayout, workoutsLayoutDark;
     GridLayout gridLayout;
     public DrawerLayout drawer;
     Toolbar toolbar;
@@ -62,6 +62,11 @@ public class Workouts extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser=auth.getCurrentUser();
 
+        workoutOptionsLayout =(ScrollView) findViewById(R.id.selectionCategoriesLayout);
+        workoutOptionsLayout.setVisibility(View.GONE);
+
+        homeLayout=(ScrollView) findViewById(R.id.homeScreenLayout);
+        homeLayout.setVisibility(View.GONE);
         // Theme selection
         switchTheme=findViewById(R.id.switchTheme);
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice");
@@ -69,9 +74,24 @@ public class Workouts extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue().equals("light")){
-                    switchTheme.setChecked(true);
+                    //switchTheme.setChecked(true);
+                    //Initialize layout visibilities
+                    workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
+                    workoutsLayoutDark=(ScrollView) findViewById(R.id.workoutsLayoutDark);
+                    workoutsLayout.setVisibility(View.VISIBLE);
+                    workoutsLayoutDark.setVisibility(View.GONE);
+                    toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    toolbar.setTitleTextColor(Color.parseColor("#000000"));
+
+
                 } else if (snapshot.getValue().equals("dark")) {
-                    switchTheme.setChecked(false);
+                    //switchTheme.setChecked(false);
+                    workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutDark);
+                    workoutsLayout.setVisibility(View.VISIBLE);
+                    workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
+                    workoutsLayout.setVisibility(View.GONE);
+                    toolbar.setBackgroundColor(Color.parseColor("#E62E2D2D"));
+                    toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
                 }
             }
 
@@ -118,15 +138,7 @@ public class Workouts extends AppCompatActivity {
 
 
 
-        //Initialize layout visibilities
-        workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
-        workoutsLayout.setVisibility(View.VISIBLE);
 
-        workoutOptionsLayout =(ScrollView) findViewById(R.id.selectionCategoriesLayout);
-        workoutOptionsLayout.setVisibility(View.GONE);
-
-        homeLayout=(ScrollView) findViewById(R.id.homeScreenLayout);
-        homeLayout.setVisibility(View.GONE);
 
 
 

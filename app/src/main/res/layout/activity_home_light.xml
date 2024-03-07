@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
 
 
-    android:background="#DA000000"
+    android:background="#DAE4D6D6"
 
-    android:id="@+id/homeScreenLayout"
+    android:id="@+id/homeScreenLayoutLight"
     tools:context=".Home"
     >
 
@@ -25,10 +25,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_user"
+                android:text=""
                 android:fontFamily="@font/aldrich"
                 android:textSize="20sp"
-                android:textColor="@color/white"
+                android:textColor="#B5000000"
                 android:layout_margin="15dp"
                 android:id="@+id/homeScreenTitleText"
                 />
@@ -38,15 +38,18 @@
                 android:orientation="horizontal"
                 android:gravity="end"
                 android:layout_weight="1"
+
                 android:layout_margin="15dp"
+
 
                 >
                 <ImageView
-                    android:id="@+id/moon"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:src="@drawable/ic_moon_light"
-                    android:layout_marginTop="1dp"
+                    android:src="@drawable/ic_moon"
+
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="4dp"
 
                     />
                 <Switch
@@ -54,15 +57,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+
+                    />
 
                 <ImageView
-                    android:id="@+id/sun"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:src="@drawable/ic_sun_light"
-                    android:layout_marginTop="1dp"
-
+                    android:src="@drawable/ic_sun"
+                    android:layout_marginTop="2dp"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -94,6 +97,7 @@
 
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp"
+                app:cardBackgroundColor="#FFFFFF"
 
                 >
 
@@ -119,7 +123,7 @@
                         android:text="Get a healthy diet"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:textColor="#fff"
+                        android:textColor="#B5000000"
                         />
 
 
@@ -139,7 +143,9 @@
                 android:layout_gravity="fill"
 
                 app:cardCornerRadius="8dp"
-                app:cardElevation="8dp">
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#FFFFFF"
+                >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -163,7 +169,7 @@
                         android:text="@string/count_your_steps"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:textColor="#fff"
+                        android:textColor="#B5000000"
 
                         />
 
@@ -183,7 +189,9 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="8dp">
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#FFFFFF"
+                >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -209,7 +217,7 @@
                         android:textAlignment="center"
 
                         android:textStyle="bold"
-                        android:textColor="#fff"
+                        android:textColor="#B5000000"
                         />
 
 
@@ -217,19 +225,22 @@
 
             </androidx.cardview.widget.CardView>
 
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/StatsCard"
                 android:layout_width="170dp"
                 android:layout_height="170dp"
-                android:layout_margin="10dp"
                 android:layout_row="1"
                 android:layout_rowWeight="1"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
+                android:layout_margin="10dp"
 
                 app:cardCornerRadius="8dp"
-                app:cardElevation="8dp">
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#FFFFFF"
+                >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -242,9 +253,8 @@
 
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/stats"
                         android:layout_marginBottom="6dp"
-                        />
+                        android:src="@drawable/stats" />
 
                     <TextView
                         android:id="@+id/StatsCardText"
@@ -253,18 +263,13 @@
 
                         android:text="Your stats"
                         android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:textColor="#fff"
-                        />
+                        android:textColor="#B5000000"
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-
-
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/HomeCard"
@@ -277,7 +282,9 @@
                 android:layout_gravity="fill"
                 android:layout_margin="10dp"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="8dp">
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/white"
+                >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -302,7 +309,7 @@
                         android:textAlignment="center"
                         android:textStyle="bold"
 
-                        android:textColor="#fff"
+                        android:textColor="#B5000000"
 
 
 
@@ -326,6 +333,7 @@
 
                 app:cardCornerRadius="12dp"
                 app:cardElevation="5dp"
+                app:cardBackgroundColor="#FFFFFF"
                 >
 
                 <LinearLayout
@@ -348,7 +356,7 @@
                         android:text="@string/logout"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:textColor="#fff"
+                        android:textColor="#B5000000"
                         />
 
 
@@ -368,6 +376,7 @@
 
                 app:cardCornerRadius="12dp"
                 app:cardElevation="5dp"
+                app:cardBackgroundColor="#FFFFFF"
                 >
 
                 <LinearLayout
@@ -390,7 +399,7 @@
                         android:text="@string/set_up_your_profile"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:textColor="#fff"
+                        android:textColor="#B5000000"
                         />
 
 
@@ -410,6 +419,7 @@
 
                 app:cardCornerRadius="12dp"
                 app:cardElevation="5dp"
+                app:cardBackgroundColor="#FFFFFF"
                 >
 
                 <LinearLayout
@@ -432,7 +442,7 @@
                         android:text="@string/test_your_knowledge"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:textColor="#fff"
+                        android:textColor="#B5000000"
                         />
                 </LinearLayout>
 

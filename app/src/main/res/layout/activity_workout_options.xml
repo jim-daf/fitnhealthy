@@ -11,27 +11,24 @@
 
     android:id="@+id/selectionCategoriesLayout"
     tools:context=".WorkoutOptions"
+
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+
 
 
 
         <GridLayout
             android:id="@+id/gridLayoutForWorkoutOptions"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="76dp"
             android:alignmentMode="alignMargins"
             android:columnCount="1"
             android:columnOrderPreserved="false"
             android:rowCount="3"
-
+            android:layout_marginTop="20dp"
             >
 
 
@@ -192,5 +189,5 @@
         </GridLayout>
 
 
-    </LinearLayout>
+
 </ScrollView>

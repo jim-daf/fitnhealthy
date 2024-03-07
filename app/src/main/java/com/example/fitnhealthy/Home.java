@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -55,8 +56,9 @@ public class Home extends AppCompatActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch switchTheme;
     TextView homeTitleTextView;
-    ScrollView homeLayout, workoutOptionsLayout,workoutsLayout;
+    ScrollView homeLayout,workoutOptionsLayout,workoutsLayout;
 
+    ImageView sun,moon;
     GridLayout gridLayout;
     public DrawerLayout drawer;
     Toolbar toolbar;
@@ -70,6 +72,9 @@ public class Home extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         currentUser=auth.getCurrentUser();
+
+
+
         switchTheme=findViewById(R.id.switchTheme);
         //Get username from database
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice");
@@ -77,7 +82,6 @@ public class Home extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue().equals("light")){
-
                     switchTheme.setChecked(true);
                 } else if (snapshot.getValue().equals("dark")) {
                     switchTheme.setChecked(false);
@@ -153,12 +157,14 @@ public class Home extends AppCompatActivity {
         });
 
         //Initialize layout visibilities
-        workoutOptionsLayout =(ScrollView) findViewById(R.id.selectionCategoriesLayout);
-        workoutOptionsLayout.setVisibility(View.GONE);
-        workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
-        workoutsLayout.setVisibility(View.GONE);
         homeLayout=(ScrollView) findViewById(R.id.homeScreenLayout);
+        workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
+        workoutOptionsLayout =(ScrollView) findViewById(R.id.selectionCategoriesLayout);
+
         homeLayout.setVisibility(View.VISIBLE);
+        workoutOptionsLayout.setVisibility(View.GONE);
+        workoutsLayout.setVisibility(View.GONE);
+
 
 
 
@@ -222,9 +228,15 @@ public class Home extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice").setValue("light");
 
 
+                    switchTheme.getThumbDrawable().setColorFilter(Color.parseColor("#B5000000"), PorterDuff.Mode.MULTIPLY);
+                    switchTheme.getTrackDrawable().setColorFilter(Color.parseColor("#8c8c8c"),PorterDuff.Mode.MULTIPLY);
                     toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
                     toolbar.setTitleTextColor(Color.parseColor("#000000"));
 
+                    moon=findViewById(R.id.moon);
+                    sun=findViewById(R.id.sun);
+                    sun.setImageResource(R.drawable.ic_sun);
+                    moon.setImageResource(R.drawable.ic_moon);
 
 
                     TextView title=findViewById(R.id.homeScreenTitleText);
@@ -252,11 +264,21 @@ public class Home extends AppCompatActivity {
 
                     homeLayout.setBackgroundColor(Color.parseColor("#DAE4D6D6"));
 
+
                 }else {
                     FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice").setValue("dark");
                     //setTheme(androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dark);
                     toolbar.setBackgroundColor(Color.parseColor("#E62E2D2D"));
                     toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
+
+                    switchTheme.getThumbDrawable().setColorFilter(Color.parseColor("#8c8c8c"), PorterDuff.Mode.MULTIPLY);
+                    switchTheme.getTrackDrawable().setColorFilter(Color.parseColor("#8c8c8c"),PorterDuff.Mode.MULTIPLY);
+                    moon=findViewById(R.id.moon);
+                    sun=findViewById(R.id.sun);
+                    sun.setImageResource(R.drawable.ic_sun_light);
+                    moon.setImageResource(R.drawable.ic_moon_light);
+
+
                     TextView title=findViewById(R.id.homeScreenTitleText);
                     title.setTextColor(Color.parseColor("#FFFFFF"));
                     for (int i = 0; i < gridLayout.getChildCount(); i++) {
@@ -281,6 +303,7 @@ public class Home extends AppCompatActivity {
                     }
 
                     homeLayout.setBackgroundColor(Color.parseColor("#DA000000"));
+
                 }
 
             }

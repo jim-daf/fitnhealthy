@@ -27,7 +27,7 @@
     <string-array name="experience_values">
         <item>Select difficulty level</item>
         <item>Beginner</item>
-        <item>Advanced</item>
+        <item>Intermediate</item>
         <item>Expert</item>
     </string-array>
     <string-array name="frequency_values">

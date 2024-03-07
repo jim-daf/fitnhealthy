@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DAE4D6D6"
-    android:id="@+id/workoutsLayoutLight"
+    android:background="#000000"
+    android:id="@+id/workoutsLayoutDark"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar"
     tools:context=".Workouts"
     >
@@ -42,7 +42,7 @@
                 android:layout_marginEnd="15dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp"
-
+                app:cardBackgroundColor="#DCD9E1"
                 >
 
                 <LinearLayout
@@ -67,28 +67,13 @@
                             android:layout_marginBottom="5dp"
                             android:fontFamily="@font/aldrich"
                             android:text="Body focus"
-                            android:textColor="@color/black"
+                            android:textColor="#272525"
                             android:textSize="13sp"
                             android:textStyle="bold">
 
                         </TextView>
 
-                        <Spinner
-                            android:id="@+id/spinner_difficulty"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
 
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_weight="1"
-                            android:ellipsize="marquee"
-                            android:entries="@array/difficulty_values"
-                            android:gravity="end"
-
-                            android:textStyle="bold"
-
-                            />
                     </LinearLayout>
 
 
@@ -107,7 +92,7 @@
                             android:layout_gravity="fill"
                             android:layout_marginTop="20dp"
                             android:layout_marginEnd="25dp"
-                            app:cardBackgroundColor="#1F3245"
+                            app:cardBackgroundColor="#8A7F7F"
                             app:cardCornerRadius="30dp"
                             app:cardElevation="8dp">
 
@@ -135,7 +120,7 @@
                                     android:text="Chest"
 
                                     android:textAlignment="center"
-                                    android:textColor="@color/white"
+                                    android:textColor="#272525"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -154,7 +139,7 @@
 
                             android:layout_gravity="fill"
                             android:layout_marginTop="20dp"
-                            app:cardBackgroundColor="#1F3245"
+                            app:cardBackgroundColor="#8A7F7F"
                             app:cardCornerRadius="30dp"
                             app:cardElevation="8dp">
 
@@ -179,7 +164,7 @@
                                     android:fontFamily="@font/aldrich"
                                     android:text="Arms"
                                     android:textAlignment="center"
-                                    android:textColor="#fff"
+                                    android:textColor="#272525"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -210,7 +195,7 @@
 
                             android:layout_marginTop="20dp"
                             android:layout_marginEnd="25dp"
-                            app:cardBackgroundColor="#1F3245"
+                            app:cardBackgroundColor="#8A7F7F"
                             app:cardCornerRadius="30dp"
                             app:cardElevation="8dp">
 
@@ -235,7 +220,7 @@
                                     android:fontFamily="@font/aldrich"
                                     android:text="Abs"
                                     android:textAlignment="center"
-                                    android:textColor="#fff"
+                                    android:textColor="#272525"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -253,7 +238,7 @@
                             android:layout_gravity="fill"
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="20dp"
-                            app:cardBackgroundColor="#1F3245"
+                            app:cardBackgroundColor="#8A7F7F"
                             app:cardCornerRadius="30dp"
                             app:cardElevation="8dp">
 
@@ -279,7 +264,7 @@
                                     android:fontFamily="@font/aldrich"
                                     android:text="Legs"
                                     android:textAlignment="center"
-                                    android:textColor="#fff"
+                                    android:textColor="#272525"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -304,6 +289,7 @@
                 android:layout_marginEnd="15dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp"
+                app:cardBackgroundColor="#DCD9E1"
 
                 >
 
@@ -345,7 +331,7 @@
                                 android:layout_marginStart="30dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginEnd="20dp"
-                                app:cardBackgroundColor="#1F3245"
+                                app:cardBackgroundColor="#8A7F7F"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -370,7 +356,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Planks 10 min"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -383,7 +369,7 @@
                                         android:text="Expert"
 
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -400,7 +386,7 @@
                                 android:layout_columnWeight="1"
                                 android:layout_gravity="fill"
 
-                                app:cardBackgroundColor="#1F3245"
+                                app:cardBackgroundColor="#8A7F7F"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -413,10 +399,9 @@
                                     android:orientation="vertical">
 
                                     <ImageView
-                                        android:layout_width="45dp"
-                                        android:layout_height="45dp"
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
                                         android:layout_marginBottom="7dp"
-                                        android:layout_marginTop="5dp"
                                         android:src="@drawable/tabata" />
 
                                     <TextView
@@ -426,7 +411,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Tabata 4 min"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -439,7 +424,7 @@
                                         android:text="Beginner"
 
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -457,7 +442,7 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginEnd="25dp"
-                                app:cardBackgroundColor="#1F3245"
+                                app:cardBackgroundColor="#8A7F7F"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -470,10 +455,10 @@
                                     android:orientation="vertical">
 
                                     <ImageView
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
+                                        android:layout_width="45dp"
+                                        android:layout_height="45dp"
                                         android:layout_marginStart="2dp"
-                                        android:layout_marginTop="9dp"
+                                        android:layout_marginTop="4dp"
                                         android:layout_marginBottom="7dp"
                                         android:src="@drawable/fatburn" />
 
@@ -484,7 +469,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Fat burning 10 min"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold"
 
@@ -499,7 +484,7 @@
                                         android:text="Intermediate"
 
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -530,7 +515,7 @@
                 android:layout_marginEnd="15dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp"
-
+                app:cardBackgroundColor="#DCD9E1"
                 >
 
                 <LinearLayout
@@ -575,7 +560,7 @@
                 android:layout_marginEnd="15dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp"
-
+                app:cardBackgroundColor="#DCD9E1"
                 >
 
                 <LinearLayout
@@ -617,7 +602,7 @@
                                 android:layout_columnWeight="1"
                                 android:layout_gravity="fill"
                                 android:layout_marginStart="30dp"
-                                app:cardBackgroundColor="#1F3245"
+                                app:cardBackgroundColor="#8A7F7F"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -642,7 +627,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Cycling"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -660,7 +645,7 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginEnd="0dp"
-                                app:cardBackgroundColor="#1F3245"
+                                app:cardBackgroundColor="#8A7F7F"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -688,7 +673,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Running"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold"
 
@@ -709,7 +694,7 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
 
-                                app:cardBackgroundColor="#1F3245"
+                                app:cardBackgroundColor="#8A7F7F"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -735,7 +720,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Walking"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -755,7 +740,7 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
 
-                                app:cardBackgroundColor="#1F3245"
+                                app:cardBackgroundColor="#8A7F7F"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -782,7 +767,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Tennis"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -801,7 +786,7 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginEnd="25dp"
-                                app:cardBackgroundColor="#1F3245"
+                                app:cardBackgroundColor="#8A7F7F"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -826,7 +811,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Volley"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="#272525"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 

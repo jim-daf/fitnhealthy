@@ -34,10 +34,12 @@
 
 
     <include  layout="@layout/activity_home"/>
+    <include  layout="@layout/activity_setup_profile"/>
+
 
     <include  layout="@layout/activity_workout_options"/>
     <include  layout="@layout/activity_workouts_light"/>
-    <include  layout="@layout/activity_workouts_dark"/>
+
 
 
 

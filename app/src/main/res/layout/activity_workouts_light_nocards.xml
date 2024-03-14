@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DA000000"
-    android:id="@+id/workoutsLayoutDark"
+    android:background="#DAE4D6D6"
+    android:id="@+id/workoutsLayoutLight"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar"
     tools:context=".Workouts"
     >
@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+
         >
 
         <GridLayout
@@ -22,27 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
+
             android:alignmentMode="alignMargins"
             android:columnCount="1"
             android:columnOrderPreserved="false"
-            android:rowCount="4">
+            android:rowCount="4"
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/workoutsCard"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_rowWeight="1"
-                android:layout_column="0"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp"
-                app:cardBackgroundColor="#393737"
-                >
+            >
+
+
 
                 <LinearLayout
                     android:id="@+id/cardContainerBeginner"
@@ -50,30 +39,24 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
+
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="15dp"
                             android:fontFamily="@font/aldrich"
                             android:text="Body focus"
-                            android:textColor="#ffffff"
-                            android:textSize="13sp"
+                            android:textColor="#B5000000"
+                            android:textSize="14sp"
                             android:textStyle="bold">
 
                         </TextView>
 
 
-                    </LinearLayout>
+
 
 
                     <LinearLayout
@@ -91,7 +74,7 @@
                             android:layout_gravity="fill"
                             android:layout_marginTop="20dp"
                             android:layout_marginEnd="25dp"
-                            app:cardBackgroundColor="#59585a"
+                            app:cardBackgroundColor="#ffffff"
                             app:cardCornerRadius="30dp"
                             app:cardElevation="8dp">
 
@@ -119,8 +102,8 @@
                                     android:text="Chest"
 
                                     android:textAlignment="center"
-                                    android:textColor="#ffffff"
-                                    android:textSize="12sp"
+                                    android:textColor="#B5000000"
+                                    android:textSize="13sp"
                                     android:textStyle="bold" />
 
 
@@ -138,7 +121,7 @@
 
                             android:layout_gravity="fill"
                             android:layout_marginTop="20dp"
-                            app:cardBackgroundColor="#59585a"
+                            app:cardBackgroundColor="#ffffff"
                             app:cardCornerRadius="30dp"
                             app:cardElevation="8dp">
 
@@ -163,8 +146,8 @@
                                     android:fontFamily="@font/aldrich"
                                     android:text="Arms"
                                     android:textAlignment="center"
-                                    android:textColor="#ffffff"
-                                    android:textSize="12sp"
+                                    android:textColor="#B5000000"
+                                    android:textSize="13sp"
                                     android:textStyle="bold" />
 
 
@@ -194,7 +177,7 @@
 
                             android:layout_marginTop="20dp"
                             android:layout_marginEnd="25dp"
-                            app:cardBackgroundColor="#59585a"
+                            app:cardBackgroundColor="#ffffff"
                             app:cardCornerRadius="30dp"
                             app:cardElevation="8dp">
 
@@ -219,8 +202,8 @@
                                     android:fontFamily="@font/aldrich"
                                     android:text="Abs"
                                     android:textAlignment="center"
-                                    android:textColor="#ffffff"
-                                    android:textSize="12sp"
+                                    android:textColor="#B5000000"
+                                    android:textSize="13sp"
                                     android:textStyle="bold" />
 
 
@@ -237,7 +220,7 @@
                             android:layout_gravity="fill"
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="20dp"
-                            app:cardBackgroundColor="#59585a"
+                            app:cardBackgroundColor="#ffffff"
                             app:cardCornerRadius="30dp"
                             app:cardElevation="8dp">
 
@@ -263,8 +246,8 @@
                                     android:fontFamily="@font/aldrich"
                                     android:text="Legs"
                                     android:textAlignment="center"
-                                    android:textColor="#ffffff"
-                                    android:textSize="12sp"
+                                    android:textColor="#B5000000"
+                                    android:textSize="13sp"
                                     android:textStyle="bold" />
 
 
@@ -272,25 +255,9 @@
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/shortTimeWorkouts"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_row="1"
-                android:layout_rowWeight="1"
-                android:layout_column="0"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp"
-                app:cardBackgroundColor="#393737"
 
-                >
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -305,8 +272,8 @@
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/aldrich"
                         android:text="Short time workouts"
-                        android:textColor="@color/white"
-                        android:textSize="13sp"
+                        android:textColor="#B5000000"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <HorizontalScrollView
@@ -327,10 +294,10 @@
                                 android:layout_rowWeight="1"
                                 android:layout_columnWeight="1"
                                 android:layout_gravity="fill"
-                                android:layout_marginStart="30dp"
+                                android:layout_marginStart="45dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginEnd="20dp"
-                                app:cardBackgroundColor="#59585a"
+                                app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -355,7 +322,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Planks 10 min"
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -368,7 +335,7 @@
                                         android:text="Expert"
 
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -385,7 +352,7 @@
                                 android:layout_columnWeight="1"
                                 android:layout_gravity="fill"
 
-                                app:cardBackgroundColor="#59585a"
+                                app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -398,9 +365,10 @@
                                     android:orientation="vertical">
 
                                     <ImageView
-                                        android:layout_width="50dp"
-                                        android:layout_height="50dp"
+                                        android:layout_width="45dp"
+                                        android:layout_height="45dp"
                                         android:layout_marginBottom="7dp"
+                                        android:layout_marginTop="5dp"
                                         android:src="@drawable/tabata" />
 
                                     <TextView
@@ -410,7 +378,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Tabata 4 min"
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -423,7 +391,7 @@
                                         android:text="Beginner"
 
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -441,7 +409,7 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginEnd="25dp"
-                                app:cardBackgroundColor="#59585a"
+                                app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -454,10 +422,10 @@
                                     android:orientation="vertical">
 
                                     <ImageView
-                                        android:layout_width="45dp"
-                                        android:layout_height="45dp"
+                                        android:layout_width="40dp"
+                                        android:layout_height="40dp"
                                         android:layout_marginStart="2dp"
-                                        android:layout_marginTop="4dp"
+                                        android:layout_marginTop="9dp"
                                         android:layout_marginBottom="7dp"
                                         android:src="@drawable/fatburn" />
 
@@ -468,7 +436,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Fat burning 10 min"
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold"
 
@@ -483,7 +451,7 @@
                                         android:text="Intermediate"
 
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -498,24 +466,9 @@
                     </HorizontalScrollView>
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/myWorkoutsCard"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_row="2"
-                android:layout_rowWeight="1"
-                android:layout_column="0"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp"
-                app:cardBackgroundColor="#393737"
-                >
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -529,13 +482,13 @@
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/aldrich"
                         android:text="My workouts"
-                        android:textColor="@color/white"
-                        android:textSize="13sp"
+                        android:textColor="#B5000000"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="170dp"
+                        android:layout_height="130dp"
                         android:scrollbars="none">
 
                     </HorizontalScrollView>
@@ -543,25 +496,9 @@
 
 
 
-            </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/otherWorkoutsCard"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_row="3"
-                android:layout_rowWeight="1"
-                android:layout_column="0"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp"
-                app:cardBackgroundColor="#393737"
-                android:layout_marginBottom="50dp"
-                >
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -576,8 +513,8 @@
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/aldrich"
                         android:text="Other workouts"
-                        android:textColor="@color/white"
-                        android:textSize="13sp"
+                        android:textColor="#B5000000"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <HorizontalScrollView
@@ -601,8 +538,8 @@
                                 android:layout_rowWeight="1"
                                 android:layout_columnWeight="1"
                                 android:layout_gravity="fill"
-                                android:layout_marginStart="30dp"
-                                app:cardBackgroundColor="#59585a"
+                                android:layout_marginStart="45dp"
+                                app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -627,7 +564,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Cycling"
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -645,7 +582,7 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginEnd="0dp"
-                                app:cardBackgroundColor="#59585a"
+                                app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -673,7 +610,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Running"
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold"
 
@@ -694,7 +631,7 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
 
-                                app:cardBackgroundColor="#59585a"
+                                app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -720,7 +657,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Walking"
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -740,7 +677,7 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
 
-                                app:cardBackgroundColor="#59585a"
+                                app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -767,7 +704,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Tennis"
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -786,7 +723,7 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginEnd="25dp"
-                                app:cardBackgroundColor="#59585a"
+                                app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="30dp"
                                 app:cardElevation="8dp">
 
@@ -811,7 +748,7 @@
                                         android:fontFamily="@font/aldrich"
                                         android:text="Volley"
                                         android:textAlignment="center"
-                                        android:textColor="#ffffff"
+                                        android:textColor="#B5000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold" />
 
@@ -828,7 +765,7 @@
                     </HorizontalScrollView>
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+
         </GridLayout>
     </LinearLayout>
 </ScrollView>

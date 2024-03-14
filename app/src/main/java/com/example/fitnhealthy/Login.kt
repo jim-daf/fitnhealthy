@@ -2,6 +2,7 @@ package com.example.fitnhealthy
 
 //import com.google.auth.oauth2.GoogleCredentials
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
@@ -18,8 +19,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import android.Manifest
-
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class Login : AppCompatActivity() {
@@ -51,11 +54,36 @@ class Login : AppCompatActivity() {
         //currentUser!!.reload()
 
         if (currentUser != null && currentUser.isEmailVerified) {
-            goToMain()
+            //Get username from database
+            val reference =
+                FirebaseDatabase.getInstance().getReference("/Users").child(currentUser!!.uid)
+                    .child("ui_theme_choice")
+            reference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.value == "light") {
+                        val intent = Intent(applicationContext, Home::class.java)
+                        intent.putExtra("selected_theme","light")
+                        startActivity(intent)
+                        finish()
+                    } else if (snapshot.value == "dark") {
+                        val intent = Intent(applicationContext, Home::class.java)
+                        intent.putExtra("selected_theme","dark")
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@Login, "Error", Toast.LENGTH_SHORT).show()
+
+                }
+            })
+
 
 
         }
         else{
+
             setContentView(R.layout.activity_login)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -95,17 +123,48 @@ class Login : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener() { task ->
                         val user=auth.currentUser
-                        progressBar.visibility=View.GONE
+
                         if (task.isSuccessful && user!!.isEmailVerified) {
+                            val reference =
+                                FirebaseDatabase.getInstance().getReference("/Users").child(user.uid)
+                                    .child("ui_theme_choice")
+                            reference.addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    if (snapshot.value == "light") {
+                                        // Sign in success
+                                        progressBar.visibility=View.GONE
+                                        Toast.makeText(
+                                            this@Login,
+                                            "User authenticated",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        val intent = Intent(applicationContext, Home::class.java)
+                                        intent.putExtra("selected_theme","light")
+                                        startActivity(intent)
+                                        finish()
+                                    } else if (snapshot.value == "dark") {
+                                        // Sign in success
+                                        progressBar.visibility=View.GONE
+                                        Toast.makeText(
+                                            this@Login,
+                                            "User authenticated",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        val intent = Intent(applicationContext, Home::class.java)
+                                        intent.putExtra("selected_theme","dark")
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                }
 
-                            // Sign in success
-                            Toast.makeText(
-                                this,
-                                "User authenticated",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                override fun onCancelled(error: DatabaseError) {
+                                    Toast.makeText(this@Login, "Error", Toast.LENGTH_SHORT).show()
 
-                            goToMain()
+                                }
+                            })
+
+
+
 
                         }
                         else {

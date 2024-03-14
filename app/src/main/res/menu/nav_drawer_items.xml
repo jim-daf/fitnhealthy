@@ -8,7 +8,7 @@
     >
 
 
-    <item android:title="Account" >
+    <item android:title="User">
         <menu>
             <group android:checkableBehavior="single">
                 <item
@@ -21,7 +21,6 @@
                     android:id="@+id/nav_stats"
                     android:title="Stats"
                     android:icon="@drawable/ic_stats"
-
                     />
             </group>
         </menu>
@@ -51,7 +50,6 @@
                     android:icon="@drawable/ic_diet"
 
                     />
-
                 <item
                     android:id="@+id/nav_quiz"
                     android:title="Test your knowledge"
@@ -70,20 +68,21 @@
 
         </menu>
     </item>-->
-    <item android:title="Settings">
+    <item android:title="Account">
         <menu>
             <group android:checkableBehavior="none">
 
+                <item
+                    android:id="@+id/nav_delete_acc"
+                    android:title="Settings"
+                    android:icon="@drawable/ic_settings"
+                    />
                 <item
                     android:id="@+id/nav_logout"
                     android:title="Logout"
                     android:icon="@drawable/ic_logout"
                     />
-                <item
-                    android:id="@+id/nav_delete_acc"
-                    android:title="Delete account"
-                    android:icon="@drawable/ic_delete_acc"
-                    />
+
             </group>
         </menu>
 

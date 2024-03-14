@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
-
+    android:id="@+id/spinnerDropdownItemTxt"
     android:maxLines="1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
+    android:textColor="#B5000000"
+    android:fontFamily="@font/aldrich"
+    android:textSize="13sp"
     />

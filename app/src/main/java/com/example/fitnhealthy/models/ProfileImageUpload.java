@@ -1,12 +1,12 @@
 package com.example.fitnhealthy.models;
 
-public class FileUpload {
+public class ProfileImageUpload {
     String filename,fileUrl;
 
-    public FileUpload(){
+    public ProfileImageUpload(){
 
     }
-    public FileUpload(String filename, String fileUrl) {
+    public ProfileImageUpload(String filename, String fileUrl) {
         this.filename = filename;
         this.fileUrl = fileUrl;
     }

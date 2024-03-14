@@ -4,13 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -18,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -39,6 +43,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 
 public class Workouts extends AppCompatActivity {
     FirebaseAuth auth;
@@ -46,9 +52,11 @@ public class Workouts extends AppCompatActivity {
     ImageView profileImage;
     DatabaseReference databaseReference;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    Switch switchTheme;
-    ScrollView homeLayout, workoutOptionsLayout, workoutsLayout, workoutsLayoutDark;
+    String user_theme;
+    ScrollView homeLayout, workoutOptionsLayout, workoutsLayout, profileSetupLayout;
     GridLayout gridLayout;
+    LinearLayout cardContainer,cardContainer2,shortTimeWorkouts,otherWorkouts,myWorkouts;
+
     public DrawerLayout drawer;
     Toolbar toolbar;
 
@@ -62,49 +70,55 @@ public class Workouts extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser=auth.getCurrentUser();
 
+        //Initialize layout visibilities
+        workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
+        workoutsLayout.setVisibility(View.VISIBLE);
+
         workoutOptionsLayout =(ScrollView) findViewById(R.id.selectionCategoriesLayout);
         workoutOptionsLayout.setVisibility(View.GONE);
 
         homeLayout=(ScrollView) findViewById(R.id.homeScreenLayout);
         homeLayout.setVisibility(View.GONE);
-        // Theme selection
-        switchTheme=findViewById(R.id.switchTheme);
-        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue().equals("light")){
-                    //switchTheme.setChecked(true);
-                    //Initialize layout visibilities
-                    workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
-                    workoutsLayoutDark=(ScrollView) findViewById(R.id.workoutsLayoutDark);
-                    workoutsLayout.setVisibility(View.VISIBLE);
-                    workoutsLayoutDark.setVisibility(View.GONE);
-                    toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    toolbar.setTitleTextColor(Color.parseColor("#000000"));
+
+        profileSetupLayout = (ScrollView) findViewById(R.id.profileSetupLayout);
+        profileSetupLayout.setVisibility(View.GONE);
+
+        // Nav Drawer
+        @SuppressLint("CutPasteId")
+        NavigationView navView = findViewById(R.id.nav_view);
+        drawer = findViewById(R.id.drawerLayout);
+        toolbar= findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        //toolbar.setTitleTextColor(Color.parseColor("#000000"));
+        toolbar.setNavigationIcon(R.drawable.ic_hamburger_menu);
+        toolbar.setTitle("Workouts");
+
+        toggle = new ActionBarDrawerToggle(this,
+                drawer,
+                toolbar,
+                R.string.nav_open,
+                R.string.nav_close);
 
 
-                } else if (snapshot.getValue().equals("dark")) {
-                    //switchTheme.setChecked(false);
-                    workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutDark);
-                    workoutsLayout.setVisibility(View.VISIBLE);
-                    workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
-                    workoutsLayout.setVisibility(View.GONE);
-                    toolbar.setBackgroundColor(Color.parseColor("#E62E2D2D"));
-                    toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
-                }
-            }
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+
+
+        // Handle clicks on cards
+        setSingleEvent(shortTimeWorkouts,otherWorkouts,myWorkouts);
+
+        currentUser.reload();
+
+        toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        toolbar.setTitleTextColor(Color.parseColor("#000000"));
+
+        // Profile image to navdrawer
         databaseReference = FirebaseDatabase.getInstance().getReference("/Users");
         DatabaseReference imageUri=FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid());
-
-
-        // Create a reference to the file you want to access
         profileImage=findViewById(R.id.nav_header_image);
 
         imageUri.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -112,7 +126,7 @@ public class Workouts extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot child : snapshot.getChildren()) {
-                    if (child.getKey().equals("profileImageUri")) {
+                    if (child.getKey().equals("profileImageUrl")) {
                         if (!child.getValue().equals("") && !child.getValue().equals("null") && child.getValue() != null) {
                             profileImage=findViewById(R.id.nav_header_image);
                             Glide.with(Workouts.this)
@@ -136,52 +150,285 @@ public class Workouts extends AppCompatActivity {
             }
         });
 
+        // Spinner setup
+        Spinner spinner = (Spinner) findViewById(R.id.spinner_difficulty);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.difficulty_values, R.layout.spinner_selected_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        Intent intent = getIntent();
+        user_theme = intent.getStringExtra("selected_theme");
+
+        if (user_theme.equals("light")){
+            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            toolbar.setTitleTextColor(Color.parseColor("#000000"));
+        } else if (user_theme.equals("dark")) {
+            toolbar.setBackgroundColor(Color.parseColor("#E62E2D2D"));
+            toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
+
+            // Set spinner selected item color
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    ((TextView) parentView.getChildAt(0)).setTextColor(Color.WHITE);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+            spinner.getBackground().setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
+
+            //CheckedTextView spinnerDropdownItemTxt = (CheckedTextView) findViewById(R.id.spinnerDropdownItemTxt);
+
+            TextView bodyFocusTitle= (TextView) findViewById(R.id.bodyFocustxt);
+            bodyFocusTitle.setTextColor(Color.parseColor("#ffffff"));
+            gridLayout=(GridLayout) findViewById(R.id.gridLayoutWorkouts);
+            for (int i = 0; i < gridLayout.getChildCount(); i++) {
+                CardView cardView = (CardView) gridLayout.getChildAt(i);
+                cardView.setCardBackgroundColor(Color.parseColor("#393737"));
+                for (int j = 0; j < cardView.getChildCount(); j++) {
+                    LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                    for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                        if (linearLayout.getChildAt(k) instanceof TextView){
+                            TextView txtView = (TextView) linearLayout.getChildAt(k);
+                            txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                        }
+                    }
+                }
+
+            }
+            cardContainer=(LinearLayout) findViewById(R.id.cardContainer);
+            for (int i = 0; i < cardContainer.getChildCount(); i++) {
+
+                CardView cardView=(CardView) cardContainer.getChildAt(i);
+                cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                for (int j = 0; j < cardView.getChildCount(); j++) {
+                    LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                    for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                        if (linearLayout.getChildAt(k) instanceof TextView){
+                            TextView txtView = (TextView) linearLayout.getChildAt(k);
+                            txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                        }
+                    }
+                }
+
+            }
+            cardContainer2=(LinearLayout) findViewById(R.id.cardContainer2);
+            for (int i = 0; i < cardContainer2.getChildCount(); i++) {
+
+                CardView cardView=(CardView) cardContainer2.getChildAt(i);
+                cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                for (int j = 0; j < cardView.getChildCount(); j++) {
+                    LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                    for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                        if (linearLayout.getChildAt(k) instanceof TextView){
+                            TextView txtView = (TextView) linearLayout.getChildAt(k);
+                            txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                        }
+                    }
+                }
+
+            }
+            shortTimeWorkouts=(LinearLayout) findViewById(R.id.shortTimeWorkoutsContainer);
+            for (int i = 0; i < shortTimeWorkouts.getChildCount(); i++) {
+                CardView cardView=(CardView) shortTimeWorkouts.getChildAt(i);
+                cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                for (int j = 0; j < cardView.getChildCount(); j++) {
+                    LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                    for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                        if (linearLayout.getChildAt(k) instanceof TextView){
+                            TextView txtView = (TextView) linearLayout.getChildAt(k);
+                            txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                        }
+                    }
+                }
+            }
+            otherWorkouts=(LinearLayout) findViewById(R.id.otherWorkoutsLinearLayout);
+            for (int i = 0; i < otherWorkouts.getChildCount(); i++) {
+                CardView cardView=(CardView) otherWorkouts.getChildAt(i);
+                cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                for (int j = 0; j < cardView.getChildCount(); j++) {
+                    LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                    for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                        if (linearLayout.getChildAt(k) instanceof TextView){
+                            TextView txtView = (TextView) linearLayout.getChildAt(k);
+                            txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                        }
+                    }
+                }
+            }
+            myWorkouts=(LinearLayout) findViewById(R.id.myWorkoutsLinearLayout);
+            for (int i = 0; i < myWorkouts.getChildCount(); i++) {
+                if (myWorkouts.getChildAt(i) instanceof CardView){
+                    CardView cardView=(CardView) myWorkouts.getChildAt(i);
+                    cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                    for (int j = 0; j < cardView.getChildCount(); j++) {
+                        LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                        for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                            if (linearLayout.getChildAt(k) instanceof TextView){
+                                TextView txtView = (TextView) linearLayout.getChildAt(k);
+                                txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                            }
+                        }
+                    }
+                }
+
+            }
+            workoutsLayout.setBackgroundColor(Color.parseColor("#DA000000"));
+
+        } else {
+            DatabaseReference reference=FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice");
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.getValue().equals("light")){
+                        //switchTheme.setChecked(true);
 
 
 
 
+                        //spinnerDropdownItemTxt.setTextColor(Color.parseColor("#FFFFFF"));
+
+                        //spinnerDropdownItemTxt.setBackgroundColor(Color.parseColor("#393737"));
+
+                        toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                        toolbar.setTitleTextColor(Color.parseColor("#000000"));
 
 
 
-        // Nav Drawer
-        // drawer layout instance to toggle the menu icon to open
-        // drawer and back button to close drawer
-        @SuppressLint("CutPasteId")
-        NavigationView navView = findViewById(R.id.nav_view);
-        drawer = findViewById(R.id.drawerLayout);
-        toolbar= findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //toolbar.setTitleTextColor(Color.parseColor("#000000"));
-        toolbar.setNavigationIcon(R.drawable.ic_hamburger_menu);
-        toolbar.setTitle("Workouts");
+                    } else if (snapshot.getValue().equals("dark")) {
 
-        toggle = new ActionBarDrawerToggle(this,
-                drawer,
-                toolbar,
-                R.string.nav_open,
-                R.string.nav_close);
+                        FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice").setValue("dark");
+
+                        toolbar.setBackgroundColor(Color.parseColor("#E62E2D2D"));
+                        toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
+                        TextView spinnerSelectedItemTxt = (TextView) findViewById(R.id.spinnerSelectedItemTxt);
+                        spinnerSelectedItemTxt.setTextColor(Color.parseColor("#FFFFFF"));
+                        spinner.getBackground().setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
+
+                        //CheckedTextView spinnerDropdownItemTxt = (CheckedTextView) findViewById(R.id.spinnerDropdownItemTxt);
+
+                        TextView bodyFocusTitle= (TextView) findViewById(R.id.bodyFocustxt);
+                        bodyFocusTitle.setTextColor(Color.parseColor("#ffffff"));
+                        gridLayout=(GridLayout) findViewById(R.id.gridLayoutWorkouts);
+                        for (int i = 0; i < gridLayout.getChildCount(); i++) {
+                            CardView cardView = (CardView) gridLayout.getChildAt(i);
+                            cardView.setCardBackgroundColor(Color.parseColor("#393737"));
+                            for (int j = 0; j < cardView.getChildCount(); j++) {
+                                LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                                for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                                    if (linearLayout.getChildAt(k) instanceof TextView){
+                                        TextView txtView = (TextView) linearLayout.getChildAt(k);
+                                        txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                                    }
+                                }
+                            }
+
+                        }
+                        cardContainer=(LinearLayout) findViewById(R.id.cardContainer);
+                        for (int i = 0; i < cardContainer.getChildCount(); i++) {
+
+                            CardView cardView=(CardView) cardContainer.getChildAt(i);
+                            cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                            for (int j = 0; j < cardView.getChildCount(); j++) {
+                                LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                                for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                                    if (linearLayout.getChildAt(k) instanceof TextView){
+                                        TextView txtView = (TextView) linearLayout.getChildAt(k);
+                                        txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                                    }
+                                }
+                            }
+
+                        }
+                        cardContainer2=(LinearLayout) findViewById(R.id.cardContainer2);
+                        for (int i = 0; i < cardContainer2.getChildCount(); i++) {
+
+                            CardView cardView=(CardView) cardContainer2.getChildAt(i);
+                            cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                            for (int j = 0; j < cardView.getChildCount(); j++) {
+                                LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                                for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                                    if (linearLayout.getChildAt(k) instanceof TextView){
+                                        TextView txtView = (TextView) linearLayout.getChildAt(k);
+                                        txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                                    }
+                                }
+                            }
+
+                        }
+                        shortTimeWorkouts=(LinearLayout) findViewById(R.id.shortTimeWorkoutsContainer);
+                        for (int i = 0; i < shortTimeWorkouts.getChildCount(); i++) {
+                            CardView cardView=(CardView) shortTimeWorkouts.getChildAt(i);
+                            cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                            for (int j = 0; j < cardView.getChildCount(); j++) {
+                                LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                                for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                                    if (linearLayout.getChildAt(k) instanceof TextView){
+                                        TextView txtView = (TextView) linearLayout.getChildAt(k);
+                                        txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                                    }
+                                }
+                            }
+                        }
+                        otherWorkouts=(LinearLayout) findViewById(R.id.otherWorkoutsLinearLayout);
+                        for (int i = 0; i < otherWorkouts.getChildCount(); i++) {
+                            CardView cardView=(CardView) otherWorkouts.getChildAt(i);
+                            cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                            for (int j = 0; j < cardView.getChildCount(); j++) {
+                                LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                                for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                                    if (linearLayout.getChildAt(k) instanceof TextView){
+                                        TextView txtView = (TextView) linearLayout.getChildAt(k);
+                                        txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                                    }
+                                }
+                            }
+                        }
+                        myWorkouts=(LinearLayout) findViewById(R.id.myWorkoutsLinearLayout);
+                        for (int i = 0; i < myWorkouts.getChildCount(); i++) {
+                            if (myWorkouts.getChildAt(i) instanceof CardView){
+                                CardView cardView=(CardView) myWorkouts.getChildAt(i);
+                                cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                                for (int j = 0; j < cardView.getChildCount(); j++) {
+                                    LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(j);
+                                    for (int k = 0; k < linearLayout.getChildCount(); k++) {
+                                        if (linearLayout.getChildAt(k) instanceof TextView){
+                                            TextView txtView = (TextView) linearLayout.getChildAt(k);
+                                            txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        workoutsLayout.setBackgroundColor(Color.parseColor("#DA000000"));
 
 
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+                    }
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
+                }
+            });
+        }
 
-
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-
-        navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
-
-
-        gridLayout=(GridLayout) findViewById(R.id.gridLayout);
-        setSingleEvent(gridLayout);
-        currentUser.reload();
-
-        toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        toolbar.setTitleTextColor(Color.parseColor("#000000"));
         /*
-        // Theme
+        // Theme selection
+
+
+         */
+
+
+
+
+        /*
+        // Theme change
         switchTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -253,11 +500,9 @@ public class Workouts extends AppCompatActivity {
         });
 
          */
-        Spinner spinner = (Spinner) findViewById(R.id.spinner_difficulty);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.difficulty_values, R.layout.spinner_selected_item);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+
+
+
     }
 
 
@@ -271,12 +516,15 @@ public class Workouts extends AppCompatActivity {
 
     }
 
+    // Handle clicks on overflow menu
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    // Handle clicks on navigation drawer
     public Boolean onNavigationItemSelected(MenuItem item){
 
         if(item.getItemId()==R.id.nav_home){
@@ -284,6 +532,7 @@ public class Workouts extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(Workouts.this, Home.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
                 }
@@ -293,6 +542,7 @@ public class Workouts extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(Workouts.this, ProfileSetup.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
                 }
@@ -302,6 +552,7 @@ public class Workouts extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(Workouts.this, Home.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
                 }
@@ -311,6 +562,7 @@ public class Workouts extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(Workouts.this, Home.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
 
@@ -322,6 +574,7 @@ public class Workouts extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(Workouts.this, Home.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
 
@@ -354,6 +607,7 @@ public class Workouts extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(Workouts.this, Home.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
 
@@ -377,61 +631,159 @@ public class Workouts extends AppCompatActivity {
     }
 
 
-    private void setSingleEvent(GridLayout gridLayout) {
-        //Loop all child item of Main.java Grid
-        for (int i = 0; i < gridLayout.getChildCount(); i++) {
-            //You can see , all child item is CardView , so we just cast object to CardView
-            if (gridLayout.getChildAt(i) instanceof CardView) {
-                CardView cardView = (CardView) gridLayout.getChildAt(i);
-                LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-                for (int j = 0; j < linearLayout.getChildCount(); j++) {
-                    if (linearLayout.getChildAt(j) instanceof HorizontalScrollView){
-                        HorizontalScrollView horizontalScrollView=(HorizontalScrollView) linearLayout.getChildAt(j);
-                        LinearLayout cardContainer = (LinearLayout) horizontalScrollView.getChildAt(0);
-                        for (int k = 0; k < cardContainer.getChildCount(); k++) {
-                            CardView card = (CardView) cardContainer.getChildAt(k);
-                            card.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    if (card.getId() == findViewById(R.id.chestCard).getId() ) {
+    // Handle clicks on cards
+    private void setSingleEvent(LinearLayout shortTimeWorkouts,LinearLayout otherWorkouts,LinearLayout myWorkouts) {
+        CardView chestCard=(CardView) findViewById(R.id.chestCard);
+        CardView absCard=(CardView) findViewById(R.id.absCard);
+        CardView legsCard=(CardView) findViewById(R.id.legsCard);
+        CardView armsCard=(CardView) findViewById(R.id.armsCard);
+        
+        
+        chestCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Workouts.this, Home.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        absCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Workouts.this, Home.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        legsCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Workouts.this, Home.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        armsCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Workouts.this, Home.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
-                                        Intent intent = new Intent(Workouts.this, Home.class);
-                                        startActivity(intent);
-                                        finish();
-
-                                    } else if (card.getId() == findViewById(R.id.absCard).getId()) {
-                                        Intent intent = new Intent(Workouts.this, Home.class);
-                                        startActivity(intent);
-                                        finish();
-                                    } else if (card.getId() == findViewById(R.id.legsCard).getId()) {
-                                        Intent intent = new Intent(Workouts.this, Home.class);
-                                        startActivity(intent);
-                                        finish();
-
-                                    }else if (card.getId() == findViewById(R.id.armsCard).getId()) {
-                                        Intent intent = new Intent(Workouts.this, Home.class);
-                                        startActivity(intent);
-                                        finish();
-
-                                    }
-                                }
-                            });
-                        }
+        shortTimeWorkouts=(LinearLayout) findViewById(R.id.shortTimeWorkoutsContainer);
+        for (int i = 0; i < shortTimeWorkouts.getChildCount(); i++) {
+            CardView cardView = (CardView) shortTimeWorkouts.getChildAt(i);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (cardView.getId()==R.id.planks10mincard){
+                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        intent.putExtra("selected_theme",user_theme);
+                        startActivity(intent);
+                        finish();
+                    } else if (cardView.getId()==R.id.tabata4Card) {
+                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        intent.putExtra("selected_theme",user_theme);
+                        startActivity(intent);
+                        finish();
+                    } else if (cardView.getId()==R.id.fatBurning10Card) {
+                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        intent.putExtra("selected_theme",user_theme);
+                        startActivity(intent);
+                        finish();
                     }
                 }
+            });
 
+        }
+        otherWorkouts=(LinearLayout) findViewById(R.id.otherWorkoutsLinearLayout);
+        for (int i = 0; i < otherWorkouts.getChildCount(); i++) {
+            CardView cardView = (CardView) otherWorkouts.getChildAt(i);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (cardView.getId()==R.id.volleyCard){
+                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        intent.putExtra("selected_theme",user_theme);
+                        startActivity(intent);
+                        finish();
+                    } else if (cardView.getId()==R.id.tennisCard) {
+                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        intent.putExtra("selected_theme",user_theme);
+                        startActivity(intent);
+                        finish();
+                    } else if (cardView.getId()==R.id.walkingCard) {
+                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        intent.putExtra("selected_theme",user_theme);
+                        startActivity(intent);
+                        finish();
+                    } else if (cardView.getId()==R.id.walkingCard) {
+                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        intent.putExtra("selected_theme",user_theme);
+                        startActivity(intent);
+                        finish();
+                    } else if (cardView.getId()==R.id.runningCard) {
+                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        intent.putExtra("selected_theme",user_theme);
+                        startActivity(intent);
+                        finish();
+                    } else if (cardView.getId()==R.id.cyclingCard) {
+                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        intent.putExtra("selected_theme",user_theme);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            });
+
+        }
+        myWorkouts=(LinearLayout) findViewById(R.id.myWorkoutsLinearLayout);
+        for (int i = 0; i < myWorkouts.getChildCount(); i++) {
+
+            if (myWorkouts.getChildAt(i) instanceof CardView){
+                CardView cardView = (CardView) myWorkouts.getChildAt(i);
+                cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (cardView.getId()==R.id.planks10mincard){
+                            Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                            intent.putExtra("selected_theme",user_theme);
+                            startActivity(intent);
+                            finish();
+                        } else if (cardView.getId()==R.id.tabata4Card) {
+                            Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                            intent.putExtra("selected_theme",user_theme);
+                            startActivity(intent);
+                            finish();
+                        } else if (cardView.getId()==R.id.fatBurning10Card) {
+                            Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                            intent.putExtra("selected_theme",user_theme);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
             }
 
 
-
-
         }
+
+
+          
+
+
+
+
+       
     }
     @Override
     public void onBackPressed() {
         // Create an intent to start a new activity
 
         Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+        intent.putExtra("selected_theme",user_theme);
         startActivity(intent);
         // Finish the current activity
         finish();

@@ -47,19 +47,15 @@ import com.google.firebase.storage.StorageReference;
 public class WorkoutOptions extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser currentUser;
-
     ImageView profileImage;
     DatabaseReference databaseReference;
-
+    String user_theme;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch switchTheme;
-
-    ScrollView homeLayout, workoutOptionsLayout,workoutsLayout;
-
+    ScrollView homeLayout, workoutOptionsLayout,workoutsLayout,profileSetupLayout;
     GridLayout gridLayout;
     public DrawerLayout drawer;
     Toolbar toolbar;
-
     public ActionBarDrawerToggle toggle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,30 +65,117 @@ public class WorkoutOptions extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         currentUser=auth.getCurrentUser();
-        switchTheme=findViewById(R.id.switchTheme);
-        //Get username from database
-        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue().equals("light")){
-                    switchTheme.setChecked(true);
-                } else if (snapshot.getValue().equals("dark")) {
-                    switchTheme.setChecked(false);
+
+        //Initialize layout visibilities
+        workoutOptionsLayout =(ScrollView) findViewById(R.id.selectionCategoriesLayout);
+        workoutOptionsLayout.setVisibility(View.VISIBLE);
+
+        homeLayout=(ScrollView) findViewById(R.id.homeScreenLayout);
+        homeLayout.setVisibility(View.GONE);
+
+        workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
+        workoutsLayout.setVisibility(View.GONE);
+
+        profileSetupLayout = (ScrollView) findViewById(R.id.profileSetupLayout);
+        profileSetupLayout.setVisibility(View.GONE);
+
+        // Nav Drawer
+        @SuppressLint("CutPasteId")
+        NavigationView navView = findViewById(R.id.nav_view);
+        drawer = findViewById(R.id.drawerLayout);
+        toolbar= findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        //toolbar.setTitleTextColor(Color.parseColor("#000000"));
+        toolbar.setNavigationIcon(R.drawable.ic_hamburger_menu);
+        toolbar.setTitle("Workout options");
+
+        toggle = new ActionBarDrawerToggle(this,
+                drawer,
+                toolbar,
+                R.string.nav_open,
+                R.string.nav_close);
+
+
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+
+        gridLayout=(GridLayout) findViewById(R.id.gridLayoutForWorkoutOptions);
+        setSingleEvent(gridLayout);
+        currentUser.reload();
+
+        //UI Theme
+        Intent intent =  getIntent();
+        user_theme = intent.getStringExtra("selected_theme");
+
+        if(user_theme.equals("light")){
+
+            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            toolbar.setTitleTextColor(Color.parseColor("#000000"));
+
+            for (int i = 0; i < gridLayout.getChildCount(); i++) {
+                //You can see , all child item is CardView , so we just cast object to CardView
+                if (gridLayout.getChildAt(i) instanceof CardView) {
+                    CardView cardView = (CardView) gridLayout.getChildAt(i);
+                    cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                    for (int j = 0; j < cardView.getChildCount(); j++) {
+                        if (cardView.getChildAt(j) instanceof LinearLayout) {
+                            LinearLayout layout=(LinearLayout) cardView.getChildAt(j);
+                            for (int k = 0; k < layout.getChildCount(); k++) {
+                                if (layout.getChildAt(k) instanceof TextView) {
+                                    TextView txtView=(TextView) layout.getChildAt(k);
+                                    txtView.setTextColor(Color.parseColor("#B5000000"));
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            workoutOptionsLayout.setBackgroundColor(Color.parseColor("#DAE4D6D6"));
 
+
+        } else if (user_theme.equals("dark")) {
+
+            toolbar.setBackgroundColor(Color.parseColor("#E62E2D2D"));
+            toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
+
+            /*
+            for (int i = 0; i < gridLayout.getChildCount(); i++) {
+                //You can see , all child item is CardView , so we just cast object to CardView
+                if (gridLayout.getChildAt(i) instanceof CardView) {
+                    CardView cardView = (CardView) gridLayout.getChildAt(i);
+                    cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
+                    for (int j = 0; j < cardView.getChildCount(); j++) {
+                        if (cardView.getChildAt(j) instanceof LinearLayout) {
+                            LinearLayout layout=(LinearLayout) cardView.getChildAt(j);
+                            for (int k = 0; k < layout.getChildCount(); k++) {
+                                if (layout.getChildAt(k) instanceof TextView) {
+                                    TextView txtView=(TextView) layout.getChildAt(k);
+                                    txtView.setTextColor(Color.parseColor("#FFFFFF"));
+                                }
+                            }
+
+
+                        }
+                    }
+                }
             }
-        });
+
+            workoutOptionsLayout.setBackgroundColor(Color.parseColor("#DA000000"));
+
+             */
+        }
+
         databaseReference = FirebaseDatabase.getInstance().getReference("/Users");
         DatabaseReference imageUri=FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid());
 
 
 
-        // Create a reference to the file you want to access
+        // Upload profile image to nav header
         profileImage=findViewById(R.id.nav_header_image);
 
         imageUri.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -100,7 +183,7 @@ public class WorkoutOptions extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot child : snapshot.getChildren()) {
-                    if (child.getKey().equals("profileImageUri")) {
+                    if (child.getKey().equals("profileImageUrl")) {
                         if (!child.getValue().equals("") && !child.getValue().equals("null") && child.getValue() != null) {
                             profileImage=findViewById(R.id.nav_header_image);
                             Glide.with(WorkoutOptions.this)
@@ -126,131 +209,14 @@ public class WorkoutOptions extends AppCompatActivity {
 
 
 
-        //Initialize layout visibilities
-
-
-        workoutOptionsLayout =(ScrollView) findViewById(R.id.selectionCategoriesLayout);
-        workoutOptionsLayout.setVisibility(View.VISIBLE);
-
-        homeLayout=(ScrollView) findViewById(R.id.homeScreenLayout);
-        homeLayout.setVisibility(View.GONE);
-
-        workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
-        workoutsLayout.setVisibility(View.GONE);
-
-
-        // Nav Drawer
-        // drawer layout instance to toggle the menu icon to open
-        // drawer and back button to close drawer
-        @SuppressLint("CutPasteId")
-        NavigationView navView = findViewById(R.id.nav_view);
-        drawer = findViewById(R.id.drawerLayout);
-        toolbar= findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //toolbar.setTitleTextColor(Color.parseColor("#000000"));
-        toolbar.setNavigationIcon(R.drawable.ic_hamburger_menu);
-        toolbar.setTitle("Workout options");
-
-        toggle = new ActionBarDrawerToggle(this,
-                drawer,
-                toolbar,
-                R.string.nav_open,
-                R.string.nav_close);
-
-        // toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
-        // pass the Open and Close toggle for the drawer layout listener
-        // to toggle the button
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        // to make the Navigation drawer icon always appear on the action bar
-        //Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
-        //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger_menu);
 
 
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
 
-        navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
-
-        // Dashboard
-
-        gridLayout=(GridLayout) findViewById(R.id.gridLayoutForWorkoutOptions);
-        setSingleEvent(gridLayout);
-        currentUser.reload();
         //setToggleEvent(gridLayout);
 
 
-        // Retrieve username from database based on the user email
-        switchTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (isChecked) {
-                    //setTheme(androidx.appcompat.R.style.Theme_AppCompat_Light_NoActionBar);
-                    FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice").setValue("light");
-
-
-                    toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    toolbar.setTitleTextColor(Color.parseColor("#000000"));
-
-
-
-
-                    for (int i = 0; i < gridLayout.getChildCount(); i++) {
-                        //You can see , all child item is CardView , so we just cast object to CardView
-                        if (gridLayout.getChildAt(i) instanceof CardView) {
-                            CardView cardView = (CardView) gridLayout.getChildAt(i);
-                            cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                            for (int j = 0; j < cardView.getChildCount(); j++) {
-                                if (cardView.getChildAt(j) instanceof LinearLayout) {
-                                    LinearLayout layout=(LinearLayout) cardView.getChildAt(j);
-                                    for (int k = 0; k < layout.getChildCount(); k++) {
-                                        if (layout.getChildAt(k) instanceof TextView) {
-                                            TextView txtView=(TextView) layout.getChildAt(k);
-                                            txtView.setTextColor(Color.parseColor("#B5000000"));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    workoutOptionsLayout.setBackgroundColor(Color.parseColor("#DAE4D6D6"));
-
-                }else {
-                    FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice").setValue("dark");
-                    //setTheme(androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dark);
-                    toolbar.setBackgroundColor(Color.parseColor("#E62E2D2D"));
-                    toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
-
-                    for (int i = 0; i < gridLayout.getChildCount(); i++) {
-                        //You can see , all child item is CardView , so we just cast object to CardView
-                        if (gridLayout.getChildAt(i) instanceof CardView) {
-                            CardView cardView = (CardView) gridLayout.getChildAt(i);
-                            cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
-                            for (int j = 0; j < cardView.getChildCount(); j++) {
-                                if (cardView.getChildAt(j) instanceof LinearLayout) {
-                                    LinearLayout layout=(LinearLayout) cardView.getChildAt(j);
-                                    for (int k = 0; k < layout.getChildCount(); k++) {
-                                        if (layout.getChildAt(k) instanceof TextView) {
-                                            TextView txtView=(TextView) layout.getChildAt(k);
-                                            txtView.setTextColor(Color.parseColor("#FFFFFF"));
-                                        }
-                                    }
-
-
-                                }
-                            }
-                        }
-                    }
-
-                    workoutOptionsLayout.setBackgroundColor(Color.parseColor("#DA000000"));
-                }
-
-            }
-        });
 
     }
 
@@ -278,6 +244,7 @@ public class WorkoutOptions extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(WorkoutOptions.this, Home.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
                 }
@@ -287,6 +254,7 @@ public class WorkoutOptions extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(WorkoutOptions.this, ProfileSetup.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
                 }
@@ -295,7 +263,8 @@ public class WorkoutOptions extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(WorkoutOptions.this, Home.class);
+                    Intent intent = new Intent(WorkoutOptions.this, WorkoutOptions.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
                 }
@@ -305,6 +274,7 @@ public class WorkoutOptions extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(WorkoutOptions.this, Home.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
 
@@ -316,6 +286,7 @@ public class WorkoutOptions extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(WorkoutOptions.this, Home.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
 
@@ -348,6 +319,7 @@ public class WorkoutOptions extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(WorkoutOptions.this, Home.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
 
@@ -383,18 +355,20 @@ public class WorkoutOptions extends AppCompatActivity {
                         if (cardView.getId() == findViewById(R.id.CreateYourOwnWorkoutCard).getId() ) {
 
                             Intent intent = new Intent(WorkoutOptions.this, Home.class);
+                            intent.putExtra("selected_theme",user_theme);
                             startActivity(intent);
                             finish();
 
                         } else if (cardView.getId() == findViewById(R.id.SelectAWorkoutCard).getId()) {
                             Intent intent = new Intent(WorkoutOptions.this, Workouts.class);
+                            intent.putExtra("selected_theme",user_theme);
                             startActivity(intent);
                             finish();
                         } else if (cardView.getId() == findViewById(R.id.GenerateWorkoutCard).getId()) {
                             Intent intent = new Intent(WorkoutOptions.this, Home.class);
+                            intent.putExtra("selected_theme",user_theme);
                             startActivity(intent);
                             finish();
-
                         }else {
                             //Toast.makeText(AdminDashboard.this,"Wrong Tap",Toast.LENGTH_SHORT).show();
                         }
@@ -409,11 +383,9 @@ public class WorkoutOptions extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        // Create an intent to start a new activity
-
         Intent intent = new Intent(WorkoutOptions.this, Home.class);
+        intent.putExtra("selected_theme",user_theme);
         startActivity(intent);
-        // Finish the current activity
         finish();
         super.onBackPressed();
     }

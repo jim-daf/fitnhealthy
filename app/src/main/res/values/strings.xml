@@ -25,20 +25,34 @@
     <string name="nav_close">Close</string>
     <string name="save_new_profile_data">Save new profile data</string>
     <string-array name="experience_values">
-        <item>Select difficulty level</item>
         <item>Beginner</item>
         <item>Intermediate</item>
         <item>Expert</item>
     </string-array>
     <string-array name="frequency_values">
-        <item>How often do you train?</item>
-        <item>1-2 times per week</item>
-        <item>3-4 times per week</item>
-        <item>5+ times per week</item>
+        <item>0-1 times per week(low)</item>
+        <item>1-3 times per week(moderate)</item>
+        <item>2-5 times per week(recommended)</item>
+        <item>5+ times per week(highly active)</item>
     </string-array>
     <string-array name="difficulty_values">
         <item>Beginner</item>
         <item>Intermediate</item>
         <item>Expert</item>
+    </string-array>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Greek</item>
+        <item>Spanish</item>
+    </string-array>
+    <string-array name="targets">
+        <item>Weight loss</item>
+        <item>Flat body</item>
+        <item>Build muscle</item>
+    </string-array>
+    <string-array name="gender">
+        <item>Select your gender</item>
+        <item>Male</item>
+        <item>Female</item>
     </string-array>
 </resources>

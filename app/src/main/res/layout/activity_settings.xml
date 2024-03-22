@@ -1,26 +1,393 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="#DAE4D6D6"
+    android:id="@+id/settingsLayout"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            >
+
+
+            <LinearLayout
+                android:id="@+id/mainBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/input_background2"
+                android:paddingStart="23dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingEnd="5dp"
+
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:paddingEnd="20dp"
+                    >
+                    <TextView
+                        android:id="@+id/notificationsTxtView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Notifications"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/aldrich"
+
+                        android:layout_marginEnd="35dp"
+                        android:layout_marginTop="3dp"
+
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="end"
+
+
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/notificationsOff"
+                            android:text="Off"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/aldrich"
+                            android:textSize="14sp"
+
+                            />
+                        <Switch
+                            android:id="@+id/notifications_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        <TextView
+                            android:id="@+id/notificationsOn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="On"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/aldrich"
+                            android:textSize="14sp"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:paddingEnd="20dp">
+                    <TextView
+                        android:id="@+id/healthandconnectTxtView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Health &amp; Connect"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/aldrich"
+
+                        android:layout_marginEnd="35dp"
+                        android:layout_marginTop="4dp"
+
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="end"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/connectOff"
+                            android:text="Off"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/aldrich"
+                            android:textSize="14sp"
+
+
+                            />
+                        <Switch
+                            android:id="@+id/healthandconnect_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:ignore="UseSwitchCompatOrMaterialXml"
+
+                            />
+                        <TextView
+                            android:id="@+id/connectOn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="On"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/aldrich"
+                            android:textSize="14sp"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:paddingEnd="20dp">
+                    <TextView
+                        android:id="@+id/settingsTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Theme"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/aldrich"
+
+                        android:layout_marginEnd="35dp"
+                        android:layout_marginTop="3dp"
+
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="end"
+                        android:layout_marginEnd="0dp"
+                        >
+                        <ImageView
+                            android:id="@+id/moon_settings"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:src="@drawable/ic_moon_settings"
+                            android:layout_marginTop="3dp"
+                            />
+                        <Switch
+                            android:id="@+id/theme_switch_settings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:ignore="UseSwitchCompatOrMaterialXml"
+                            />
+                        <ImageView
+                            android:id="@+id/sun_settings"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:src="@drawable/ic_sun_settings"
+                            android:layout_marginTop="3dp"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="2dp"
+                    android:paddingEnd="5dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/languageTxtView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/aldrich"
+                        android:gravity="start"
+
+                        android:layout_marginTop="1dp"
+                        android:text="Language"
+                        android:textColor="@color/black"
+
+                        android:textSize="14sp" />
+
+
+                    <Spinner
+                        android:id="@+id/spinner_languages"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:entries="@array/languages"
+                        android:gravity="end"
+                        />
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        >
+        <LinearLayout
+            android:id="@+id/backgroundOfProfileData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/input_background2"
+            android:paddingStart="50dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingEnd="50dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Notifications"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            />
-        <Switch
-            android:id="@+id/notifications_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            >
+
+            <TextView
+                android:id="@+id/updateProfileData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update your profile data"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:fontFamily="@font/aldrich"
+                android:clickable="true"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+
+
+                android:drawableEnd="@drawable/forward_arrow"
+                android:drawablePadding="5dp"
+
+
+                />
+
+
+
+
+
+        </LinearLayout>
+
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+
+            >
+            <LinearLayout
+                android:id="@+id/backgroundOfBiometricData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/input_background2"
+                android:paddingStart="24dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:paddingEnd="24dp"
+
+                >
+
+                <TextView
+                    android:id="@+id/updateBiometricData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Update your physical attributes"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/aldrich"
+                    android:clickable="true"
+                    android:gravity="center_horizontal"
+
+
+                    android:drawableEnd="@drawable/forward_arrow"
+                    android:drawablePadding="5dp"
+
+
+                    />
+
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            >
+            <LinearLayout
+                android:id="@+id/backgroundOfWorkoutData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/input_background2"
+                android:paddingStart="32dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:paddingEnd="32dp"
+
+                >
+
+                <TextView
+                    android:id="@+id/updateWorkoutData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Update your workout metrics"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/aldrich"
+                    android:clickable="true"
+                    android:gravity="center_horizontal"
+                    android:drawableEnd="@drawable/forward_arrow"
+                    android:drawablePadding="5dp"
+
+
+                    />
+
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 
 
 </ScrollView>

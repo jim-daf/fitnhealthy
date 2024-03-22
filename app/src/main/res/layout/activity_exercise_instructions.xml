@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/inflatedLayoutInstructions"
+    android:background="@color/white"
+    android:padding="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="#BABABA"
+                app:cardCornerRadius="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+
+                    >
+                <Button
+                    android:id="@+id/animationBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="animation"
+                    android:fontFamily="@font/aldrich"
+
+
+                    android:textSize="11sp"
+                    android:textColor="@color/white"
+                    android:background="#B5000000"
+
+                    android:paddingHorizontal="10dp"
+
+
+
+
+                    />
+
+                <Button
+                    android:id="@+id/guidanceBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+
+
+                    android:background="#80ffffff"
+                    android:fontFamily="@font/aldrich"
+                    android:paddingHorizontal="10dp"
+                    android:text="Info"
+
+
+
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
+
+                <Button
+                    android:id="@+id/videoBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+
+
+                    android:layout_marginStart="0dp"
+
+                    android:background="#80ffffff"
+                    android:fontFamily="@font/aldrich"
+
+                    android:text="Video"
+
+                    android:textColor="@color/black"
+
+                    android:textSize="11sp"
+                    tools:ignore="HardcodedText" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+        <ImageView
+            android:id="@+id/plankhipDipsGifInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gif_plank_hip_dips"
+            android:layout_gravity="center"
+            android:paddingHorizontal="5dp"
+            android:layout_marginVertical="20dp"
+            android:visibility="visible"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:id="@+id/hip_dip_info"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guidance"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Starting position: "
+                android:textStyle="bold"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Begin in a standard plank position with the forearms on the ground, elbows directly under the shoulders and toes touching the floor. Keep the body in a straight line from head to heels, engaging the core and glutes."
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+
+
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hip dip movement: "
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Slowly rotate the hips to one side, bringing them closer to the ground without touching it. The rest of the body should remain stable and straight. Pause briefly at the bottom of the movement."
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Return to center:"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lift your hips back to the starting position, and repeat the hip dip movement on the opposite side."
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Repetition: "
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Perform the exercise for the desired number of repetitions or time intervals."
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="normal"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Benefits"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Core strength: "
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The exercise effectively targets and strengthens the entire core, enhancing stability and reducing risk of back pain and injuries."
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="normal"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Improved balance and coordination:"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The rotational aspect of the hip dip challenges balance and coordination, prompting better proprioception and overall body control."
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="normal"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enhanced flexibility: "
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Performing plank hip dips can lead to improved hip and spinal flexibility, especially as you gradually increase your range of motion."
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="normal"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Time efficiency:"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="As a compound exercise, plank hip dips work multiple muscle groups simultaneously, making it a time-efficient addition to your workout routine."
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="normal"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Overall"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Plank hip dips are an effective and dynamic variation of the traditional plank, offering a comprehensive workout for the core and other major muscle groups(glutes, shoulders, upper back, quadriceps, lower back)."
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:layout_marginTop="0dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="For more info visit:"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="https://www.sportskeeda.com/health-and-fitness/plank-dips-a-dynamic-core-strengthening-exercise"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:layout_marginTop="0dp"
+                android:autoLink="web"
+
+                />
+        </LinearLayout>
+
+
+
+
+
+        <WebView
+            android:id="@+id/plankHipDipsVideoInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="220sp"
+            android:paddingHorizontal="5dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            tools:ignore="WebViewLayout" />
+
+
+
+
+
+    </LinearLayout>
+
+</ScrollView>

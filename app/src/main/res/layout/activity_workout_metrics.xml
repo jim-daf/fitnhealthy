@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#DAE4D6D6"
+    android:id="@+id/workoutMetricsLayout"
+    >
+
+
+
+    <LinearLayout
+        android:id="@+id/workoutMetricsLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="17dp"
+        >
+
+
+
+
+
+        <TextView
+            android:id="@+id/title_workoutMetrics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="38dp"
+            android:fontFamily="@font/aldrich"
+            android:gravity="center"
+            android:text="Update your workout metrics"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#B5000000"
+
+            />
+
+
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            app:cardElevation="7dp"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="5dp"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cardview_stroke"/>
+
+            <TextView
+                android:id="@+id/levelOfExperienceTxtView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="What do you think is your workout level of experience?"
+                android:fontFamily="@font/aldrich"
+                android:textSize="14sp"
+                android:textColor="#B5000000"
+                android:paddingStart="18dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+
+                />
+
+
+            <Spinner
+                android:id="@+id/spinner_experienceLevel"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="50dp"
+                android:entries="@array/experience_values"
+
+                android:drawablePadding="5dp"
+                android:paddingStart="19dp"
+                android:fontFamily="@font/aldrich"
+                android:textSize="14sp"
+                />
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            app:cardElevation="7dp"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="5dp"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cardview_stroke"/>
+            <TextView
+                android:id="@+id/targetsTxtView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="What is your current target?"
+                android:fontFamily="@font/aldrich"
+                android:textSize="14sp"
+                android:textColor="#B5000000"
+                android:paddingStart="18dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+
+                />
+
+
+            <Spinner
+                android:id="@+id/spinner_targets"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="40dp"
+                android:entries="@array/targets"
+                android:paddingStart="19dp"
+                android:fontFamily="@font/aldrich"
+                android:textSize="14sp"
+                />
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            app:cardElevation="7dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="5dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cardview_stroke"/>
+            <TextView
+                android:id="@+id/frequencyTxtView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="How often do you train inside a week?"
+                android:fontFamily="@font/aldrich"
+                android:textSize="14sp"
+                android:textColor="#B5000000"
+                android:paddingStart="18dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+
+                />
+
+
+            <Spinner
+                android:id="@+id/spinnerFrequencyOfTraining"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="50dp"
+                android:paddingStart="19dp"
+                android:entries="@array/frequency_values"
+                android:fontFamily="@font/aldrich"
+                android:textSize="14sp"
+                />
+        </androidx.cardview.widget.CardView>
+
+
+
+        <Button
+            android:id="@+id/saveWorkoutData"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="65dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/input_background2"
+            android:fontFamily="@font/aldrich"
+            android:padding="15dp"
+            android:text="Save"
+            android:textColor="#B5000000"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+
+
+</ScrollView>

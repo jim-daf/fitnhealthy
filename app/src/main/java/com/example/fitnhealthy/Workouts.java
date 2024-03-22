@@ -53,7 +53,7 @@ public class Workouts extends AppCompatActivity {
     DatabaseReference databaseReference;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     String user_theme;
-    ScrollView homeLayout, workoutOptionsLayout, workoutsLayout, profileSetupLayout;
+    ScrollView homeLayout, workoutOptionsLayout, workoutsLayout, profileSetupLayout,settingsLayout, physicalDataLayout,workoutMetricsLayout;
     GridLayout gridLayout;
     LinearLayout cardContainer,cardContainer2,shortTimeWorkouts,otherWorkouts,myWorkouts;
 
@@ -83,9 +83,16 @@ public class Workouts extends AppCompatActivity {
         profileSetupLayout = (ScrollView) findViewById(R.id.profileSetupLayout);
         profileSetupLayout.setVisibility(View.GONE);
 
+        settingsLayout = (ScrollView) findViewById(R.id.settingsLayout);
+        settingsLayout.setVisibility(View.GONE);
+
+        physicalDataLayout = (ScrollView) findViewById(R.id.updatePhysicalDataLayout);
+        physicalDataLayout.setVisibility(View.GONE);
+
+        workoutMetricsLayout=(ScrollView) findViewById(R.id.workoutMetricsLayout);
+        workoutMetricsLayout.setVisibility(View.VISIBLE);
+
         // Nav Drawer
-        @SuppressLint("CutPasteId")
-        NavigationView navView = findViewById(R.id.nav_view);
         drawer = findViewById(R.id.drawerLayout);
         toolbar= findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -591,11 +598,11 @@ public class Workouts extends AppCompatActivity {
                     finish();
                 }
             }, 410);
-        } else if (item.getItemId()==R.id.nav_delete_acc) {
+        } else if (item.getItemId()==R.id.nav_settings) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(Workouts.this, Login.class);
+                    Intent intent = new Intent(Workouts.this, Settings.class);
                     startActivity(intent);
                     finish();
 
@@ -679,7 +686,7 @@ public class Workouts extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if (cardView.getId()==R.id.planks10mincard){
-                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        Intent intent = new Intent(Workouts.this, WorkoutExercises.class);
                         intent.putExtra("selected_theme",user_theme);
                         startActivity(intent);
                         finish();

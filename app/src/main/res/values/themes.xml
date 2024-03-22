@@ -10,7 +10,10 @@
         <item name="android:textColorSecondary">@color/navigationDrawerIconsColor</item>
 
     </style>
-
+    <style name="CustomDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:fontFamily">@font/aldrich</item>
+    </style>
     <style name="ToolbarColorTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:textColorSecondary">@color/black</item>

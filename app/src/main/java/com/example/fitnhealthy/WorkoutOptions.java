@@ -52,7 +52,7 @@ public class WorkoutOptions extends AppCompatActivity {
     String user_theme;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch switchTheme;
-    ScrollView homeLayout, workoutOptionsLayout,workoutsLayout,profileSetupLayout;
+    ScrollView homeLayout, workoutOptionsLayout,workoutsLayout,profileSetupLayout,settingsLayout, physicalDataLayout,workoutMetricsLayout;
     GridLayout gridLayout;
     public DrawerLayout drawer;
     Toolbar toolbar;
@@ -79,9 +79,16 @@ public class WorkoutOptions extends AppCompatActivity {
         profileSetupLayout = (ScrollView) findViewById(R.id.profileSetupLayout);
         profileSetupLayout.setVisibility(View.GONE);
 
+        settingsLayout = (ScrollView) findViewById(R.id.settingsLayout);
+        settingsLayout.setVisibility(View.GONE);
+
+        physicalDataLayout = (ScrollView) findViewById(R.id.updatePhysicalDataLayout);
+        physicalDataLayout.setVisibility(View.GONE);
+
+        workoutMetricsLayout=(ScrollView) findViewById(R.id.workoutMetricsLayout);
+        workoutMetricsLayout.setVisibility(View.GONE);
+
         // Nav Drawer
-        @SuppressLint("CutPasteId")
-        NavigationView navView = findViewById(R.id.nav_view);
         drawer = findViewById(R.id.drawerLayout);
         toolbar= findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -303,11 +310,11 @@ public class WorkoutOptions extends AppCompatActivity {
                     finish();
                 }
             }, 410);
-        } else if (item.getItemId()==R.id.nav_delete_acc) {
+        } else if (item.getItemId()==R.id.nav_settings) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(WorkoutOptions.this, Login.class);
+                    Intent intent = new Intent(WorkoutOptions.this, Settings.class);
                     startActivity(intent);
                     finish();
 

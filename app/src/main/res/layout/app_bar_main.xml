@@ -39,6 +39,9 @@
 
     <include  layout="@layout/activity_workout_options"/>
     <include  layout="@layout/activity_workouts_light"/>
+    <include  layout="@layout/activity_settings"/>
+    <include  layout="@layout/activity_update_physical_data"/>
+    <include  layout="@layout/activity_workout_metrics"/>
 
 
 

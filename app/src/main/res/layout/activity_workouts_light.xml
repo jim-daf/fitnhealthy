@@ -327,7 +327,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/aldrich"
-                        android:text="Short time workouts"
+                        android:text="Challenges"
                         android:textColor="#B5000000"
                         android:textSize="13sp"
                         android:textStyle="bold" />

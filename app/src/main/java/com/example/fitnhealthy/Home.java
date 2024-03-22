@@ -56,7 +56,7 @@ public class Home extends AppCompatActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch switchTheme;
     TextView homeTitleTextView;
-    ScrollView homeLayout,workoutOptionsLayout,workoutsLayout,profileSetupLayout;
+    ScrollView homeLayout,workoutOptionsLayout,workoutsLayout,profileSetupLayout,settingsLayout, physicalDataLayout,workoutMetricsLayout;
 
     ImageView sun,moon;
     GridLayout gridLayout;
@@ -78,11 +78,20 @@ public class Home extends AppCompatActivity {
         workoutsLayout=(ScrollView) findViewById(R.id.workoutsLayoutLight);
         workoutOptionsLayout =(ScrollView) findViewById(R.id.selectionCategoriesLayout);
         profileSetupLayout = (ScrollView) findViewById(R.id.profileSetupLayout);
+        settingsLayout = (ScrollView) findViewById(R.id.settingsLayout);
+
 
         workoutOptionsLayout.setVisibility(View.GONE);
         workoutsLayout.setVisibility(View.GONE);
         profileSetupLayout.setVisibility(View.GONE);
         homeLayout.setVisibility(View.VISIBLE);
+        settingsLayout.setVisibility(View.GONE);
+
+        physicalDataLayout = (ScrollView) findViewById(R.id.updatePhysicalDataLayout);
+        physicalDataLayout.setVisibility(View.GONE);
+
+        workoutMetricsLayout=(ScrollView) findViewById(R.id.workoutMetricsLayout);
+        workoutMetricsLayout.setVisibility(View.VISIBLE);
 
 
         gridLayout=(GridLayout) findViewById(R.id.gridLayout);
@@ -350,7 +359,6 @@ public class Home extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.overflow_menu, menu);
 
-
         return true;
 
     }
@@ -427,13 +435,14 @@ public class Home extends AppCompatActivity {
                     finish();
                 }
             }, 410);
-        } else if (item.getItemId()==R.id.nav_delete_acc) {
+        } else if (item.getItemId()==R.id.nav_settings) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(Home.this, Login.class);
+                    Intent intent = new Intent(Home.this, Settings.class);
+                    intent.putExtra("selected_theme",user_theme.toString());
                     startActivity(intent);
-                    finish();
+
 
                 }
             }, 410);
@@ -465,29 +474,9 @@ public class Home extends AppCompatActivity {
         super.onConfigurationChanged(newConfiguration);
         toggle.syncState();
     }
-    private void setToggleEvent(GridLayout mainGrid) {
-        //Loop all child item of Main.java Grid
-        for (int i = 0; i < mainGrid.getChildCount(); i++) {
-            //You can see , all child item is CardView , so we just cast object to CardView
-            final CardView cardView = (CardView) mainGrid.getChildAt(i);
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (cardView.getCardBackgroundColor().getDefaultColor() == -1) {
-                        //Change background color
-                        cardView.setCardBackgroundColor(Color.parseColor("#FF6F00"));
-                        Toast.makeText(Home.this, "State : True", Toast.LENGTH_SHORT).show();
+    /*
 
-                    } else {
-                        //Change background color
-                        cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                        Toast.makeText(Home.this, "State : False", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-    }
-
+*/
     private void setSingleEvent(GridLayout gridLayout) {
         //Loop all child item of Main.java Grid
         for (int i = 0; i < gridLayout.getChildCount(); i++) {
@@ -495,8 +484,6 @@ public class Home extends AppCompatActivity {
             if (gridLayout.getChildAt(i) instanceof CardView) {
                 CardView cardView = (CardView) gridLayout.getChildAt(i);
                 cardView.setOnClickListener(new View.OnClickListener() {
-
-
                     @Override
                     public void onClick(View view) {
                         if (cardView.getId() == findViewById(R.id.HomeCard).getId() ) {

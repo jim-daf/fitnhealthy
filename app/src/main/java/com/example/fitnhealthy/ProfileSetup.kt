@@ -58,11 +58,13 @@ class ProfileSetup : AppCompatActivity() {
         val workoutsLayout = findViewById<View>(R.id.workoutsLayoutLight) as ScrollView
         val workoutOptionsLayout = findViewById<View>(R.id.selectionCategoriesLayout) as ScrollView
         val profileSetupLayout = findViewById<View>(R.id.profileSetupLayout) as ScrollView
+        val settingsLayout = findViewById<View>(R.id.settingsLayout) as ScrollView
 
         homeLayout.visibility = View.GONE
         workoutOptionsLayout.visibility = View.GONE
         workoutsLayout.visibility = View.GONE
         profileSetupLayout.visibility = View.VISIBLE
+        settingsLayout.visibility = View.GONE
 
 
         imageRemoved=false
@@ -297,8 +299,6 @@ class ProfileSetup : AppCompatActivity() {
                 .start()
         }
         editTextImageRemove.setOnClickListener {
-
-
             imageRemoved=true
             FirebaseStorage.getInstance().getReference("/profileImages").child(currentUser!!.uid).delete().addOnSuccessListener {
                 Toast.makeText(this@ProfileSetup, "Image succesfully removed", Toast.LENGTH_SHORT)
@@ -331,40 +331,16 @@ class ProfileSetup : AppCompatActivity() {
                     if (usernameAlreadyExists) {
                         Toast.makeText(this@ProfileSetup, "Username already exists", Toast.LENGTH_SHORT)
                             .show()
-                    } /*else if (TextUtils.isEmpty(username) && TextUtils.isEmpty(age.toString()) && TextUtils.isEmpty(height.toString()) && TextUtils.isEmpty(weight.toString())) {
-                        Toast.makeText(this@ProfileSetup, "All fields are empty", Toast.LENGTH_SHORT).show()
-                    }
-                     */else if (username.length > 30) {
+                    } else if (username.length > 30) {
                         Toast.makeText(
                             this@ProfileSetup, "Username has too many characters",
                             Toast.LENGTH_SHORT
                         ).show()
-                    }/* else if (!age.toString().isEmpty() && (Integer.valueOf(age)<=0 || Integer.valueOf(age)>100)) {
-                        Toast.makeText(
-                            this@ProfileSetup,
-                            "Invalid input for field age",
-                            Toast.LENGTH_SHORT
-                        ).show()*/
-                    /* else if (!height.toString().isEmpty() && (height.toFloat()<0.50 || height.toFloat()>2.40)){
-                        Toast.makeText(
-                            this@ProfileSetup,
-                            "Invalid input for field height",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                     */
-                    /* else if (!weight.toString().isEmpty() && (weight.toFloat()<10 || weight.toFloat()>350)){
-                        Toast.makeText(
-                            this@ProfileSetup,
-                            "Invalid input for field weight",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
 
-                     */
+
+
                     else {
-
-
                         val currentUser=FirebaseAuth.getInstance().currentUser
                         if (currentUser != null) {
                             val storageReference=FirebaseStorage.getInstance().getReference("/profileImages").child(currentUser.uid)
@@ -391,27 +367,7 @@ class ProfileSetup : AppCompatActivity() {
                                     // Handle any errors
                                 }
                             }
-                            /*
-                            if(!TextUtils.isEmpty(age.toString())){
-                                FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.uid).child("age").setValue(Integer.valueOf(age)).addOnSuccessListener {
 
-
-                                }
-                            }
-
-
-                            if(!TextUtils.isEmpty(height.toString())){
-                                val heightFormatted = BigDecimal(height).setScale(2, RoundingMode.HALF_UP)
-
-                                FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.uid).child("height").setValue(heightFormatted.toDouble())
-                            }
-                            if(!TextUtils.isEmpty(weight.toString())){
-                                val weightFormatted = BigDecimal(weight).setScale(2, RoundingMode.HALF_UP)
-
-                                FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.uid).child("weight").setValue(weightFormatted.toDouble())
-                            }
-
-                             */
                             //FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.uid).child("experience").setValue(spinner.selectedItem.toString())
                             Toast.makeText(this@ProfileSetup, "New data saved", Toast.LENGTH_SHORT).show()
 
@@ -553,9 +509,9 @@ class ProfileSetup : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }, 410)
-        } else if (item.itemId == R.id.nav_delete_acc) {
+        } else if (item.itemId == R.id.nav_settings) {
             Handler().postDelayed({
-                val intent = Intent(this@ProfileSetup, Login::class.java)
+                val intent = Intent(this@ProfileSetup, Settings::class.java)
                 startActivity(intent)
                 finish()
             }, 410)
@@ -579,6 +535,7 @@ class ProfileSetup : AppCompatActivity() {
         super.onConfigurationChanged(newConfiguration)
         toggle!!.syncState()
     }
+    /*
     override fun onBackPressed() {
         // Create an intent to start a new activity
         val intent = Intent(this@ProfileSetup, Home::class.java)
@@ -589,4 +546,6 @@ class ProfileSetup : AppCompatActivity() {
 
         super.onBackPressed()
     }
+
+     */
 }

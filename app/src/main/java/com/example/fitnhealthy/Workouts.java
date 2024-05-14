@@ -45,6 +45,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 public class Workouts extends AppCompatActivity {
     FirebaseAuth auth;
@@ -56,6 +59,7 @@ public class Workouts extends AppCompatActivity {
     ScrollView homeLayout, workoutOptionsLayout, workoutsLayout, profileSetupLayout,settingsLayout, physicalDataLayout,workoutMetricsLayout;
     GridLayout gridLayout;
     LinearLayout cardContainer,cardContainer2,shortTimeWorkouts,otherWorkouts,myWorkouts;
+    List<String> plankWorkoutExercises;
 
     public DrawerLayout drawer;
     Toolbar toolbar;
@@ -156,6 +160,8 @@ public class Workouts extends AppCompatActivity {
 
             }
         });
+
+        plankWorkoutExercises= Arrays.asList("regularPlank", "mountainClimber", "plankHipDips", "DolphinPose", "PlankUpAndDown", "SidePlank");
 
         // Spinner setup
         Spinner spinner = (Spinner) findViewById(R.id.spinner_difficulty);
@@ -757,6 +763,7 @@ public class Workouts extends AppCompatActivity {
                         if (cardView.getId()==R.id.planks10mincard){
                             Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
                             intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("workoutExercises",plankWorkoutExercises.toArray());
                             startActivity(intent);
                             finish();
                         } else if (cardView.getId()==R.id.tabata4Card) {

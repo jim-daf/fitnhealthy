@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "fitnhealthy"
 include(":app")
- 
+include(":myapplication")

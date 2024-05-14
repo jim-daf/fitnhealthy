@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/inflatedLayoutInstructions"
+    android:background="@color/white"
+    android:padding="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:id="@+id/musicList"
+            >
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/music_settings"
+                android:text="Music Settings"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"
+
+
+                />
+            <CheckBox
+                android:id="@+id/checkboxTurnMusicOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Turn on"
+                android:fontFamily="@font/aldrich"
+                android:textColor="#B5000000"
+                android:textSize="15sp"
+                android:checked="true"
+                android:layout_marginHorizontal="10dp"/>
+            <CheckBox
+                android:id="@+id/checkboxTurnMusicOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Turn off"
+                android:fontFamily="@font/aldrich"
+                android:textColor="#B5000000"
+                android:textSize="15sp"
+                android:checked="false"
+                android:layout_marginHorizontal="10dp"/>
+            <CheckBox
+                android:id="@+id/saveMusicChoices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save my choices"
+                android:fontFamily="@font/aldrich"
+                android:textColor="#B5000000"
+                android:textSize="15sp"
+                android:checked="false"
+                android:layout_marginHorizontal="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select music"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"
+
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Recommended: "
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="5dp"
+
+                />
+
+            <CheckBox
+                android:id="@+id/checkboxRecMusic1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:checked="true"
+                android:fontFamily="@font/aldrich"
+                android:text="Recommended music 1"
+                android:textColor="#B5000000"
+                android:textSize="15sp" />
+
+            <CheckBox
+                android:id="@+id/checkboxRecMusic2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recommended music 2"
+                android:fontFamily="@font/aldrich"
+                android:textColor="#B5000000"
+                android:textSize="15sp"
+                android:checked="true"
+                android:layout_marginHorizontal="10dp"/>
+            <CheckBox
+                android:id="@+id/checkboxRecMusic3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recommended music 3"
+                android:fontFamily="@font/aldrich"
+                android:textColor="#B5000000"
+                android:textSize="15sp"
+                android:checked="true"
+                android:layout_marginHorizontal="10dp"/>
+            <CheckBox
+                android:id="@+id/checkboxRecMusic4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recommended music 4"
+                android:fontFamily="@font/aldrich"
+                android:textColor="#B5000000"
+                android:textSize="15sp"
+                android:checked="true"
+                android:layout_marginHorizontal="10dp"/>
+            <CheckBox
+                android:id="@+id/checkboxRecMusic5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recommended music 5"
+                android:fontFamily="@font/aldrich"
+                android:textColor="#B5000000"
+                android:textSize="15sp"
+                android:checked="true"
+                android:layout_marginHorizontal="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="My Music:"
+                android:textColor="#B5000000"
+                android:fontFamily="@font/aldrich"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="5dp"
+
+                />
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+</ScrollView>

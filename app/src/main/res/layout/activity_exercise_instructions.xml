@@ -91,7 +91,7 @@
 
 
         <ImageView
-            android:id="@+id/plankhipDipsGifInstructions"
+            android:id="@+id/instructionsAnimationGif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/gif_plank_hip_dips"
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
-            android:id="@+id/hip_dip_info"
+            android:id="@+id/exerciseInfo"
             >
             <TextView
                 android:layout_width="match_parent"
@@ -385,7 +385,7 @@
 
 
         <WebView
-            android:id="@+id/plankHipDipsVideoInstructions"
+            android:id="@+id/videoInstructions"
             android:layout_width="match_parent"
             android:layout_height="220sp"
             android:paddingHorizontal="5dp"

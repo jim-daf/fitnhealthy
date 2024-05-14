@@ -1,11 +1,25 @@
 package com.example.fitnhealthy;
 
+
+import static com.google.firebase.appcheck.internal.util.Logger.TAG;
+
+import android.provider.Settings;
+import android.Manifest;
+
+import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
+
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
+
+import android.os.Build;
+
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
@@ -19,11 +33,16 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+
+
+// If you are using a permission library, import the appropriate classes/interfaces for requesting permissions
+// For example, if you are using EasyPermissions library:
+import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.AppSettingsDialog;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
@@ -44,9 +63,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.List;
 
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     FirebaseAuth auth;
     FirebaseUser currentUser;
     String username,user_theme;
@@ -72,6 +92,77 @@ public class Home extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         currentUser=auth.getCurrentUser();
+        //Boolean checkStoragePermissions=checkStoragePermissions();
+        // Check if the permission has been granted
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            String[] perms = {Manifest.permission.READ_MEDIA_AUDIO,
+                    Manifest.permission.POST_NOTIFICATIONS};
+            if (EasyPermissions.hasPermissions(this, perms)) {
+                // Already have permission, do the thing
+                // ...
+            } else {
+                // Do not have permissions, request them now
+                EasyPermissions.requestPermissions(
+                        this,
+                        null,
+                        1,
+                        Manifest.permission.READ_MEDIA_AUDIO,
+                        Manifest.permission.POST_NOTIFICATIONS
+                );
+            }
+
+        } else {
+            String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.POST_NOTIFICATIONS};
+            if (EasyPermissions.hasPermissions(this, perms)) {
+                // Already have permission, do the thing
+                // ...
+            } else {
+                // Do not have permissions, request them now
+                EasyPermissions.requestPermissions(
+                        this,
+                        null,
+                        1,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.POST_NOTIFICATIONS
+                );
+            }
+
+        }
+        /*
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            final int STORAGE_PERMISSION_CODE = 23;
+            //Android is 11 (R) or above
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+                    intent.setData(uri);
+                    storageActivityResultLauncher.launch(intent);
+                }catch (Exception e){
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                    storageActivityResultLauncher.launch(intent);
+                }
+            }else{
+                //Below android 11
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{
+                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                android.Manifest.permission.READ_EXTERNAL_STORAGE
+                        },
+                        STORAGE_PERMISSION_CODE
+                );
+            }
+        }
+
+         */
+
 
         //Initialize layout visibilities
         homeLayout=(ScrollView) findViewById(R.id.homeScreenLayout);
@@ -355,6 +446,7 @@ public class Home extends AppCompatActivity {
 
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.overflow_menu, menu);
@@ -387,6 +479,7 @@ public class Home extends AppCompatActivity {
                 public void run() {
                     Intent intent = new Intent(Home.this, ProfileSetup.class);
                     intent.putExtra("selected_theme",user_theme.toString());
+                    intent.putExtra("navigatedFrom","homeScreen");
                     startActivity(intent);
                     finish();
                 }
@@ -518,6 +611,7 @@ public class Home extends AppCompatActivity {
                         } else if (cardView.getId()==findViewById(R.id.setProfileCard).getId()) {
                             Intent intent = new Intent(Home.this, ProfileSetup.class);
                             intent.putExtra("selected_theme",user_theme.toString());
+                            intent.putExtra("navigatedFrom","homeScreen");
                             startActivity(intent);
                             finish();
                         }else if (cardView.getId()==findViewById(R.id.logoutCard).getId()) {
@@ -544,6 +638,88 @@ public class Home extends AppCompatActivity {
 
         }
     }
+    /*
+    public boolean checkStoragePermissions(){
+
+            //Below android 11
+            int write = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            int read = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+
+
+            return read == PackageManager.PERMISSION_GRANTED && write == PackageManager.PERMISSION_GRANTED;
+
+    }
+    private ActivityResultLauncher<Intent> storageActivityResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>(){
+
+                        @Override
+                        public void onActivityResult(ActivityResult o) {
+                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                                //Android is 11 (R) or above
+                                if(Environment.isExternalStorageManager()){
+                                    //Manage External Storage Permissions Granted
+                                    Log.d(TAG, "onActivityResult: Manage External Storage Permissions Granted");
+                                }else{
+                                    Toast.makeText(Home.this, "Storage Permissions Denied", Toast.LENGTH_SHORT).show();
+                                }
+                            }else{
+                                //Below android 11
+
+                            }
+                        }
+                    });
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission has been granted, perform your desired action here
+            } else {
+                // Permission has been denied, handle accordingly
+            }
+        }
+    }
+    */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        // Some permissions have been granted
+        // ...
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
+
+        // (Optional) Check whether the user denied any permissions and checked "NEVER ASK AGAIN."
+        // This will display a dialog directing them to enable the permission in app settings.
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).build().show();
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
+            // Do something after user returned from app settings screen, like showing a Toast.
+
+        }
+    }
+
     @Override
     public void onBackPressed() {
         // Create an intent to start a new activity

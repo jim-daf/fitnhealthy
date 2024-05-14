@@ -367,6 +367,7 @@ public class Settings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Settings.this, ProfileSetup.class);
                 intent.putExtra("selected_theme",user_theme);
+                intent.putExtra("navigatedFrom","settingsScreen");
                 startActivity(intent);
                 finish();
             }
@@ -579,6 +580,7 @@ public class Settings extends AppCompatActivity {
                 public void run() {
                     Intent intent = new Intent(Settings.this, ProfileSetup.class);
                     intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("navigatedFrom","settingsScreen");
                     startActivity(intent);
                     finish();
                 }

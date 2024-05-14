@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="measure_status">Status: %1$s</string>
+    <string name="last_measured">Last measured:</string>
+    <string name="heart_rate_not_available">Heart rate not available on this device</string>
+    <string name="hello_world">Hello Square World!</string>
+    <string name="mobile_device_is_connected">Mobile device not paired</string>
+    <string name="mobile_message">Mobile message</string>
+    <string name="phone_message">Phone Message</string>
+    <string name="message">Message Content</string>
+    <string name="message_log">Message log</string>
+    <string name="init">...</string>
+    <string name="send_message_to_phone">Send Message to Phone</string>
+
+
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up</string>
+    <string name="click_to_sign_in">Already have an account? Log in</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="logout">Logout</string>
+    <string name="home"><u>Home</u></string>
+    <string name="workout">Workout</string>
+    <string name="hello_user">Hello User</string>
+    <string name="your_stats">Your stats</string>
+    <string name="count_your_steps">Count your steps</string>
+    <string name="test_your_knowledge">Test your knowledge</string>
+    <string name="set_up_your_profile">Set up your profile</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="create_account">Create Account</string>
+    <string name="return_to_login">Return to Login</string>
+    <string name="send_reset_link">Send reset link</string>
+    <string name="reset_password">Reset password</string>
+    <string name="update_user_profile_data">Update your profile data</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+    <string name="save_new_profile_data">Save new profile data</string>
+
+    <!-- For the data layer sample -->
+    <string name="waiting">Waiting for data to arrive\u2026</string>
+    <string name="query_other_devices">Query for other devices</string>
+    <string name="query_mobile_camera">Query for mobile camera</string>
+    <string name="no_device">No device provides the requested capabilities</string>
+    <string name="connected_nodes">Nodes: %1$s</string>
+    <string name="message_">Message</string>
+    <string name="capability_changed">Capability changed</string>
+    <string name="photo_placeholder">Photo placeholder</string>
+    <string name="captured_photo">Captured photo</string>
+    <string name="data_item_changed">DataItem changed</string>
+    <string name="data_item_deleted">DataItem deleted</string>
+    <string name="data_item_unknown">Unknown DataItem type</string>
+</resources>

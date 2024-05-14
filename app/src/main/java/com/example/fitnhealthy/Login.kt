@@ -2,10 +2,8 @@ package com.example.fitnhealthy
 
 //import com.google.auth.oauth2.GoogleCredentials
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -13,10 +11,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationManagerCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -32,6 +27,7 @@ class Login : AppCompatActivity() {
         //
         super.onStart()
 
+// Issue operations with healthConnectClient
 
 
     }
@@ -41,10 +37,6 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_splash_screen)
-
-
-
-
         auth=FirebaseAuth.getInstance()
 
 
@@ -83,12 +75,7 @@ class Login : AppCompatActivity() {
 
         }
         else{
-
             setContentView(R.layout.activity_login)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                requestNotificationPermission()
-            }
             auth = FirebaseAuth.getInstance()
             val signUpNow = findViewById<TextView>(R.id.signUpNow)
             val editTextEmail = findViewById<TextInputEditText>(R.id.email)
@@ -219,34 +206,13 @@ class Login : AppCompatActivity() {
     }
 
 
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission(),
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            // FCM SDK (and your app) can post notifications.
-        } else {
-
-        }
-    }
 
 
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun requestNotificationPermission() {
 
-        val notificationManagerCompat = NotificationManagerCompat.from(this)
-        val areNotificationsEnabled = notificationManagerCompat.areNotificationsEnabled()
 
-        if (!areNotificationsEnabled) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
-            //startActivityForResult(intent, NOTIFICATION_PERMISSION_REQUEST_CODE)
-        } else {
-            // Notifications are already enabled
-        }
-    }
+
 
 
 

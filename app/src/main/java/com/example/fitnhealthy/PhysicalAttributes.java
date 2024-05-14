@@ -108,7 +108,6 @@ public class PhysicalAttributes extends AppCompatActivity {
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
 
 

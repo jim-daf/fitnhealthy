@@ -44,6 +44,7 @@ class ProfileSetup : AppCompatActivity() {
     private var currentUser: FirebaseUser? = null
     private var newImageUploaded: Boolean? = null
     private var imageRemoved: Boolean? = null
+    private var navigatedFrom: String?=null
 
     
 
@@ -117,8 +118,10 @@ class ProfileSetup : AppCompatActivity() {
         val reference=FirebaseDatabase.getInstance().getReference("/Users")
         val currentUser=FirebaseAuth.getInstance().currentUser
 
+
         //UI Theme
         val intent = intent
+        navigatedFrom=intent.getStringExtra("navigatedFrom")
         user_theme = intent.getStringExtra("selected_theme")
         if (user_theme == "light") {
             toolbar!!.setBackgroundColor(Color.parseColor("#FFFFFF"))
@@ -535,17 +538,27 @@ class ProfileSetup : AppCompatActivity() {
         super.onConfigurationChanged(newConfiguration)
         toggle!!.syncState()
     }
-    /*
+
     override fun onBackPressed() {
+
         // Create an intent to start a new activity
-        val intent = Intent(this@ProfileSetup, Home::class.java)
-        intent.putExtra("selected_theme", user_theme.toString())
-        startActivity(intent)
-        // Finish the current activity
-        finish()
+        if (navigatedFrom.equals("homeScreen")){
+            val intent = Intent(this@ProfileSetup, Home::class.java)
+            intent.putExtra("selected_theme", user_theme.toString())
+            startActivity(intent)
+            // Finish the current activity
+            finish()
+        }else{
+            val intent = Intent(this@ProfileSetup, Settings::class.java)
+            intent.putExtra("selected_theme", user_theme.toString())
+            startActivity(intent)
+            // Finish the current activity
+            finish()
+        }
+
 
         super.onBackPressed()
     }
 
-     */
+
 }

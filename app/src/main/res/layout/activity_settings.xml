@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#DAE4D6D6"
     android:id="@+id/settingsLayout"
+    tools:context=".Settings"
     >
     <LinearLayout
         android:layout_width="match_parent"

@@ -314,9 +314,10 @@ public class WorkoutOptions extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(WorkoutOptions.this, Settings.class);
+                    Intent intent = new Intent(WorkoutOptions.this, com.example.fitnhealthy.Settings.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
-                    finish();
+
 
                 }
             }, 410);

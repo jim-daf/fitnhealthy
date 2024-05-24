@@ -13,14 +13,11 @@ import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 import android.widget.GridLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,9 +40,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,12 +54,16 @@ public class Workouts extends AppCompatActivity {
     ScrollView homeLayout, workoutOptionsLayout, workoutsLayout, profileSetupLayout,settingsLayout, physicalDataLayout,workoutMetricsLayout;
     GridLayout gridLayout;
     LinearLayout cardContainer,cardContainer2,shortTimeWorkouts,otherWorkouts,myWorkouts;
-    List<String> plankWorkoutExercises;
+    WorkoutExerciseSample[] plankWorkoutExercises;
+    WorkoutSample plankWorkout;
+    List<String> plankWorkoutExercisesTitles,plankWorkoutExercisesDurations;
+
 
     public DrawerLayout drawer;
     Toolbar toolbar;
 
     public ActionBarDrawerToggle toggle;
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -161,7 +160,57 @@ public class Workouts extends AppCompatActivity {
             }
         });
 
-        plankWorkoutExercises= Arrays.asList("regularPlank", "mountainClimber", "plankHipDips", "DolphinPose", "PlankUpAndDown", "SidePlank");
+        plankWorkout= new WorkoutSample();
+        plankWorkout.setTitleOfWorkout("Planks workout challenge");
+        plankWorkout.setNumOfExercises("10 workouts");
+        plankWorkout.setDuration("11 minutes");
+        plankWorkoutExercises = new WorkoutExerciseSample[10];
+
+        plankWorkoutExercises[0] = new WorkoutExerciseSample();
+        plankWorkoutExercises[0].setTitle("Regular plank");
+        plankWorkoutExercises[0].setDuration("45 sec");
+        plankWorkoutExercises[1] = new WorkoutExerciseSample();
+        plankWorkoutExercises[1].setTitle("Mountain Climber");
+        plankWorkoutExercises[1].setDuration("45 sec");
+        plankWorkoutExercises[2] = new WorkoutExerciseSample();
+        plankWorkoutExercises[2].setTitle("Dolphin pose");
+        plankWorkoutExercises[2].setDuration("45 sec");
+        plankWorkoutExercises[3] = new WorkoutExerciseSample();
+        plankWorkoutExercises[3].setTitle("Single leg plank");
+        plankWorkoutExercises[3].setDuration("45 sec");
+        plankWorkoutExercises[4] = new WorkoutExerciseSample();
+        plankWorkoutExercises[4].setTitle("Plank hip dips");
+        plankWorkoutExercises[4].setDuration("45 sec");
+        plankWorkoutExercises[5] = new WorkoutExerciseSample();
+        plankWorkoutExercises[5].setTitle("Side plank");
+        plankWorkoutExercises[5].setDuration("45 sec");
+        //plankWorkoutExercises[0].setGif(getResources().getDrawable(R.drawable.gif_plank_hip_dips,getTheme()));
+        plankWorkoutExercises[6] = new WorkoutExerciseSample();
+        plankWorkoutExercises[6].setTitle("Spiderman plank");
+        plankWorkoutExercises[6].setDuration("45 sec");
+        //plankWorkoutExercises[1].setGif(getResources().getDrawable(R.drawable.mountain_climber,getTheme()));
+
+        plankWorkoutExercises[7] = new WorkoutExerciseSample();
+        plankWorkoutExercises[7].setTitle("Single arm plank");
+        plankWorkoutExercises[7].setDuration("45 sec");
+        //plankWorkoutExercises[2].setGif(getResources().getDrawable(R.drawable.dolphin_pose,getTheme()));
+        plankWorkoutExercises[8] = new WorkoutExerciseSample();
+        plankWorkoutExercises[8].setTitle("Commando plank");
+        plankWorkoutExercises[8].setDuration("45 sec");
+        //plankWorkoutExercises[3].setGif(getResources().getDrawable(R.drawable.plank_up_down,getTheme()));
+
+        plankWorkoutExercises[9] = new WorkoutExerciseSample();
+        plankWorkoutExercises[9].setTitle("Plank jacks");
+        plankWorkoutExercises[9].setDuration("45 sec");
+        //plankWorkoutExercises[4].setGif(getResources().getDrawable(R.drawable.side_plank_left,getTheme()));
+        /*
+        for (int i = 0; i < plankWorkoutExercises.length; i++) {
+            plankWorkoutExercisesTitles.add(plankWorkoutExercises[i].getTitle());
+            plankWorkoutExercisesDurations.add(plankWorkoutExercises[i].getDuration());
+        }
+
+         */
+
 
         // Spinner setup
         Spinner spinner = (Spinner) findViewById(R.id.spinner_difficulty);
@@ -430,92 +479,6 @@ public class Workouts extends AppCompatActivity {
                 }
             });
         }
-
-        /*
-        // Theme selection
-
-
-         */
-
-
-
-
-        /*
-        // Theme change
-        switchTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                if (isChecked) {
-                    FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice").setValue("light");
-
-
-                    toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    toolbar.setTitleTextColor(Color.parseColor("#000000"));
-
-
-
-                    TextView title=findViewById(R.id.homeScreenTitleText);
-                    title.setTextColor(Color.parseColor("#B5000000"));
-                    for (int i = 0; i < gridLayout.getChildCount(); i++) {
-                        //You can see , all child item is CardView , so we just cast object to CardView
-                        if (gridLayout.getChildAt(i) instanceof CardView) {
-                            CardView cardView = (CardView) gridLayout.getChildAt(i);
-                            cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                            for (int j = 0; j < cardView.getChildCount(); j++) {
-                                if (cardView.getChildAt(j) instanceof LinearLayout) {
-                                    LinearLayout layout=(LinearLayout) cardView.getChildAt(j);
-                                    for (int k = 0; k < layout.getChildCount(); k++) {
-                                        if (layout.getChildAt(k) instanceof TextView) {
-                                            TextView txtView=(TextView) layout.getChildAt(k);
-                                            txtView.setTextColor(Color.parseColor("#B5000000"));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    workoutOptionsLayout.setBackgroundColor(Color.parseColor("#DAE4D6D6"));
-
-                }else {
-                    FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice").setValue("dark");
-                    //setTheme(androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dark);
-                    toolbar.setBackgroundColor(Color.parseColor("#E62E2D2D"));
-                    toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
-                    TextView title=findViewById(R.id.homeScreenTitleText);
-                    title.setTextColor(Color.parseColor("#FFFFFF"));
-                    for (int i = 0; i < gridLayout.getChildCount(); i++) {
-                        //You can see , all child item is CardView , so we just cast object to CardView
-                        if (gridLayout.getChildAt(i) instanceof CardView) {
-                            CardView cardView = (CardView) gridLayout.getChildAt(i);
-                            cardView.setCardBackgroundColor(Color.parseColor("#59585a"));
-                            for (int j = 0; j < cardView.getChildCount(); j++) {
-                                if (cardView.getChildAt(j) instanceof LinearLayout) {
-                                    LinearLayout layout=(LinearLayout) cardView.getChildAt(j);
-                                    for (int k = 0; k < layout.getChildCount(); k++) {
-                                        if (layout.getChildAt(k) instanceof TextView) {
-                                            TextView txtView=(TextView) layout.getChildAt(k);
-                                            txtView.setTextColor(Color.parseColor("#FFFFFF"));
-                                        }
-                                    }
-
-
-                                }
-                            }
-                        }
-                    }
-
-                    homeLayout.setBackgroundColor(Color.parseColor("#DA000000"));
-                }
-
-            }
-        });
-
-         */
-
-
-
     }
 
 
@@ -608,7 +571,8 @@ public class Workouts extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(Workouts.this, Settings.class);
+                    Intent intent = new Intent(Workouts.this, com.example.fitnhealthy.Settings.class);
+                    intent.putExtra("selected_theme",user_theme);
                     startActivity(intent);
                     finish();
 
@@ -694,16 +658,22 @@ public class Workouts extends AppCompatActivity {
                     if (cardView.getId()==R.id.planks10mincard){
                         Intent intent = new Intent(Workouts.this, WorkoutExercises.class);
                         intent.putExtra("selected_theme",user_theme);
+                        //intent.putStringArrayListExtra("workoutExercisesTitles", (ArrayList<String>) plankWorkoutExercisesTitles);
+                        //intent.putStringArrayListExtra("workoutExercisesDurations", (ArrayList<String>) plankWorkoutExercisesTitles);
+                        intent.putExtra("WorkoutExercises",plankWorkoutExercises);
+                        intent.putExtra("Workout",plankWorkout);
                         startActivity(intent);
                         finish();
                     } else if (cardView.getId()==R.id.tabata4Card) {
                         Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
                         intent.putExtra("selected_theme",user_theme);
+                        intent.putExtra("WorkoutExercises",plankWorkoutExercises);
                         startActivity(intent);
                         finish();
                     } else if (cardView.getId()==R.id.fatBurning10Card) {
                         Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
                         intent.putExtra("selected_theme",user_theme);
+                        intent.putExtra("WorkoutExercises",plankWorkoutExercises);
                         startActivity(intent);
                         finish();
                     }
@@ -763,7 +733,8 @@ public class Workouts extends AppCompatActivity {
                         if (cardView.getId()==R.id.planks10mincard){
                             Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
                             intent.putExtra("selected_theme",user_theme);
-                            intent.putExtra("workoutExercises",plankWorkoutExercises.toArray());
+                            intent.putStringArrayListExtra("workoutExercisesTitles", (ArrayList<String>) plankWorkoutExercisesTitles);
+                            intent.putStringArrayListExtra("workoutExercisesDurations", (ArrayList<String>) plankWorkoutExercisesTitles);
                             startActivity(intent);
                             finish();
                         } else if (cardView.getId()==R.id.tabata4Card) {
@@ -792,6 +763,7 @@ public class Workouts extends AppCompatActivity {
 
        
     }
+
     @Override
     public void onBackPressed() {
         // Create an intent to start a new activity

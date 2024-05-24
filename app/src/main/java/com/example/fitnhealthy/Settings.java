@@ -309,49 +309,8 @@ public class Settings extends AppCompatActivity {
             settingsLayout.setBackgroundColor(Color.parseColor("#DA000000"));
 
 
-        } else {
-            DatabaseReference reference=FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice");
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.getValue().equals("light")){
-                        //switchTheme.setChecked(true);
-
-
-
-
-                        //spinnerDropdownItemTxt.setTextColor(Color.parseColor("#FFFFFF"));
-
-                        //spinnerDropdownItemTxt.setBackgroundColor(Color.parseColor("#393737"));
-
-                        toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                        toolbar.setTitleTextColor(Color.parseColor("#000000"));
-
-
-
-                    } else if (snapshot.getValue().equals("dark")) {
-
-                        FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("ui_theme_choice").setValue("dark");
-
-                        toolbar.setBackgroundColor(Color.parseColor("#E62E2D2D"));
-                        toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
-                        TextView spinnerSelectedItemTxt = (TextView) findViewById(R.id.spinnerSelectedItemTxt);
-                        spinnerSelectedItemTxt.setTextColor(Color.parseColor("#FFFFFF"));
-                        spinner.getBackground().setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
-
-
-
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
         }
+
 
         updatePhysicalData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -367,7 +326,7 @@ public class Settings extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Settings.this, ProfileSetup.class);
                 intent.putExtra("selected_theme",user_theme);
-                intent.putExtra("navigatedFrom","settingsScreen");
+                //intent.putExtra("navigatedFrom","settingsScreen");
                 startActivity(intent);
                 finish();
             }
@@ -580,9 +539,9 @@ public class Settings extends AppCompatActivity {
                 public void run() {
                     Intent intent = new Intent(Settings.this, ProfileSetup.class);
                     intent.putExtra("selected_theme",user_theme);
-                    intent.putExtra("navigatedFrom","settingsScreen");
+                    //intent.putExtra("navigatedFrom","settingsScreen");
                     startActivity(intent);
-                    finish();
+
                 }
             }, 410);
         } else if (item.getItemId()==R.id.nav_workout) {
@@ -633,9 +592,7 @@ public class Settings extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(Settings.this, Settings.class);
-                    startActivity(intent);
-                    finish();
+                    //Nothing
 
                 }
             }, 410);

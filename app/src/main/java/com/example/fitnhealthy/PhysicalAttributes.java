@@ -450,11 +450,10 @@ public class PhysicalAttributes extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(PhysicalAttributes.this, Settings.class);
+                    Intent intent = new Intent(PhysicalAttributes.this, com.example.fitnhealthy.Settings.class);
                     intent.putExtra("selected_theme", user_theme);
                     startActivity(intent);
                     finish();
-
                 }
             }, 410);
 
@@ -485,16 +484,5 @@ public class PhysicalAttributes extends AppCompatActivity {
     public void onConfigurationChanged(@NonNull Configuration newConfiguration) {
         super.onConfigurationChanged(newConfiguration);
         toggle.syncState();
-    }
-    @Override
-    public void onBackPressed() {
-        // Create an intent to start a new activity
-
-        Intent intent = new Intent(PhysicalAttributes.this, Settings.class);
-        intent.putExtra("selected_theme",user_theme);
-        startActivity(intent);
-        // Finish the current activity
-        finish();
-        super.onBackPressed();
     }
 }

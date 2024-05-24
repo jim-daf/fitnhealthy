@@ -123,6 +123,7 @@
 
                 />
             <TextView
+                android:id="@+id/startingPositionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Starting position: "
@@ -135,6 +136,7 @@
 
                 />
             <TextView
+                android:id="@+id/startingPositionAnalysis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Begin in a standard plank position with the forearms on the ground, elbows directly under the shoulders and toes touching the floor. Keep the body in a straight line from head to heels, engaging the core and glutes."
@@ -148,6 +150,7 @@
 
 
             <TextView
+                android:id="@+id/SecondaryPositionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hip dip movement: "
@@ -160,6 +163,7 @@
 
                 />
             <TextView
+                android:id="@+id/SecondaryPositionAnalysis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Slowly rotate the hips to one side, bringing them closer to the ground without touching it. The rest of the body should remain stable and straight. Pause briefly at the bottom of the movement."
@@ -171,6 +175,7 @@
                 />
 
             <TextView
+                android:id="@+id/ThirdPositionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Return to center:"
@@ -183,6 +188,7 @@
 
                 />
             <TextView
+                android:id="@+id/ThirdPositionAnalysis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Lift your hips back to the starting position, and repeat the hip dip movement on the opposite side."
@@ -194,6 +200,7 @@
                 />
 
             <TextView
+                android:id="@+id/FinalPositionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Repetition: "
@@ -206,6 +213,7 @@
 
                 />
             <TextView
+                android:id="@+id/FinalPositionAnalysis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Perform the exercise for the desired number of repetitions or time intervals."
@@ -232,6 +240,7 @@
 
                 />
             <TextView
+                android:id="@+id/FirstBenefitTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Core strength: "
@@ -245,6 +254,7 @@
                 />
 
             <TextView
+                android:id="@+id/FirstBenefitAnalysis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="The exercise effectively targets and strengthens the entire core, enhancing stability and reducing risk of back pain and injuries."
@@ -257,6 +267,7 @@
 
                 />
             <TextView
+                android:id="@+id/SecondBenefitTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Improved balance and coordination:"
@@ -269,6 +280,7 @@
 
                 />
             <TextView
+                android:id="@+id/SecondBenefitAnalysis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="The rotational aspect of the hip dip challenges balance and coordination, prompting better proprioception and overall body control."
@@ -281,6 +293,7 @@
 
                 />
             <TextView
+                android:id="@+id/ThirdBenefitTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Enhanced flexibility: "
@@ -293,6 +306,7 @@
 
                 />
             <TextView
+                android:id="@+id/ThirdBenefitAnalysis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Performing plank hip dips can lead to improved hip and spinal flexibility, especially as you gradually increase your range of motion."
@@ -305,6 +319,7 @@
 
                 />
             <TextView
+                android:id="@+id/FourthBenefitTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Time efficiency:"
@@ -317,6 +332,7 @@
 
                 />
             <TextView
+                android:id="@+id/FourthBenefitAnalysis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="As a compound exercise, plank hip dips work multiple muscle groups simultaneously, making it a time-efficient addition to your workout routine."
@@ -343,6 +359,7 @@
 
                 />
             <TextView
+                android:id="@+id/Overall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Plank hip dips are an effective and dynamic variation of the traditional plank, offering a comprehensive workout for the core and other major muscle groups(glutes, shoulders, upper back, quadriceps, lower back)."
@@ -366,6 +383,7 @@
 
                 />
             <TextView
+                android:id="@+id/websiteLinkForExercise"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="https://www.sportskeeda.com/health-and-fitness/plank-dips-a-dynamic-core-strengthening-exercise"

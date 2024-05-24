@@ -473,13 +473,7 @@ class ProfileSetup : AppCompatActivity() {
             }, 410) // Delay in milliseconds
         } else if (item.itemId == R.id.nav_profile_setup) {
             Handler().postDelayed({
-                val intent = Intent(
-                    this@ProfileSetup,
-                    ProfileSetup::class.java
-                )
-                intent.putExtra("selected_theme", user_theme.toString())
-                startActivity(intent)
-                finish()
+                //Nothing
             }, 410)
         } else if (item.itemId == R.id.nav_workout) {
             Handler().postDelayed({
@@ -514,9 +508,10 @@ class ProfileSetup : AppCompatActivity() {
             }, 410)
         } else if (item.itemId == R.id.nav_settings) {
             Handler().postDelayed({
-                val intent = Intent(this@ProfileSetup, Settings::class.java)
+                val intent = Intent(this@ProfileSetup, com.example.fitnhealthy.Settings::class.java)
+                intent.putExtra("selected_theme", user_theme.toString())
                 startActivity(intent)
-                finish()
+
             }, 410)
         } else if (item.itemId == R.id.nav_diet) {
             Handler().postDelayed({
@@ -539,26 +534,7 @@ class ProfileSetup : AppCompatActivity() {
         toggle!!.syncState()
     }
 
-    override fun onBackPressed() {
 
-        // Create an intent to start a new activity
-        if (navigatedFrom.equals("homeScreen")){
-            val intent = Intent(this@ProfileSetup, Home::class.java)
-            intent.putExtra("selected_theme", user_theme.toString())
-            startActivity(intent)
-            // Finish the current activity
-            finish()
-        }else{
-            val intent = Intent(this@ProfileSetup, Settings::class.java)
-            intent.putExtra("selected_theme", user_theme.toString())
-            startActivity(intent)
-            // Finish the current activity
-            finish()
-        }
-
-
-        super.onBackPressed()
-    }
 
 
 }

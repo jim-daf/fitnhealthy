@@ -532,7 +532,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(Home.this, Settings.class);
+                    Intent intent = new Intent(Home.this, com.example.fitnhealthy.Settings.class);
                     intent.putExtra("selected_theme",user_theme.toString());
                     startActivity(intent);
 
@@ -611,9 +611,9 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                         } else if (cardView.getId()==findViewById(R.id.setProfileCard).getId()) {
                             Intent intent = new Intent(Home.this, ProfileSetup.class);
                             intent.putExtra("selected_theme",user_theme.toString());
-                            intent.putExtra("navigatedFrom","homeScreen");
+                            //intent.putExtra("navigatedFrom","homeScreen");
                             startActivity(intent);
-                            finish();
+
                         }else if (cardView.getId()==findViewById(R.id.logoutCard).getId()) {
                             auth.signOut();
                             Intent intent = new Intent(Home.this, Login.class);

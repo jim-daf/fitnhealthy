@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +44,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 
 public class PhysicalAttributes extends AppCompatActivity {
     FirebaseAuth auth;
@@ -51,7 +53,10 @@ public class PhysicalAttributes extends AppCompatActivity {
     Boolean allFilledFieldsSaved;
     DatabaseReference databaseReference;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    String user_theme,age,height,weight;
+    String user_theme,age,height,weight,goToWorkout;
+    String username,gender,experience,target;
+    private long ageLong;
+    private float weightFloat, heightFloat;
     ScrollView homeLayout, workoutOptionsLayout, workoutsLayout, profileSetupLayout, settingsLayout, physicalDataLayout;
     public DrawerLayout drawer;
     Toolbar toolbar;
@@ -59,6 +64,9 @@ public class PhysicalAttributes extends AppCompatActivity {
     TextInputEditText ageInputField, weightInputField, heightInputField;
     public ActionBarDrawerToggle toggle;
     Button saveBtn;
+    ArrayList<String> audioList,datesList,workoutTimesList;
+    ArrayList<Integer> caloriesList;
+    float[] avgHeartRatesList;
 
 
     @Override
@@ -170,7 +178,31 @@ public class PhysicalAttributes extends AppCompatActivity {
 
         //Get user theme
         Intent intent = getIntent();
+
+        caloriesList=new ArrayList<>();
+        workoutTimesList=new ArrayList<>();
+        datesList=new ArrayList<>();
+
         user_theme = intent.getStringExtra("selected_theme");
+        ageLong=intent.getLongExtra("age",0L);
+        weightFloat =intent.getFloatExtra("weight",0F);
+        heightFloat =intent.getFloatExtra("height",0F);
+        experience=intent.getStringExtra("experience");
+        target=intent.getStringExtra("target");
+        gender=intent.getStringExtra("gender");
+        username=intent.getStringExtra("username");
+        audioList=new ArrayList<>();
+        audioList=intent.getStringArrayListExtra("savedAudioList");
+        datesList=intent.getStringArrayListExtra("datesList");
+        caloriesList=intent.getIntegerArrayListExtra("caloriesList");
+        workoutTimesList=intent.getStringArrayListExtra("workoutTimesList");
+        avgHeartRatesList=new float[datesList.size()];
+        avgHeartRatesList=intent.getFloatArrayExtra("avgHeartRatesList");
+
+        goToWorkout=intent.getStringExtra("goToWorkout");
+        if (goToWorkout==null){
+            goToWorkout="";
+        }
 
         if (user_theme.equals("light")) {
             // Toolbar
@@ -309,6 +341,7 @@ public class PhysicalAttributes extends AppCompatActivity {
                 }else{
                     allFilledFieldsSaved=true;
                     if (!TextUtils.isEmpty(age)){
+                        ageLong=Integer.valueOf(age);
                         FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("age").setValue(Integer.valueOf(age)).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
@@ -324,7 +357,8 @@ public class PhysicalAttributes extends AppCompatActivity {
                         });
                     }
                     if(!TextUtils.isEmpty(weight.toString())){
-                        String weightFormatted = String.valueOf(BigDecimal.valueOf(Double.valueOf(weight)).setScale(2, RoundingMode.HALF_UP));
+                        String weightFormatted = String.valueOf(BigDecimal.valueOf(Float.valueOf(weight)).setScale(2, RoundingMode.HALF_UP));
+                        weightFloat =Float.parseFloat(weightFormatted);
                         FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("weight").setValue(Double.valueOf(weightFormatted)).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
@@ -333,7 +367,9 @@ public class PhysicalAttributes extends AppCompatActivity {
                         });
                     }
                     if(!TextUtils.isEmpty(height.toString())){
-                        String heightFormatted = String.valueOf(BigDecimal.valueOf(Double.valueOf(height)).setScale(2, RoundingMode.HALF_UP));
+
+                        String heightFormatted = String.valueOf(BigDecimal.valueOf(Float.valueOf(height)).setScale(2, RoundingMode.HALF_UP));
+                        heightFloat =Float.valueOf(heightFormatted);
                         FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid()).child("height").setValue(Double.valueOf(heightFormatted)).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
@@ -349,11 +385,53 @@ public class PhysicalAttributes extends AppCompatActivity {
                     });
                     if (allFilledFieldsSaved){
                         Toast.makeText(PhysicalAttributes.this, "Data saved", Toast.LENGTH_SHORT).show();
+                        if (goToWorkout.equals("goToWorkout")){
+                            Intent intent = new Intent(PhysicalAttributes.this, Workouts.class);
+                            intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("age",age);
+                            intent.putExtra("weight",weight);
+                            intent.putExtra("height",height);
+                            intent.putExtra("username",username);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("experience",experience);
+                            intent.putExtra("target",target);
+                            intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                            intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                            intent.putExtra("caloriesList",caloriesList);
+                            intent.putExtra("workoutTimesList",workoutTimesList);
+                            intent.putExtra("datesList",datesList);
+                            startActivity(intent);
+                            finish();
+                        }
+
                     }else {
                         Toast.makeText(PhysicalAttributes.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
 
                 }
+
+            }
+        });
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(PhysicalAttributes.this, Settings.class);
+                intent.putExtra("selected_theme",user_theme);
+                intent.putExtra("age",ageLong);
+                intent.putExtra("weight", weightFloat);
+                intent.putExtra("height", heightFloat);
+                intent.putExtra("username",username);
+                intent.putExtra("gender",gender);
+                intent.putExtra("experience",experience);
+                intent.putExtra("target",target);
+                intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                intent.putExtra("caloriesList",caloriesList);
+                intent.putExtra("workoutTimesList",workoutTimesList);
+                intent.putExtra("datesList",datesList);
+                startActivity(intent);
+                // Finish the current activity
+                finish();
             }
         });
 
@@ -387,7 +465,19 @@ public class PhysicalAttributes extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(PhysicalAttributes.this, Home.class);
-                    intent.putExtra("selected_theme", user_theme);
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",ageLong);
+                    intent.putExtra("weight", weightFloat);
+                    intent.putExtra("height", heightFloat);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
                 }
@@ -397,7 +487,19 @@ public class PhysicalAttributes extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(PhysicalAttributes.this, ProfileSetup.class);
-                    intent.putExtra("selected_theme", user_theme);
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",ageLong);
+                    intent.putExtra("weight", weightFloat);
+                    intent.putExtra("height", heightFloat);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
                 }
@@ -407,7 +509,19 @@ public class PhysicalAttributes extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(PhysicalAttributes.this, Home.class);
-                    intent.putExtra("selected_theme", user_theme);
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",ageLong);
+                    intent.putExtra("weight", weightFloat);
+                    intent.putExtra("height", heightFloat);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
                 }
@@ -417,7 +531,19 @@ public class PhysicalAttributes extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(PhysicalAttributes.this, Home.class);
-                    intent.putExtra("selected_theme", user_theme);
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",ageLong);
+                    intent.putExtra("weight", weightFloat);
+                    intent.putExtra("height", heightFloat);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
 
@@ -429,7 +555,19 @@ public class PhysicalAttributes extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(PhysicalAttributes.this, Home.class);
-                    intent.putExtra("selected_theme", user_theme);
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",ageLong);
+                    intent.putExtra("weight", weightFloat);
+                    intent.putExtra("height", heightFloat);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
 
@@ -451,7 +589,19 @@ public class PhysicalAttributes extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(PhysicalAttributes.this, com.example.fitnhealthy.Settings.class);
-                    intent.putExtra("selected_theme", user_theme);
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",ageLong);
+                    intent.putExtra("weight", weightFloat);
+                    intent.putExtra("height", heightFloat);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
                 }
@@ -462,7 +612,19 @@ public class PhysicalAttributes extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent intent = new Intent(PhysicalAttributes.this, Home.class);
-                    intent.putExtra("selected_theme", user_theme);
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",ageLong);
+                    intent.putExtra("weight", weightFloat);
+                    intent.putExtra("height", heightFloat);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
 

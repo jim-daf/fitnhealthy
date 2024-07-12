@@ -20,14 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         >
-        <ImageView
-            android:id="@+id/voice"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="9dp"
-            android:clickable="true"
-            android:src="@drawable/volume_up" />
+
         <ImageView
             android:id="@+id/music"
             android:layout_width="28dp"
@@ -118,7 +111,7 @@
         android:layout_marginBottom="4dp"
         android:fontFamily="@font/aldrich"
         android:gravity="center"
-        android:text="Remaining time"
+        android:text="Time"
         android:textColor="#B5000000"
         android:textSize="25sp"
 
@@ -136,7 +129,7 @@
         android:layout_marginBottom="68dp"
         android:fontFamily="@font/aldrich"
         android:gravity="center"
-        android:text="45"
+        android:text="00:00:00"
         android:textColor="#B5000000"
         android:textSize="30sp"
 
@@ -152,19 +145,37 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="64dp"
+        android:background="@drawable/pause_btn"
         android:fontFamily="@font/aldrich"
         android:gravity="center"
+        android:paddingHorizontal="45dp"
         android:text="PAUSE"
         android:textSize="15sp"
-        android:paddingHorizontal="65dp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/finishBtn"
+        app:layout_constraintHorizontal_bias="0.109"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/finishBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="64dp"
         android:background="@drawable/pause_btn"
+        android:fontFamily="@font/aldrich"
+        android:gravity="center"
+        android:paddingHorizontal="45dp"
+        android:text="FINISH"
+        android:textSize="15sp"
         android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toEndOf="@id/pauseBtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,7 +55,16 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
-
+    <string-array name="stats">
+        <item>Last month</item>
+        <item>Last 2 weeks</item>
+        <item>Last 4 weeks</item>
+        <item>Last 2 months</item>
+        <item>Last 4 months</item>
+        <item>Last 6 months</item>
+        <item>Last year</item>
+        <item>All time</item>
+    </string-array>
     <!-- For data layer example -->
     <string name="start_wearable_activity">Start Wearable Activity</string>
     <string name="take_photo">Take a Photo</string>

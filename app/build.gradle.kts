@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.fitnhealthy"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -19,6 +19,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        renderscriptTargetApi = 34
+        renderscriptSupportModeEnabled = true
     }
 
     buildTypes {
@@ -124,6 +126,11 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-dash:1.3.1")
     implementation("androidx.media3:media3-ui:1.3.1")
 
+    //For graph
+    //implementation("com.github.Pfuster12:LiveChart:1.3.5")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("jp.wasabeef:blurry:4.0.1")
+    //implementation("com.github.jrvansuita:GaussianBlur:+")
 
 
 

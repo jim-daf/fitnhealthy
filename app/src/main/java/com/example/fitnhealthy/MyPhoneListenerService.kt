@@ -16,11 +16,12 @@ import kotlinx.coroutines.withContext
 
 class MyPhoneListenerService : WearableListenerService() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private val firebaseUser=Firebase.auth.currentUser
-    private val floatList = ArrayList<Float>()
-    private val arraylistOfHeartRates=ArrayList<Float>()
+
+
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
     override fun onDestroy() {
+        //arraylistOfHeartRates.clear()
         scope.cancel()
         super.onDestroy()
     }
@@ -33,9 +34,14 @@ class MyPhoneListenerService : WearableListenerService() {
                 HEART_RATE_VALUES_PATH -> {
                     val currentUser = getCurrentUser()
                     Log.d(TAG, String(messageEvent.data))
-                    arraylistOfHeartRates.add(String(messageEvent.data).toFloat())
-                    Firebase.database.getReference("/Users").child(currentUser!!.uid).child("HeartRateValues").child("Session").setValue(arraylistOfHeartRates)
+                    if (String(messageEvent.data).toFloat().toInt() == 0){
+                        arraylistOfHeartRates.clear()
+                    }
+                    arraylistOfHeartRates.add(String(messageEvent.data).toFloat().toInt())
+
+                    //Firebase.database.getReference("/Users").child(currentUser!!.uid).child("HeartRateValues").child("Session").setValue(arraylistOfHeartRates)
                 }
+
             }
         }
     }
@@ -45,6 +51,8 @@ class MyPhoneListenerService : WearableListenerService() {
     companion object{
         private const val TAG = "PhoneListenerService"
         private const val HEART_RATE_VALUES_PATH = "/heart_rate_values"
+
+        var arraylistOfHeartRates=ArrayList<Int>()
     }
 
 }

@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -33,11 +34,19 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class WorkoutExercises extends AppCompatActivity{
     FirebaseAuth auth;
     FirebaseUser currentUser;
-    String user_theme;
+    String username,user_theme,gender,experience,target;
+    ArrayList<String> audioList,datesList,workoutTimesList;
+    ArrayList<Integer> caloriesList;
+    float[] avgHeartRatesList;
+    private long age;
+    private float weight,height;
     ScrollView workoutExercisesLayout;
     ImageView plankHipDips,plankUpDown,plankSide,mountainClimber,dolphinPose;
     LinearLayout cardContainer, info;
@@ -66,8 +75,26 @@ public class WorkoutExercises extends AppCompatActivity{
         currentUser.reload();
 
         Intent intent = getIntent();
-        user_theme = intent.getStringExtra("selected_theme");
 
+        caloriesList=new ArrayList<>();
+        workoutTimesList=new ArrayList<>();
+        datesList=new ArrayList<>();
+
+        user_theme = intent.getStringExtra("selected_theme");
+        age=intent.getLongExtra("age",0L);
+        weight=intent.getFloatExtra("weight",0F);
+        height=intent.getFloatExtra("height",0F);
+        experience=intent.getStringExtra("experience");
+        target=intent.getStringExtra("target");
+        gender=intent.getStringExtra("gender");
+        username=intent.getStringExtra("username");
+        audioList=new ArrayList<>();
+        audioList=intent.getStringArrayListExtra("savedAudioList");
+        datesList=intent.getStringArrayListExtra("datesList");
+        caloriesList=intent.getIntegerArrayListExtra("caloriesList");
+        workoutTimesList=intent.getStringArrayListExtra("workoutTimesList");
+        avgHeartRatesList=new float[datesList.size()];
+        avgHeartRatesList=intent.getFloatArrayExtra("avgHeartRatesList");
 
         /*
         // Put gifs to exercises
@@ -93,11 +120,23 @@ public class WorkoutExercises extends AppCompatActivity{
         if (workout.getTitleOfWorkout().equals("Planks workout challenge")){
             titleOfWorkout.setText("Planks workout challenge");
             durationOfWorkout.setText("11 mins | 10 workouts");
-        } else if (workout.getTitleOfWorkout().equals("Chest")) {
-            //TODO
-        } else if (workout.getTitleOfWorkout().equals("Legs")) {
-            //TODO
-        }else {
+        } else if (workout.getTitleOfWorkout().equals("Cycling")) {
+            titleOfWorkout.setText("Cycling");
+            durationOfWorkout.setText("");
+        } else if (workout.getTitleOfWorkout().equals("Walking")) {
+            titleOfWorkout.setText("Walking");
+            durationOfWorkout.setText("");
+        }else if (workout.getTitleOfWorkout().equals("Running")) {
+            titleOfWorkout.setText("Running");
+            durationOfWorkout.setText("");
+        }else if (workout.getTitleOfWorkout().equals("Tennis")) {
+            titleOfWorkout.setText("Tennis");
+            durationOfWorkout.setText("");
+        }else if (workout.getTitleOfWorkout().equals("Volleyball")) {
+            titleOfWorkout.setText("Volleyball");
+            durationOfWorkout.setText("");
+        }
+        else {
             //TODO
         }
         cardContainer=findViewById(R.id.workoutLinearLayout);
@@ -147,6 +186,16 @@ public class WorkoutExercises extends AppCompatActivity{
                     Glide.with(this).asGif().load(R.drawable.burpees).into(imageInCard);
                 } else if (workoutExerciseSamples[counter].getTitle().equals("Commando plank")) {
                     Glide.with(this).asGif().load(R.drawable.plank_up_down).into(imageInCard);
+                } else if (workoutExerciseSamples[counter].getTitle().equals("Cycling")) {
+                    Glide.with(this).asGif().load(R.drawable.cycling_anim).into(imageInCard);
+                } else if (workoutExerciseSamples[counter].getTitle().equals("Walking")) {
+                    Glide.with(this).asGif().load(R.drawable.walking_anim).into(imageInCard);
+                } else if (workoutExerciseSamples[counter].getTitle().equals("Running")) {
+                    Glide.with(this).asGif().load(R.drawable.running_anim).into(imageInCard);
+                } else if (workoutExerciseSamples[counter].getTitle().equals("Tennis")) {
+                    Glide.with(this).asGif().load(R.drawable.tennis_anim).into(imageInCard);
+                } else if (workoutExerciseSamples[counter].getTitle().equals("Volleyball")) {
+                    Glide.with(this).asGif().load(R.drawable.volley_anim).into(imageInCard);
                 }
                 cardContainer.addView(customCardView);
                 if (counter==workoutExercises.length-1){
@@ -189,16 +238,74 @@ public class WorkoutExercises extends AppCompatActivity{
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WorkoutExercises.this, SingleWorkout.class);
-                intent.putExtra("selected_theme",user_theme);
-                startActivity(intent);
-                finish();
+                if (titleOfWorkout.getText().equals("Cycling") || titleOfWorkout.getText().equals("Walking") || titleOfWorkout.getText().equals("Running") || titleOfWorkout.getText().equals("Tennis") || titleOfWorkout.getText().equals("Volleyball")){
+                    Intent intent = new Intent(WorkoutExercises.this, OtherWorkouts.class);
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putExtra("WorkoutExercises",workoutExercises);
+                    intent.putExtra("Workout",workout);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(WorkoutExercises.this, SingleWorkout.class);
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putExtra("WorkoutExercises",workoutExercises);
+                    intent.putExtra("Workout",workout);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         });
         videoEmbedRegularPlank="";
         videoEmbedHipDips="<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/em4gADvYvMA?si=42fam1s14od_NuNI\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>";
 
-
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Create an intent to start a new activity
+                Intent intent = new Intent(WorkoutExercises.this, Workouts.class);
+                intent.putExtra("selected_theme",user_theme);
+                intent.putExtra("age",age);
+                intent.putExtra("weight",weight);
+                intent.putExtra("height",height);
+                intent.putExtra("username",username);
+                intent.putExtra("gender",gender);
+                intent.putExtra("experience",experience);
+                intent.putExtra("target",target);
+                intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                intent.putExtra("caloriesList",caloriesList);
+                intent.putExtra("workoutTimesList",workoutTimesList);
+                intent.putExtra("datesList",datesList);
+                startActivity(intent);
+                // Finish the current activity
+                finish();
+            }
+        });
 
     }
 
@@ -241,9 +348,7 @@ public class WorkoutExercises extends AppCompatActivity{
         });
         colorAnimator.start();
     }
-    private void createGifCard(){
 
-    }
     private void setSingleEvent(LinearLayout cardContainer) {
         //Loop all child item of Main.java Grid
         for (int i = 0; i < cardContainer.getChildCount(); i++) {
@@ -280,7 +385,7 @@ public class WorkoutExercises extends AppCompatActivity{
                                         );
 
                             }
-                                 else if (title.getText().equals("Mountain climber")) {
+                                 else if (title.getText().equals("Mountain Climber")) {
                                     exerciseInstructions("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/kLh-uczlPLg?si=K1CW6-Hi5PiMcsRS\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
                                             ,R.drawable.mountain_climber,
                                             "Starting position: ",
@@ -302,7 +407,29 @@ public class WorkoutExercises extends AppCompatActivity{
                                             "This exercise can be a good choice for those who can’t do high-impact exercises. Having at least one foot on the ground at all times puts less stress on your joints.",
                                             "Mountain climbers are a great full-body workout because they engage the entire body for a high-intensity, low-impact workout.","https://www.wellandgood.com/mountain-climbers-muscles-worked/"
                                     );
-                                } else if (title.getText().equals("Dolphin pose")) {
+                                } else if (title.getText().equals("Regular plank")) {
+                                exerciseInstructions("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/kLh-uczlPLg?si=K1CW6-Hi5PiMcsRS\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+                                        ,R.drawable.regular_plank,
+                                        "Starting position: ",
+                                        "Start in a high plank position with your body in a straight line, your back straight and your shoulders over your wrists.",
+                                        "Mountain climber movement: ",
+                                        "Bring your right knee into your chest, keeping your left leg extended behind. As you return your right leg to the starting position, switch and bring your left knee into your chest.",
+                                        "Repetition: ",
+                                        "Continue alternating bringing your knees into your chest, ensuring your hips stay down in a plank position.\n" +
+                                                "If you feel comfortable, you can increase the speed of motion, ensuring proper form is maintained throughout.",
+                                        "",
+                                        "",
+                                        "Full-body strength ",
+                                        "The exercise effectively targets your core, shoulders, arms, and legs to overall strengthen your muscles and get the heart rate up.",
+                                        "Improved cardiovascular endurance:",
+                                        "Mountain climbers increase your heart rate to improve both your endurance and your cardiovascular health.",
+                                        "Boosted balance and coordination:",
+                                        "The action of putting your weight on one leg at a time helps develop balance and coordination over time.",
+                                        "Low-impact exercise",
+                                        "This exercise can be a good choice for those who can’t do high-impact exercises. Having at least one foot on the ground at all times puts less stress on your joints.",
+                                        "Mountain climbers are a great full-body workout because they engage the entire body for a high-intensity, low-impact workout.","https://www.wellandgood.com/mountain-climbers-muscles-worked/"
+                                );
+                            } else if (title.getText().equals("Dolphin pose")) {
                                     exerciseInstructions("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/5wsKWZWnnwA?si=55LaKTGc77QF4FMx\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
                                             ,R.drawable.dolphin_pose,
                                             "Starting position: ",
@@ -445,6 +572,16 @@ public class WorkoutExercises extends AppCompatActivity{
                                         "Strengthens your core without stressing your back:",
                                         "Unlike crunches and situps, side planks don’t put pressure on your lower back. Yet, this exercise does an excellent job of boosting your core strength.",
                                         "The side plank is one of the easiest ways to work the two layers of muscle along the sides of your core, known as your obliques. These muscles help you rotate and bend your trunk, and they also play a role in helping to protect your spine.","https://www.healthline.com/health/side-plank");
+                            }else if (title.getText().equals("Cycling")) {
+
+                            }else if (title.getText().equals("Walking")) {
+
+                            }else if (title.getText().equals("Running")) {
+
+                            }else if (title.getText().equals("Tennis")) {
+
+                            }else if (title.getText().equals("Volleyball")) {
+
                             }
                             }
                         }
@@ -623,17 +760,7 @@ public class WorkoutExercises extends AppCompatActivity{
 
 
 
-    @Override
-    public void onBackPressed() {
-        // Create an intent to start a new activity
 
-        Intent intent = new Intent(WorkoutExercises.this, Workouts.class);
-        intent.putExtra("selected_theme",user_theme);
-        startActivity(intent);
-        // Finish the current activity
-        finish();
-        super.onBackPressed();
-    }
 
 
 

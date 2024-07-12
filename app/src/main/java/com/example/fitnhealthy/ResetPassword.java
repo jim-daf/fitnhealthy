@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -75,18 +76,16 @@ public class ResetPassword extends AppCompatActivity {
             }
         });
 
-
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(ResetPassword.this, Login.class);
+                startActivity(intent);
+                // Finish the current activity
+                finish();
+            }
+        });
 
     }
-    @Override
-    public void onBackPressed() {
 
-        Intent intent = new Intent(ResetPassword.this, Login.class);
-        startActivity(intent);
-        // Finish the current activity
-        finish();
-
-
-        super.onBackPressed();
-    }
 }

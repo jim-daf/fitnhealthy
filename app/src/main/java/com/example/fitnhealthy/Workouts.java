@@ -20,6 +20,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,13 +50,18 @@ public class Workouts extends AppCompatActivity {
     FirebaseUser currentUser;
     ImageView profileImage;
     DatabaseReference databaseReference;
+    ArrayList<String> audioList,datesList,workoutTimesList;
+    ArrayList<Integer> caloriesList;
+    float[] avgHeartRatesList;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    String user_theme;
+    String username,user_theme,gender,experience,target;
+    private long age;
+    private float weight,height;
     ScrollView homeLayout, workoutOptionsLayout, workoutsLayout, profileSetupLayout,settingsLayout, physicalDataLayout,workoutMetricsLayout;
     GridLayout gridLayout;
     LinearLayout cardContainer,cardContainer2,shortTimeWorkouts,otherWorkouts,myWorkouts;
-    WorkoutExerciseSample[] plankWorkoutExercises;
-    WorkoutSample plankWorkout;
+    WorkoutExerciseSample[] plankWorkoutExercises,cyclingWorkoutExercises,walkingWorkoutExercises,runningWorkoutExercises,tennisWorkoutExercises,volleyWorkoutExercises;
+    WorkoutSample plankWorkout,cyclingWorkout,walkingWorkout,runningWorkout,tennisWorkout,volleyWorkout;
     List<String> plankWorkoutExercisesTitles,plankWorkoutExercisesDurations;
 
 
@@ -160,6 +166,51 @@ public class Workouts extends AppCompatActivity {
             }
         });
 
+        cyclingWorkout=new WorkoutSample();
+        cyclingWorkout.setTitleOfWorkout("Cycling");
+        cyclingWorkout.setDuration("");
+
+        cyclingWorkoutExercises=new WorkoutExerciseSample[1];
+        cyclingWorkoutExercises[0]=new WorkoutExerciseSample();
+        cyclingWorkoutExercises[0].setTitle("Cycling");
+        cyclingWorkoutExercises[0].setDuration("");
+
+        walkingWorkout=new WorkoutSample();
+        walkingWorkout.setTitleOfWorkout("Walking");
+        walkingWorkout.setDuration("");
+
+        walkingWorkoutExercises=new WorkoutExerciseSample[1];
+        walkingWorkoutExercises[0]=new WorkoutExerciseSample();
+        walkingWorkoutExercises[0].setTitle("Walking");
+        walkingWorkoutExercises[0].setDuration("");
+
+        runningWorkout=new WorkoutSample();
+        runningWorkout.setTitleOfWorkout("Running");
+        runningWorkout.setDuration("");
+
+        runningWorkoutExercises=new WorkoutExerciseSample[1];
+        runningWorkoutExercises[0]=new WorkoutExerciseSample();
+        runningWorkoutExercises[0].setTitle("Running");
+        runningWorkoutExercises[0].setDuration("");
+
+        tennisWorkout=new WorkoutSample();
+        tennisWorkout.setTitleOfWorkout("Tennis");
+        tennisWorkout.setDuration("");
+
+        tennisWorkoutExercises=new WorkoutExerciseSample[1];
+        tennisWorkoutExercises[0]=new WorkoutExerciseSample();
+        tennisWorkoutExercises[0].setTitle("Tennis");
+        tennisWorkoutExercises[0].setDuration("");
+
+        volleyWorkout=new WorkoutSample();
+        volleyWorkout.setTitleOfWorkout("Volleyball");
+        volleyWorkout.setDuration("");
+
+        volleyWorkoutExercises=new WorkoutExerciseSample[1];
+        volleyWorkoutExercises[0]=new WorkoutExerciseSample();
+        volleyWorkoutExercises[0].setTitle("Volleyball");
+        volleyWorkoutExercises[0].setDuration("");
+
         plankWorkout= new WorkoutSample();
         plankWorkout.setTitleOfWorkout("Planks workout challenge");
         plankWorkout.setNumOfExercises("10 workouts");
@@ -219,7 +270,25 @@ public class Workouts extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinner.setAdapter(adapter);
         Intent intent = getIntent();
+        caloriesList=new ArrayList<>();
+        workoutTimesList=new ArrayList<>();
+        datesList=new ArrayList<>();
+
         user_theme = intent.getStringExtra("selected_theme");
+        age=intent.getLongExtra("age",0L);
+        weight=intent.getFloatExtra("weight",0F);
+        height=intent.getFloatExtra("height",0F);
+        experience=intent.getStringExtra("experience");
+        target=intent.getStringExtra("target");
+        gender=intent.getStringExtra("gender");
+        username=intent.getStringExtra("username");
+        audioList=new ArrayList<>();
+        audioList=intent.getStringArrayListExtra("savedAudioList");
+        datesList=intent.getStringArrayListExtra("datesList");
+        caloriesList=intent.getIntegerArrayListExtra("caloriesList");
+        workoutTimesList=intent.getStringArrayListExtra("workoutTimesList");
+        avgHeartRatesList=new float[datesList.size()];
+        avgHeartRatesList=intent.getFloatArrayExtra("avgHeartRatesList");
 
         if (user_theme.equals("light")){
             toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -479,6 +548,29 @@ public class Workouts extends AppCompatActivity {
                 }
             });
         }
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Create an intent to start a new activity
+                Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                intent.putExtra("selected_theme",user_theme);
+                intent.putExtra("age",age);
+                intent.putExtra("weight",weight);
+                intent.putExtra("height",height);
+                intent.putExtra("username",username);
+                intent.putExtra("gender",gender);
+                intent.putExtra("experience",experience);
+                intent.putExtra("target",target);
+                intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                intent.putExtra("caloriesList",caloriesList);
+                intent.putExtra("workoutTimesList",workoutTimesList);
+                intent.putExtra("datesList",datesList);
+                startActivity(intent);
+                // Finish the current activity
+                finish();
+            }
+        });
     }
 
 
@@ -509,6 +601,18 @@ public class Workouts extends AppCompatActivity {
                 public void run() {
                     Intent intent = new Intent(Workouts.this, Home.class);
                     intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
                 }
@@ -519,6 +623,18 @@ public class Workouts extends AppCompatActivity {
                 public void run() {
                     Intent intent = new Intent(Workouts.this, ProfileSetup.class);
                     intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
                 }
@@ -529,6 +645,18 @@ public class Workouts extends AppCompatActivity {
                 public void run() {
                     Intent intent = new Intent(Workouts.this, Home.class);
                     intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
                 }
@@ -539,6 +667,18 @@ public class Workouts extends AppCompatActivity {
                 public void run() {
                     Intent intent = new Intent(Workouts.this, Home.class);
                     intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
 
@@ -551,6 +691,18 @@ public class Workouts extends AppCompatActivity {
                 public void run() {
                     Intent intent = new Intent(Workouts.this, Home.class);
                     intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
 
@@ -573,8 +725,20 @@ public class Workouts extends AppCompatActivity {
                 public void run() {
                     Intent intent = new Intent(Workouts.this, com.example.fitnhealthy.Settings.class);
                     intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
-                    finish();
+
 
                 }
             }, 410);
@@ -585,6 +749,18 @@ public class Workouts extends AppCompatActivity {
                 public void run() {
                     Intent intent = new Intent(Workouts.this, Home.class);
                     intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
 
@@ -658,22 +834,56 @@ public class Workouts extends AppCompatActivity {
                     if (cardView.getId()==R.id.planks10mincard){
                         Intent intent = new Intent(Workouts.this, WorkoutExercises.class);
                         intent.putExtra("selected_theme",user_theme);
-                        //intent.putStringArrayListExtra("workoutExercisesTitles", (ArrayList<String>) plankWorkoutExercisesTitles);
-                        //intent.putStringArrayListExtra("workoutExercisesDurations", (ArrayList<String>) plankWorkoutExercisesTitles);
+                        intent.putExtra("age",age);
+                        intent.putExtra("weight",weight);
+                        intent.putExtra("height",height);
+                        intent.putExtra("username",username);
+                        intent.putExtra("gender",gender);
+                        intent.putExtra("experience",experience);
+                        intent.putExtra("target",target);
+                        intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                        intent.putExtra("caloriesList",caloriesList);
+                        intent.putExtra("workoutTimesList",workoutTimesList);
+                        intent.putExtra("datesList",datesList);
                         intent.putExtra("WorkoutExercises",plankWorkoutExercises);
                         intent.putExtra("Workout",plankWorkout);
+                        intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
                         startActivity(intent);
                         finish();
                     } else if (cardView.getId()==R.id.tabata4Card) {
                         Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
                         intent.putExtra("selected_theme",user_theme);
+                        intent.putExtra("age",age);
+                        intent.putExtra("weight",weight);
+                        intent.putExtra("height",height);
+                        intent.putExtra("username",username);
+                        intent.putExtra("gender",gender);
+                        intent.putExtra("experience",experience);
+                        intent.putExtra("target",target);
                         intent.putExtra("WorkoutExercises",plankWorkoutExercises);
+                        intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                        intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                        intent.putExtra("caloriesList",caloriesList);
+                        intent.putExtra("workoutTimesList",workoutTimesList);
+                        intent.putExtra("datesList",datesList);
                         startActivity(intent);
                         finish();
                     } else if (cardView.getId()==R.id.fatBurning10Card) {
                         Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
                         intent.putExtra("selected_theme",user_theme);
+                        intent.putExtra("age",age);
+                        intent.putExtra("weight",weight);
+                        intent.putExtra("height",height);
+                        intent.putExtra("username",username);
+                        intent.putExtra("gender",gender);
+                        intent.putExtra("experience",experience);
+                        intent.putExtra("target",target);
                         intent.putExtra("WorkoutExercises",plankWorkoutExercises);
+                        intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                        intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                        intent.putExtra("caloriesList",caloriesList);
+                        intent.putExtra("workoutTimesList",workoutTimesList);
+                        intent.putExtra("datesList",datesList);
                         startActivity(intent);
                         finish();
                     }
@@ -688,33 +898,98 @@ public class Workouts extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if (cardView.getId()==R.id.volleyCard){
-                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        Intent intent = new Intent(Workouts.this, WorkoutExercises.class);
                         intent.putExtra("selected_theme",user_theme);
+                        intent.putExtra("age",age);
+                        intent.putExtra("weight",weight);
+                        intent.putExtra("height",height);
+                        intent.putExtra("username",username);
+                        intent.putExtra("gender",gender);
+                        intent.putExtra("experience",experience);
+                        intent.putExtra("target",target);
+                        intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                        intent.putExtra("WorkoutExercises",volleyWorkoutExercises);
+                        intent.putExtra("Workout",volleyWorkout);
+                        intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                        intent.putExtra("caloriesList",caloriesList);
+                        intent.putExtra("workoutTimesList",workoutTimesList);
+                        intent.putExtra("datesList",datesList);
                         startActivity(intent);
                         finish();
                     } else if (cardView.getId()==R.id.tennisCard) {
-                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        Intent intent = new Intent(Workouts.this, WorkoutExercises.class);
                         intent.putExtra("selected_theme",user_theme);
+                        intent.putExtra("age",age);
+                        intent.putExtra("weight",weight);
+                        intent.putExtra("height",height);
+                        intent.putExtra("username",username);
+                        intent.putExtra("gender",gender);
+                        intent.putExtra("experience",experience);
+                        intent.putExtra("target",target);
+                        intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                        intent.putExtra("WorkoutExercises",tennisWorkoutExercises);
+                        intent.putExtra("Workout",tennisWorkout);
+                        intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                        intent.putExtra("caloriesList",caloriesList);
+                        intent.putExtra("workoutTimesList",workoutTimesList);
+                        intent.putExtra("datesList",datesList);
                         startActivity(intent);
                         finish();
                     } else if (cardView.getId()==R.id.walkingCard) {
-                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        Intent intent = new Intent(Workouts.this, WorkoutExercises.class);
                         intent.putExtra("selected_theme",user_theme);
-                        startActivity(intent);
-                        finish();
-                    } else if (cardView.getId()==R.id.walkingCard) {
-                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
-                        intent.putExtra("selected_theme",user_theme);
+                        intent.putExtra("age",age);
+                        intent.putExtra("weight",weight);
+                        intent.putExtra("height",height);
+                        intent.putExtra("username",username);
+                        intent.putExtra("gender",gender);
+                        intent.putExtra("experience",experience);
+                        intent.putExtra("target",target);
+                        intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                        intent.putExtra("WorkoutExercises",walkingWorkoutExercises);
+                        intent.putExtra("Workout",walkingWorkout);
+                        intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                        intent.putExtra("caloriesList",caloriesList);
+                        intent.putExtra("workoutTimesList",workoutTimesList);
+                        intent.putExtra("datesList",datesList);
                         startActivity(intent);
                         finish();
                     } else if (cardView.getId()==R.id.runningCard) {
-                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        Intent intent = new Intent(Workouts.this, WorkoutExercises.class);
                         intent.putExtra("selected_theme",user_theme);
+                        intent.putExtra("age",age);
+                        intent.putExtra("weight",weight);
+                        intent.putExtra("height",height);
+                        intent.putExtra("username",username);
+                        intent.putExtra("gender",gender);
+                        intent.putExtra("experience",experience);
+                        intent.putExtra("target",target);
+                        intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                        intent.putExtra("WorkoutExercises",runningWorkoutExercises);
+                        intent.putExtra("Workout",runningWorkout);
+                        intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                        intent.putExtra("caloriesList",caloriesList);
+                        intent.putExtra("workoutTimesList",workoutTimesList);
+                        intent.putExtra("datesList",datesList);
                         startActivity(intent);
                         finish();
                     } else if (cardView.getId()==R.id.cyclingCard) {
-                        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
+                        Intent intent = new Intent(Workouts.this, WorkoutExercises.class);
                         intent.putExtra("selected_theme",user_theme);
+                        intent.putExtra("age",age);
+                        intent.putExtra("weight",weight);
+                        intent.putExtra("height",height);
+                        intent.putExtra("username",username);
+                        intent.putExtra("gender",gender);
+                        intent.putExtra("experience",experience);
+                        intent.putExtra("target",target);
+                        intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                        intent.putExtra("WorkoutExercises",cyclingWorkoutExercises);
+                        intent.putExtra("Workout",cyclingWorkout);
+                        intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                        intent.putExtra("caloriesList",caloriesList);
+                        intent.putExtra("workoutTimesList",workoutTimesList);
+                        intent.putExtra("datesList",datesList);
                         startActivity(intent);
                         finish();
                     }
@@ -733,18 +1008,54 @@ public class Workouts extends AppCompatActivity {
                         if (cardView.getId()==R.id.planks10mincard){
                             Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
                             intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("age",age);
+                            intent.putExtra("weight",weight);
+                            intent.putExtra("height",height);
+                            intent.putExtra("username",username);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("experience",experience);
+                            intent.putExtra("target",target);
+                            intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
                             intent.putStringArrayListExtra("workoutExercisesTitles", (ArrayList<String>) plankWorkoutExercisesTitles);
                             intent.putStringArrayListExtra("workoutExercisesDurations", (ArrayList<String>) plankWorkoutExercisesTitles);
+                            intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                            intent.putExtra("caloriesList",caloriesList);
+                            intent.putExtra("workoutTimesList",workoutTimesList);
+                            intent.putExtra("datesList",datesList);
                             startActivity(intent);
                             finish();
                         } else if (cardView.getId()==R.id.tabata4Card) {
                             Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
                             intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("age",age);
+                            intent.putExtra("weight",weight);
+                            intent.putExtra("height",height);
+                            intent.putExtra("username",username);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("experience",experience);
+                            intent.putExtra("target",target);
+                            intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                            intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                            intent.putExtra("caloriesList",caloriesList);
+                            intent.putExtra("workoutTimesList",workoutTimesList);
+                            intent.putExtra("datesList",datesList);
                             startActivity(intent);
                             finish();
                         } else if (cardView.getId()==R.id.fatBurning10Card) {
                             Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
                             intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("age",age);
+                            intent.putExtra("weight",weight);
+                            intent.putExtra("height",height);
+                            intent.putExtra("username",username);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("experience",experience);
+                            intent.putExtra("target",target);
+                            intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                            intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                            intent.putExtra("caloriesList",caloriesList);
+                            intent.putExtra("workoutTimesList",workoutTimesList);
+                            intent.putExtra("datesList",datesList);
                             startActivity(intent);
                             finish();
                         }
@@ -754,25 +1065,7 @@ public class Workouts extends AppCompatActivity {
 
 
         }
-
-
-          
-
-
-
-
-       
     }
 
-    @Override
-    public void onBackPressed() {
-        // Create an intent to start a new activity
 
-        Intent intent = new Intent(Workouts.this, WorkoutOptions.class);
-        intent.putExtra("selected_theme",user_theme);
-        startActivity(intent);
-        // Finish the current activity
-        finish();
-        super.onBackPressed();
-    }
 }

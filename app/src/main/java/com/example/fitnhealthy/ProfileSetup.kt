@@ -46,6 +46,18 @@ class ProfileSetup : AppCompatActivity() {
     private var imageRemoved: Boolean? = null
     private var navigatedFrom: String?=null
 
+    private var username: String? = null
+
+    private var gender: String? = null
+    private var experience: String? = null
+    private var target: String? = null
+
+    private var age: Long? = null
+    private var weight: Float? = null
+    private var height: Float? = null
+
+    var audioList: java.util.ArrayList<String>? = null
+
     
 
 
@@ -121,8 +133,18 @@ class ProfileSetup : AppCompatActivity() {
 
         //UI Theme
         val intent = intent
-        navigatedFrom=intent.getStringExtra("navigatedFrom")
+        //navigatedFrom=intent.getStringExtra("navigatedFrom")
         user_theme = intent.getStringExtra("selected_theme")
+        age = intent.getLongExtra("age", 0L)
+        weight = intent.getFloatExtra("weight", 0F)
+        height = intent.getFloatExtra("height", 0F)
+        experience = intent.getStringExtra("experience")
+        target = intent.getStringExtra("target")
+        gender = intent.getStringExtra("gender")
+        username = intent.getStringExtra("username")
+        audioList = ArrayList<String>()
+        audioList = intent.getStringArrayListExtra("savedAudioList")
+
         if (user_theme == "light") {
             toolbar!!.setBackgroundColor(Color.parseColor("#FFFFFF"))
             toolbar!!.setTitleTextColor(Color.parseColor("#000000"))
@@ -383,6 +405,13 @@ class ProfileSetup : AppCompatActivity() {
 
             fetchData(username, fetchDataCallback)
         }
+        /*onBackPressedDispatcher.addCallback(this,object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                //TODO
+            }
+        })
+
+         */
     }
     interface FetchDataCallback {
         fun onDataFetched(usernameAlreadyExists: Boolean)
@@ -467,7 +496,18 @@ class ProfileSetup : AppCompatActivity() {
         if (item.itemId == R.id.nav_home) {
             Handler().postDelayed({
                 val intent = Intent(this@ProfileSetup, Home::class.java)
-                intent.putExtra("selected_theme", user_theme.toString())
+                intent.putExtra("selected_theme", user_theme)
+                intent.putExtra("age", age)
+                intent.putExtra("weight", weight)
+                intent.putExtra("height", height)
+                intent.putExtra("username", username)
+                intent.putExtra("gender", gender)
+                intent.putExtra("experience", experience)
+                intent.putExtra("target", target)
+                intent.putStringArrayListExtra(
+                    "savedAudioList",
+                    audioList as java.util.ArrayList<String?>?
+                )
                 startActivity(intent)
                 finish()
             }, 410) // Delay in milliseconds
@@ -481,21 +521,54 @@ class ProfileSetup : AppCompatActivity() {
                     this@ProfileSetup,
                     WorkoutOptions::class.java
                 )
-                intent.putExtra("selected_theme", user_theme.toString())
+                intent.putExtra("selected_theme", user_theme)
+                intent.putExtra("age", age)
+                intent.putExtra("weight", weight)
+                intent.putExtra("height", height)
+                intent.putExtra("username", username)
+                intent.putExtra("gender", gender)
+                intent.putExtra("experience", experience)
+                intent.putExtra("target", target)
+                intent.putStringArrayListExtra(
+                    "savedAudioList",
+                    audioList as java.util.ArrayList<String?>?
+                )
                 startActivity(intent)
                 finish()
             }, 410)
         } else if (item.itemId == R.id.nav_stats) {
             Handler().postDelayed({
                 val intent = Intent(this@ProfileSetup, Home::class.java)
-                intent.putExtra("selected_theme", user_theme.toString())
+                intent.putExtra("selected_theme", user_theme)
+                intent.putExtra("age", age)
+                intent.putExtra("weight", weight)
+                intent.putExtra("height", height)
+                intent.putExtra("username", username)
+                intent.putExtra("gender", gender)
+                intent.putExtra("experience", experience)
+                intent.putExtra("target", target)
+                intent.putStringArrayListExtra(
+                    "savedAudioList",
+                    audioList as java.util.ArrayList<String?>?
+                )
                 startActivity(intent)
                 finish()
             }, 410)
         } else if (item.itemId == R.id.nav_quiz) {
             Handler().postDelayed({
                 val intent = Intent(this@ProfileSetup, Home::class.java)
-                intent.putExtra("selected_theme", user_theme.toString())
+                intent.putExtra("selected_theme", user_theme)
+                intent.putExtra("age", age)
+                intent.putExtra("weight", weight)
+                intent.putExtra("height", height)
+                intent.putExtra("username", username)
+                intent.putExtra("gender", gender)
+                intent.putExtra("experience", experience)
+                intent.putExtra("target", target)
+                intent.putStringArrayListExtra(
+                    "savedAudioList",
+                    audioList as java.util.ArrayList<String?>?
+                )
                 startActivity(intent)
                 finish()
             }, 410)
@@ -509,14 +582,37 @@ class ProfileSetup : AppCompatActivity() {
         } else if (item.itemId == R.id.nav_settings) {
             Handler().postDelayed({
                 val intent = Intent(this@ProfileSetup, com.example.fitnhealthy.Settings::class.java)
-                intent.putExtra("selected_theme", user_theme.toString())
+                intent.putExtra("selected_theme", user_theme)
+                intent.putExtra("age", age)
+                intent.putExtra("weight", weight)
+                intent.putExtra("height", height)
+                intent.putExtra("username", username)
+                intent.putExtra("gender", gender)
+                intent.putExtra("experience", experience)
+                intent.putExtra("target", target)
+                intent.putStringArrayListExtra(
+                    "savedAudioList",
+                    audioList as java.util.ArrayList<String?>?
+                )
                 startActivity(intent)
 
             }, 410)
         } else if (item.itemId == R.id.nav_diet) {
             Handler().postDelayed({
                 val intent = Intent(this@ProfileSetup, Home::class.java)
-                intent.putExtra("selected_theme", user_theme.toString())
+                intent.putExtra("selected_theme", user_theme)
+                intent.putExtra("age", age)
+                intent.putExtra("weight", weight)
+                intent.putExtra("height", height)
+                intent.putExtra("username", username)
+                intent.putExtra("gender", gender)
+                intent.putExtra("experience", experience)
+                intent.putExtra("target", target)
+                intent.putStringArrayListExtra(
+                    "savedAudioList",
+                    audioList as java.util.ArrayList<String?>?
+                )
+
                 startActivity(intent)
                 finish()
             }, 410)

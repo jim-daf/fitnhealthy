@@ -12,6 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnhealthy.R.id.signInNow
+import com.example.fitnhealthy.SingleWorkout.Audio
+import com.example.fitnhealthy.models.Session
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -27,6 +29,11 @@ class SignUp : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
+    private lateinit var audioList: ArrayList<String>
+    private var averageHeartRate: Float = 0f
+    private lateinit var date: String
+    private var calories: Int = 0
+    private lateinit var workoutTime: String
 
 
     public override fun onStart() {
@@ -81,9 +88,22 @@ class SignUp : AppCompatActivity() {
             val experience="Beginner"
             val file = null
             val ui_theme_choice="light"
-            val age = null
-            val height = null
-            val weight = null
+            val age = 0L
+            val height = 0F
+            val weight = 0F
+            val gender = ""
+            val target = ""
+            audioList = ArrayList<String>()
+            audioList.add("default")
+            averageHeartRate=0f
+            calories=0
+            workoutTime=""
+            date=""
+
+
+
+
+
 
 
 
@@ -138,7 +158,11 @@ class SignUp : AppCompatActivity() {
                                 progressBar.visibility=View.GONE
                                 if (task.isSuccessful) {
                                     val user = auth.currentUser
-                                    val newUser = User(username, email, experience,file,ui_theme_choice,age,height,weight)
+                                    val newUser = User(username, email, experience,file,ui_theme_choice,age,height,weight,target,gender,
+                                        audioList
+                                    )
+                                    val userSession = Session(averageHeartRate,calories,workoutTime,date)
+
                                     database.child("/Users").child(user!!.uid).setValue(newUser).addOnSuccessListener {
                                         Toast.makeText(
                                             this@SignUp,
@@ -168,6 +192,7 @@ class SignUp : AppCompatActivity() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
+                                    database.child("/Users").child(user.uid).child("Sessions").setValue(userSession)
 
 
                                 } else {

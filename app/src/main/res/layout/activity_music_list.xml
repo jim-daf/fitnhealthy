@@ -104,57 +104,17 @@
 
                 />
 
+
             <CheckBox
-                android:id="@+id/checkboxRecMusic1"
+                android:id="@+id/checkboxRecMusic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:checked="true"
+                android:checked="false"
                 android:fontFamily="@font/aldrich"
-                android:text="Recommended music 1"
+                android:text="Default playlist"
                 android:textColor="#B5000000"
                 android:textSize="15sp" />
-
-            <CheckBox
-                android:id="@+id/checkboxRecMusic2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recommended music 2"
-                android:fontFamily="@font/aldrich"
-                android:textColor="#B5000000"
-                android:textSize="15sp"
-                android:checked="true"
-                android:layout_marginHorizontal="10dp"/>
-            <CheckBox
-                android:id="@+id/checkboxRecMusic3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recommended music 3"
-                android:fontFamily="@font/aldrich"
-                android:textColor="#B5000000"
-                android:textSize="15sp"
-                android:checked="true"
-                android:layout_marginHorizontal="10dp"/>
-            <CheckBox
-                android:id="@+id/checkboxRecMusic4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recommended music 4"
-                android:fontFamily="@font/aldrich"
-                android:textColor="#B5000000"
-                android:textSize="15sp"
-                android:checked="true"
-                android:layout_marginHorizontal="10dp"/>
-            <CheckBox
-                android:id="@+id/checkboxRecMusic5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recommended music 5"
-                android:fontFamily="@font/aldrich"
-                android:textColor="#B5000000"
-                android:textSize="15sp"
-                android:checked="true"
-                android:layout_marginHorizontal="10dp"/>
 
             <TextView
                 android:layout_width="match_parent"

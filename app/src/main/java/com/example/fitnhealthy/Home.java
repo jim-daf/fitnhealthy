@@ -3,10 +3,11 @@ package com.example.fitnhealthy;
 
 import static com.google.firebase.appcheck.internal.util.Logger.TAG;
 
-import android.provider.Settings;
 import android.Manifest;
 
 import android.os.Bundle;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,7 +36,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 
-
 // If you are using a permission library, import the appropriate classes/interfaces for requesting permissions
 // For example, if you are using EasyPermissions library:
 import pub.devrel.easypermissions.EasyPermissions;
@@ -58,23 +58,29 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class Home extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     FirebaseAuth auth;
     FirebaseUser currentUser;
-    String username,user_theme;
+    String username,user_theme,gender,experience,target;
+    private long age;
+    private float weight,height;
+    ArrayList<String> audioList,datesList,workoutTimesList;
+    ArrayList<Integer> caloriesList;
+    float[] avgHeartRatesList;
     ImageView profileImage;
     DatabaseReference databaseReference;
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch switchTheme;
+
     TextView homeTitleTextView;
     ScrollView homeLayout,workoutOptionsLayout,workoutsLayout,profileSetupLayout,settingsLayout, physicalDataLayout,workoutMetricsLayout;
 
@@ -82,6 +88,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
     GridLayout gridLayout;
     public DrawerLayout drawer;
     Toolbar toolbar;
+
 
     public ActionBarDrawerToggle toggle;
     @Override
@@ -211,8 +218,13 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         //UI Theme
         Intent intent =  getIntent();
         user_theme = intent.getStringExtra("selected_theme");
+
+
+
+
         switchTheme=findViewById(R.id.switchTheme);
         if(user_theme.equals("light")){
+
             switchTheme.setChecked(true);
             switchTheme.getThumbDrawable().setColorFilter(Color.parseColor("#B5000000"), PorterDuff.Mode.MULTIPLY);
             switchTheme.getTrackDrawable().setColorFilter(Color.parseColor("#8c8c8c"),PorterDuff.Mode.MULTIPLY);
@@ -223,7 +235,6 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
             sun=findViewById(R.id.sun);
             sun.setImageResource(R.drawable.ic_sun);
             moon.setImageResource(R.drawable.ic_moon);
-
 
             TextView title=findViewById(R.id.homeScreenTitleText);
             title.setTextColor(Color.parseColor("#B5000000"));
@@ -269,10 +280,34 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 }
             });
         }
+        caloriesList=new ArrayList<>();
+        workoutTimesList=new ArrayList<>();
+        datesList=new ArrayList<>();
 
 
+        age=intent.getLongExtra("age",0L);
+        weight=intent.getFloatExtra("weight",0F);
+        height=intent.getFloatExtra("height",0F);
+        experience=intent.getStringExtra("experience");
+        target=intent.getStringExtra("target");
+        gender=intent.getStringExtra("gender");
+        username=intent.getStringExtra("username");
+        audioList=new ArrayList<>();
+        audioList=intent.getStringArrayListExtra("savedAudioList");
+        datesList=intent.getStringArrayListExtra("datesList");
+        caloriesList=intent.getIntegerArrayListExtra("caloriesList");
+        workoutTimesList=intent.getStringArrayListExtra("workoutTimesList");
+        avgHeartRatesList=new float[datesList.size()];
+        avgHeartRatesList=intent.getFloatArrayExtra("avgHeartRatesList");
+
+
+        //Toast.makeText(this, audioList.toString(), Toast.LENGTH_SHORT).show();
+
+
+        homeTitleTextView=findViewById(R.id.homeScreenTitleText);
+        homeTitleTextView.setText("Hello "+ username.toString());
         databaseReference = FirebaseDatabase.getInstance().getReference("/Users");
-        Query emailQuery = databaseReference.orderByChild("email").equalTo(currentUser.getEmail());
+        //Query emailQuery = databaseReference.orderByChild("email").equalTo(currentUser.getEmail());
         DatabaseReference imageUri=FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.getUid());
         // Get an instance of FirebaseStorage
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -313,8 +348,8 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
             }
         });
 
-        homeTitleTextView=findViewById(R.id.homeScreenTitleText);
-        emailQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        /*emailQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot child : snapshot.getChildren()) {
@@ -333,6 +368,8 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
             }
         });
+
+         */
 
 
 
@@ -440,7 +477,29 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         //setToggleEvent(gridLayout);
 
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+// Create an intent to start a new activity
 
+                Intent intent = new Intent(Home.this, Home.class);
+                intent.putExtra("selected_theme",user_theme);
+                intent.putExtra("age",age);
+                intent.putExtra("weight",weight);
+                intent.putExtra("height",height);
+                intent.putExtra("username",username);
+                intent.putExtra("gender",gender);
+                intent.putExtra("experience",experience);
+                intent.putExtra("target",target);
+                intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                intent.putExtra("caloriesList",caloriesList);
+                intent.putExtra("workoutTimesList",workoutTimesList);
+                intent.putExtra("datesList",datesList);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 
@@ -468,7 +527,19 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 @Override
                 public void run() {
                     Intent intent = new Intent(Home.this, Home.class);
-                    intent.putExtra("selected_theme",user_theme.toString());
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
                 }
@@ -478,8 +549,19 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 @Override
                 public void run() {
                     Intent intent = new Intent(Home.this, ProfileSetup.class);
-                    intent.putExtra("selected_theme",user_theme.toString());
-                    intent.putExtra("navigatedFrom","homeScreen");
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
                 }
@@ -489,7 +571,19 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 @Override
                 public void run() {
                     Intent intent = new Intent(Home.this, WorkoutOptions.class);
-                    intent.putExtra("selected_theme",user_theme.toString());
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
                 }
@@ -499,7 +593,19 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 @Override
                 public void run() {
                     Intent intent = new Intent(Home.this, Home.class);
-                    intent.putExtra("selected_theme",user_theme.toString());
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
 
@@ -511,7 +617,19 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 @Override
                 public void run() {
                     Intent intent = new Intent(Home.this, Home.class);
-                    intent.putExtra("selected_theme",user_theme.toString());
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
 
@@ -533,8 +651,21 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 @Override
                 public void run() {
                     Intent intent = new Intent(Home.this, com.example.fitnhealthy.Settings.class);
-                    intent.putExtra("selected_theme",user_theme.toString());
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
+
 
 
                 }
@@ -545,7 +676,19 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 @Override
                 public void run() {
                     Intent intent = new Intent(Home.this, Home.class);
-                    intent.putExtra("selected_theme",user_theme.toString());
+                    intent.putExtra("selected_theme",user_theme);
+                    intent.putExtra("age",age);
+                    intent.putExtra("weight",weight);
+                    intent.putExtra("height",height);
+                    intent.putExtra("username",username);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("experience",experience);
+                    intent.putExtra("target",target);
+                    intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                    intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                    intent.putExtra("caloriesList",caloriesList);
+                    intent.putExtra("workoutTimesList",workoutTimesList);
+                    intent.putExtra("datesList",datesList);
                     startActivity(intent);
                     finish();
 
@@ -582,47 +725,152 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                         if (cardView.getId() == findViewById(R.id.HomeCard).getId() ) {
 
                             Intent intent = new Intent(Home.this, Home.class);
-                            intent.putExtra("selected_theme",user_theme.toString());
+                            intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("age",age);
+                            intent.putExtra("weight",weight);
+                            intent.putExtra("height",height);
+                            intent.putExtra("username",username);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("experience",experience);
+                            intent.putExtra("target",target);
+                            intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                            intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                            intent.putExtra("caloriesList",caloriesList);
+                            intent.putExtra("workoutTimesList",workoutTimesList);
+                            intent.putExtra("datesList",datesList);
                             startActivity(intent);
                             finish();
 
                         } else if (cardView.getId() == findViewById(R.id.StatsCard).getId()) {
-                            Intent intent = new Intent(Home.this, Home.class);
-                            intent.putExtra("selected_theme",user_theme.toString());
+                            Intent intent = new Intent(Home.this, WorkoutStats.class);
+                            intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("age",age);
+                            intent.putExtra("weight",weight);
+                            intent.putExtra("height",height);
+                            intent.putExtra("username",username);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("experience",experience);
+                            intent.putExtra("target",target);
+                            intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                            intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                            intent.putExtra("caloriesList",caloriesList);
+                            intent.putExtra("workoutTimesList",workoutTimesList);
+                            intent.putExtra("datesList",datesList);
                             startActivity(intent);
                             finish();
-                        } else if (cardView.getId() == findViewById(R.id.StepsCard).getId()) {
+                        } else if (cardView.getId() == findViewById(R.id.ProgressCard).getId()) {
                             Intent intent = new Intent(Home.this, Home.class);
-                            intent.putExtra("selected_theme",user_theme.toString());
+                            intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("age",age);
+                            intent.putExtra("weight",weight);
+                            intent.putExtra("height",height);
+                            intent.putExtra("username",username);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("experience",experience);
+                            intent.putExtra("target",target);
+                            intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                            intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                            intent.putExtra("caloriesList",caloriesList);
+                            intent.putExtra("workoutTimesList",workoutTimesList);
+                            intent.putExtra("datesList",datesList);
                             startActivity(intent);
                             finish();
 
-                        } else if (cardView.getId() == findViewById(R.id.WorkoutCard).getId()) {
-                            Intent intent = new Intent(Home.this, WorkoutOptions.class);
-                            intent.putExtra("selected_theme",user_theme.toString());
+                        } else if (cardView.getId() == findViewById(R.id.settingsCard).getId()) {
+                            Intent intent = new Intent(Home.this, com.example.fitnhealthy.Settings.class);
+                            intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("age",age);
+                            intent.putExtra("weight",weight);
+                            intent.putExtra("height",height);
+                            intent.putExtra("username",username);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("experience",experience);
+                            intent.putExtra("target",target);
+                            intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                            intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                            intent.putExtra("caloriesList",caloriesList);
+                            intent.putExtra("workoutTimesList",workoutTimesList);
+                            intent.putExtra("datesList",datesList);
                             startActivity(intent);
                             finish();
+
+                        }
+                        else if (cardView.getId() == findViewById(R.id.WorkoutCard).getId()) {
+                            if (age==0L || height==0L || weight==0L || gender.equals("")){
+                                Intent intent = new Intent(Home.this, PhysicalAttributes.class);
+                                intent.putExtra("selected_theme",user_theme);
+                                intent.putExtra("age",age);
+                                intent.putExtra("weight",weight);
+                                intent.putExtra("height",height);
+                                intent.putExtra("username",username);
+                                intent.putExtra("gender",gender);
+                                intent.putExtra("experience",experience);
+                                intent.putExtra("target",target);
+                                intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                                intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                                intent.putExtra("caloriesList",caloriesList);
+                                intent.putExtra("workoutTimesList",workoutTimesList);
+                                intent.putExtra("datesList",datesList);
+                                startActivity(intent);
+                                finish();
+                            }else {
+                                Intent intent = new Intent(Home.this, WorkoutOptions.class);
+                                intent.putExtra("selected_theme",user_theme);
+                                intent.putExtra("age",age);
+                                intent.putExtra("weight",weight);
+                                intent.putExtra("height",height);
+                                intent.putExtra("username",username);
+                                intent.putExtra("gender",gender);
+                                intent.putExtra("experience",experience);
+                                intent.putExtra("target",target);
+                                intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                                intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                                intent.putExtra("caloriesList",caloriesList);
+                                intent.putExtra("workoutTimesList",workoutTimesList);
+                                intent.putExtra("datesList",datesList);
+                                startActivity(intent);
+                                finish();
+                            }
+
 
                         } else if (cardView.getId() == findViewById(R.id.dietCard).getId()) {
                             Intent intent = new Intent(Home.this, Home.class);
-                            intent.putExtra("selected_theme",user_theme.toString());
+                            intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("age",age);
+                            intent.putExtra("weight",weight);
+                            intent.putExtra("height",height);
+                            intent.putExtra("username",username);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("experience",experience);
+                            intent.putExtra("target",target);
+                            intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                            intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                            intent.putExtra("caloriesList",caloriesList);
+                            intent.putExtra("workoutTimesList",workoutTimesList);
+                            intent.putExtra("datesList",datesList);
                             startActivity(intent);
                             finish();
                         } else if (cardView.getId()==findViewById(R.id.setProfileCard).getId()) {
                             Intent intent = new Intent(Home.this, ProfileSetup.class);
-                            intent.putExtra("selected_theme",user_theme.toString());
-                            //intent.putExtra("navigatedFrom","homeScreen");
+                            intent.putExtra("selected_theme",user_theme);
+                            intent.putExtra("age",age);
+                            intent.putExtra("weight",weight);
+                            intent.putExtra("height",height);
+                            intent.putExtra("username",username);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("experience",experience);
+                            intent.putExtra("target",target);
+                            intent.putStringArrayListExtra("savedAudioList", (ArrayList<String>) audioList);
+                            intent.putExtra("avgHeartRatesList",avgHeartRatesList);
+                            intent.putExtra("caloriesList",caloriesList);
+                            intent.putExtra("workoutTimesList",workoutTimesList);
+                            intent.putExtra("datesList",datesList);
                             startActivity(intent);
+                            finish();
 
                         }else if (cardView.getId()==findViewById(R.id.logoutCard).getId()) {
                             auth.signOut();
                             Intent intent = new Intent(Home.this, Login.class);
-                            startActivity(intent);
-                            finish();
-
-                        } else if (cardView.getId()==findViewById(R.id.quizCard).getId()) {
-                            Intent intent = new Intent(Home.this, Home.class);
-                            intent.putExtra("selected_theme",user_theme.toString());
                             startActivity(intent);
                             finish();
 
@@ -720,16 +968,6 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        // Create an intent to start a new activity
 
-        Intent intent = new Intent(Home.this, Home.class);
-        intent.putExtra("selected_theme",user_theme);
-        startActivity(intent);
-        // Finish the current activity
-        finish();
-        super.onBackPressed();
-    }
 }
 

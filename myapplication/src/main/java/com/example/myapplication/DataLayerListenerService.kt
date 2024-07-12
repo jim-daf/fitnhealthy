@@ -2,7 +2,9 @@ package com.example.myapplication
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Parcel
 import android.util.Log
+
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.Wearable
@@ -22,9 +24,16 @@ class DataLayerListenerService : WearableListenerService() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
+
+
+
+
+
+
     @SuppressLint("VisibleForTests")
     override fun onDataChanged(dataEvents: DataEventBuffer) {
         super.onDataChanged(dataEvents)
+
 
         dataEvents.forEach { dataEvent ->
             val uri = dataEvent.dataItem.uri
@@ -58,6 +67,7 @@ class DataLayerListenerService : WearableListenerService() {
         when (messageEvent.path) {
 
             START_ACTIVITY_PATH -> {
+                isNotPaused=true
                 Log.d("Start","Start")
                 startActivity(
                     Intent(this, MainActivity::class.java)
@@ -68,9 +78,20 @@ class DataLayerListenerService : WearableListenerService() {
             STOP_ACTIVITY_PATH ->{
                 Log.d("STOP","STOP")
 
-                //val closeAppIntent = Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)
-                //applicationContext.sendBroadcast(closeAppIntent)
+                /*val closeAppIntent = Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)
+                applicationContext.sendBroadcast(closeAppIntent)
                 System.exit(0)
+                mainActivity!!.finish()
+
+                 */
+                val intent = Intent("finish_activity")
+                sendBroadcast(intent)
+            }
+            PAUSE_ACTIVITY_PATH ->{
+                isNotPaused=false
+            }
+            CONTINUE_ACTIVITY_PATH ->{
+                isNotPaused=true
             }
 
         }
@@ -89,7 +110,12 @@ class DataLayerListenerService : WearableListenerService() {
         private const val TAG = "DataLayerService"
         private const val STOP_ACTIVITY_PATH = "/stop-activity"
         private const val START_ACTIVITY_PATH = "/start-activity"
+        private const val PAUSE_ACTIVITY_PATH = "/pause-activity"
+        private const val CONTINUE_ACTIVITY_PATH = "/continue-activity"
         private const val DATA_ITEM_RECEIVED_PATH = "/data-item-received"
         const val COUNT_PATH = "/count"
+        var isNotPaused: Boolean = true
+
     }
+
 }

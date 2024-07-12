@@ -1,7 +1,11 @@
 
 package com.example.myapplication
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
@@ -11,12 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.example.fitnhealthy.databinding.ActivityMainBinding
+import com.example.myapplication.DataLayerListenerService.Companion.isNotPaused
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.Wearable
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
+
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,9 +41,8 @@ class MainActivity : AppCompatActivity(){
     private var transcriptionNodeId: String? = null
     private val viewModel: MainViewModel by viewModels()
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var currentUser: FirebaseUser
-    private lateinit var reference: DatabaseReference
+
+
     private lateinit var arrayOfHeartRateValues: ArrayList<Float>
     private var x=0
     private var y = 0
@@ -50,12 +52,12 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
 
         activityContext = this
-        //auth = FirebaseAuth.getInstance()
-        //currentUser = auth.currentUser!!
-        //reference = FirebaseDatabase.getInstance().getReference("/Users").child(currentUser.uid)
-          //  .child("/heartRateValues")
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         arrayOfHeartRateValues = ArrayList<Float>()
+
+
+
 
 
 
@@ -115,42 +117,66 @@ class MainActivity : AppCompatActivity(){
                  //binding.statusText.text = getString(R.string.measure_status, it)
              }
          }
-         lifecycleScope.launchWhenStarted {
-             viewModel.heartRateBpm.collect {
-                 binding.lastMeasuredValue.text = String.format("%.1f", it)
-                 x=x+1
+
+            lifecycleScope.launchWhenStarted {
+
+                viewModel.heartRateBpm.collect {
+                    if (isNotPaused.equals(true)) {
+                        binding.lastMeasuredValue.text = String.format("%.1f", it)
+                        x = x + 1
+                        y = String.format("%.0f", it).toInt()
+                        series.appendData(DataPoint(x.toDouble(), y.toDouble()), true, 10)
+                        graphView.addSeries(series)
+                        arrayOfHeartRateValues.add(String.format("%.1f", it).toFloat())
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            transcriptionNodeId = getNodes().first()?.also { nodeId ->
+                                val sendTask: Task<*> =
+                                    Wearable.getMessageClient(applicationContext).sendMessage(
+                                        nodeId,
+                                        HEART_RATE_VALUES_PATH,
+                                        String.format("%.1f", it).toByteArray() //data to send
+                                    ).apply {
+                                        addOnSuccessListener { Log.d(TAG, "OnSuccess") }
+                                        addOnFailureListener { Log.d(TAG, "OnFailure") }
+                                    }
+                            }
+                        }
+                    }else{
+                        //TODO
+                        // Inflate layout "PAUSED"
+                    }
 
 
+                }
 
-                 y=String.format("%.0f", it).toInt()
-                 series.appendData(DataPoint(x.toDouble(), y.toDouble()), true, 10)
-                 graphView.addSeries(series)
-                 arrayOfHeartRateValues.add(String.format("%.1f", it).toFloat())
-                 lifecycleScope.launch(Dispatchers.IO) {
-                     transcriptionNodeId = getNodes().first()?.also { nodeId ->
-                         val sendTask: Task<*> =
-                             Wearable.getMessageClient(applicationContext).sendMessage(
-                                 nodeId,
-                                 HEART_RATE_VALUES_PATH,
-                                 String.format("%.1f", it).toByteArray() //data to send
-                             ).apply {
-                                 addOnSuccessListener { Log.d(TAG, "OnSuccess") }
-                                 addOnFailureListener { Log.d(TAG, "OnFailure") }
-                             }
-                     }
-                 }
 
-             }
-         }
+            }
+
 
 
     }
 
+    private val finishActivityReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            // Check if the received broadcast matches the "finish_activity" action
+            if (intent?.action == "finish_activity") {
+                // End the current activity
 
+                finish()
+            }
+        }
+    }
 
     // Code for heart rate
     override fun onStart() {
         super.onStart()
+
+        // Register the BroadcastReceiver
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(finishActivityReceiver, IntentFilter("finish_activity"),
+                RECEIVER_EXPORTED
+            )
+        }
         permissionLauncher.launch(android.Manifest.permission.BODY_SENSORS)
     }
     private fun updateViewVisiblity(uiState: UiState) {
@@ -173,10 +199,16 @@ class MainActivity : AppCompatActivity(){
     private fun getNodes(): Collection<String> {
         return Tasks.await(Wearable.getNodeClient(applicationContext).connectedNodes).map { it.id }
     }
+    override fun onDestroy() {
 
+        super.onDestroy()
+        // Unregister the BroadcastReceiver
+        unregisterReceiver(finishActivityReceiver)
+
+    }
     companion object{
         private const val TAG = "MainWearActivity"
-        private const val STOP_ACTIVITY_PATH = "/stop-activity"
+        private const val STOP_ACTIVITY_PATH = "/workout_finished"
         private const val HEART_RATE_VALUES_PATH = "/heart_rate_values"
     }
 
